@@ -58,15 +58,27 @@ if (workbox) {
     },
     {
         "url": "index.html",
-        "revision": "80d0114e987bc86045b046c42b00e3de"
+        "revision": "017802af683ecce38ded9ec986907c2a"
     },
     {
         "url": "logo.png",
         "revision": "7a24ff5a43beb7153107cc63f7610c17"
     },
     {
+        "url": "manifest.json",
+        "revision": "eaa9c2bdcadb2ee6d7cccb09ed887221"
+    },
+    {
         "url": "offline.html",
-        "revision": "7656c61e25225c4fcc77cb000be6d527"
+        "revision": "ad17d01f02bb01615fbc0509f5aee82a"
+    },
+    {
+        "url": "pwa-register.js",
+        "revision": "3ec872e4f752840ad8f85922ff6cebe7"
+    },
+    {
+        "url": "sw.js",
+        "revision": "abad35a577f78329f1edb18666759c72"
     },
     {
         "url": "audio/sfx_die.wav",

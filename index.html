@@ -3,7 +3,10 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
 <title>Flappy Muhib 🐦</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -212,6 +215,8 @@
 <div class="btn-row">
 <button class="btn" id="startBtn">▶ Play</button>
 <button class="btn secondary" id="statsBtn">🏆 Stats</button>
+<button class="btn secondary hidden" id="installBtn">📱 Install App</button>
+<button class="btn secondary" id="fullscreenBtn">🔲 Fullscreen</button>
 </div>
 <p class="hint">Tap / Click / Space to flap</p>
 </div>
@@ -290,6 +295,8 @@
   const restartBtn = document.getElementById('restartBtn');
   const homeBtn = document.getElementById('homeBtn');
   const statsBtn = document.getElementById('statsBtn');
+  const installBtn = document.getElementById('installBtn');
+  const fullscreenBtn = document.getElementById('fullscreenBtn');
   const closeStatsBtn = document.getElementById('closeStatsBtn');
   const clearStatsBtn = document.getElementById('clearStatsBtn');
   const diffBtns = document.querySelectorAll('.diff-btn');
@@ -299,15 +306,25 @@
 
   // --- Game Resolution ---
   const W = 320;
-  const H = 480;
-  canvas.width = W; 
-  canvas.height = H;
+  let H = 480;
 
   function resize() {
     const wrap = document.getElementById('gameWrap');
-    const ratio = W / H;
     let cw = wrap.clientWidth;
     let ch = wrap.clientHeight;
+    if (cw === 0 || ch === 0) return;
+
+    H = (ch / cw) * W;
+    if (H < 400) H = 400; 
+    if (H > 850) H = 850; 
+
+    canvas.width = W; 
+    canvas.height = H;
+
+    if (typeof bg !== 'undefined') bg.y = H - 228;
+    if (typeof fg !== 'undefined') fg.y = H - 112;
+
+    const ratio = W / H;
     if (cw / ch > ratio) cw = ch * ratio;
     else ch = cw / ratio;
     canvas.style.width = cw + 'px';
@@ -424,7 +441,7 @@
   let score = 0;
 
   // --- Game Objects ---
-  const bg = {
+  var bg = {
     sX: 0, sY: 0, w: 276, h: 228,
     x: 0, y: H - 228,
     draw: function() {
@@ -439,7 +456,7 @@
     }
   };
 
-  const fg = {
+  var fg = {
     sX: 276, sY: 0, w: 224, h: 112,
     x: 0, y: H - 112,
     draw: function() {
@@ -484,7 +501,8 @@
       }
 
       if (state === STATE.GET_READY) {
-        this.y = 150 + Math.cos(frames/10) * 5; 
+        let startY = Math.floor(H/2 - 50);
+        this.y = startY + Math.cos(frames/10) * 5; 
         this.rotation = 0;
       } else if (state === STATE.PLAYING || state === STATE.GAME_OVER) {
         let diff = DIFFICULTIES[currentDiff];
@@ -515,7 +533,7 @@
       }
     },
     reset: function() {
-      this.y = 150; this.velocity = 0; this.rotation = 0; this.frame = 0;
+      this.y = Math.floor(H/2 - 50); this.velocity = 0; this.rotation = 0; this.frame = 0;
     }
   };
 
@@ -530,8 +548,17 @@
         let p = this.position[i];
         let topYPos = p.y;
         let bottomYPos = p.y + this.h + gap;
+        
+        if (topYPos > 0) {
+          ctx.drawImage(assets.theme2, this.top.sX, this.top.sY, this.imgW, 1, p.x, 0, this.w, topYPos);
+        }
+        
         ctx.drawImage(assets.theme2, this.top.sX, this.top.sY, this.imgW, this.imgH, p.x, topYPos, this.w, this.h);
         ctx.drawImage(assets.theme2, this.bot.sX, this.bot.sY, this.imgW, this.imgH, p.x, bottomYPos, this.w, this.h);
+        
+        if (bottomYPos + this.h < H) {
+          ctx.drawImage(assets.theme2, this.bot.sX, this.bot.sY + 20, this.imgW, 1, p.x, bottomYPos + this.h, this.w, H - (bottomYPos + this.h));
+        }
       }
     },
     update: function() {
@@ -541,9 +568,9 @@
 
       // Add pipes
       if (frames % diff.pipeFreq === 0) {
-        let maxYPos = -10;
+        let maxYPos = H - fg.h - 50 - this.h - diff.gap;
         let minYPos = -this.h + 50; 
-        if (maxYPos > -(diff.gap + 20)) maxYPos = -(diff.gap + 20); // ensure space for gap
+        if (maxYPos < minYPos) maxYPos = minYPos;
 
         this.position.push({
           x: W,
@@ -694,6 +721,59 @@
 
   pauseBtn.addEventListener('click', (e) => { e.stopPropagation(); togglePause(); });
   resumeBtn.addEventListener('click', (e) => { e.stopPropagation(); togglePause(); });
+
+  // --- PWA Install ---
+  let deferredPrompt;
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.classList.remove('hidden');
+  });
+
+  installBtn.addEventListener('click', async (e) => {
+    e.stopPropagation();
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        installBtn.classList.add('hidden');
+      }
+      deferredPrompt = null;
+    }
+  });
+
+  window.addEventListener('appinstalled', () => {
+    installBtn.classList.add('hidden');
+    deferredPrompt = null;
+  });
+
+  // --- Fullscreen Logic ---
+  if (window.matchMedia('(display-mode: standalone)').matches || window.matchMedia('(display-mode: fullscreen)').matches || navigator.standalone) {
+    if (fullscreenBtn) fullscreenBtn.classList.add('hidden');
+  }
+
+  if (fullscreenBtn) {
+    fullscreenBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+          console.log(`Error attempting to enable fullscreen: ${err.message}`);
+        });
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    });
+  }
+
+  document.addEventListener('fullscreenchange', () => {
+    if (document.fullscreenElement) {
+      if (fullscreenBtn) fullscreenBtn.innerHTML = '🔳 Exit Fullscreen';
+    } else {
+      if (fullscreenBtn) fullscreenBtn.innerHTML = '🔲 Fullscreen';
+    }
+  });
 
 })();
 </script>
