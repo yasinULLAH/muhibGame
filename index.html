@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
 <title>Flappy Muhib 🐦</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -182,101 +183,89 @@
   #pauseScreen { background: rgba(0,0,0,0.6); z-index: 15; }
   #pauseScreen h1 { animation: none; }
 </style>
-</head>
+<link href="manifest.json" rel="manifest"/><link href="favicon.ico" rel="icon" type="image/x-icon"/></head>
 <body>
-
 <div id="loading">
-  <div class="loader"></div>
-  <h2>Loading Game Assets...</h2>
+<div class="loader"></div>
+<h2>Loading Game Assets...</h2>
 </div>
-
 <div id="gameWrap">
-  <canvas id="game"></canvas>
-
-  <div id="topControls">
-    <button id="pauseBtn" class="icon-btn hidden">⏸️</button>
-    <button id="muteBtn" class="icon-btn">🔊</button>
-  </div>
-
-  <div id="scoreDisplay" class="score-display hidden">0</div>
-
-  <!-- Start Screen -->
-  <div id="startScreen" class="overlay hidden">
-    <h1>🐦 Flappy Muhib</h1>
-    <div class="dedication">
-      Dedicated with love to my little brother<br>
-      <strong>Muhib Ullah ❤️</strong>
-      <small>Keep flying high, little bro!</small>
-    </div>
-    
-    <div class="difficulty-row">
-      <button class="diff-btn" data-diff="easy">EASY</button>
-      <button class="diff-btn active" data-diff="medium">MEDIUM</button>
-      <button class="diff-btn" data-diff="hard">HARD</button>
-    </div>
-
-    <div class="btn-row">
-      <button class="btn" id="startBtn">▶ Play</button>
-      <button class="btn secondary" id="statsBtn">🏆 Stats</button>
-    </div>
-    <p class="hint">Tap / Click / Space to flap</p>
-  </div>
-
-  <!-- Game Over Screen -->
-  <div id="gameOverScreen" class="overlay hidden">
-    <div class="game-over-box">
-      <h2>Game Over!</h2>
-      <div class="badge-display">
-         <div id="badgeIcon" class="badge-icon">🥚</div>
-         <div id="badgeText" class="badge-text">No Badge</div>
-      </div>
-      <div class="score-row">
-        <span>Score</span>
-        <span id="finalScore" class="val">0</span>
-      </div>
-      <div class="score-row">
-        <span>Best (<span id="bestDiffLabel">Med</span>)</span>
-        <span id="bestScore" class="val">0</span>
-      </div>
-      <div class="btn-row">
-        <button class="btn" id="restartBtn">🔁 Play Again</button>
-        <button class="btn secondary" id="homeBtn">🏠 Home</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Stats Screen -->
-  <div id="statsScreen" class="overlay hidden">
-    <div class="stats-box">
-      <h2>🏆 Top 10 History</h2>
-      <table id="statsTable">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Mode</th>
-            <th>Score</th>
-            <th>Badge</th>
-          </tr>
-        </thead>
-        <tbody id="statsTableBody">
-          <!-- Populated by JS -->
-        </tbody>
-      </table>
-      <div class="btn-row">
-        <button class="btn" id="closeStatsBtn">🔙 Back</button>
-        <button class="btn secondary" id="clearStatsBtn">🗑️ Clear</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Pause Screen -->
-  <div id="pauseScreen" class="overlay hidden">
-    <h1 style="margin-bottom: 20px;">PAUSED</h1>
-    <button class="btn" id="resumeBtn">▶ Resume</button>
-  </div>
-
+<canvas id="game"></canvas>
+<div id="topControls">
+<button class="icon-btn hidden" id="pauseBtn">⏸️</button>
+<button class="icon-btn" id="muteBtn">🔊</button>
 </div>
-
+<div class="score-display hidden" id="scoreDisplay">0</div>
+<!-- Start Screen -->
+<div class="overlay hidden" id="startScreen">
+<h1>🐦 Flappy Muhib</h1>
+<div class="dedication">
+      Dedicated with love to my little brother<br/>
+<strong>Muhib Ullah ❤️</strong>
+<small>Keep flying high, little bro!</small>
+</div>
+<div class="difficulty-row">
+<button class="diff-btn" data-diff="easy">EASY</button>
+<button class="diff-btn active" data-diff="medium">MEDIUM</button>
+<button class="diff-btn" data-diff="hard">HARD</button>
+</div>
+<div class="btn-row">
+<button class="btn" id="startBtn">▶ Play</button>
+<button class="btn secondary" id="statsBtn">🏆 Stats</button>
+</div>
+<p class="hint">Tap / Click / Space to flap</p>
+</div>
+<!-- Game Over Screen -->
+<div class="overlay hidden" id="gameOverScreen">
+<div class="game-over-box">
+<h2>Game Over!</h2>
+<div class="badge-display">
+<div class="badge-icon" id="badgeIcon">🥚</div>
+<div class="badge-text" id="badgeText">No Badge</div>
+</div>
+<div class="score-row">
+<span>Score</span>
+<span class="val" id="finalScore">0</span>
+</div>
+<div class="score-row">
+<span>Best (<span id="bestDiffLabel">Med</span>)</span>
+<span class="val" id="bestScore">0</span>
+</div>
+<div class="btn-row">
+<button class="btn" id="restartBtn">🔁 Play Again</button>
+<button class="btn secondary" id="homeBtn">🏠 Home</button>
+</div>
+</div>
+</div>
+<!-- Stats Screen -->
+<div class="overlay hidden" id="statsScreen">
+<div class="stats-box">
+<h2>🏆 Top 10 History</h2>
+<table id="statsTable">
+<thead>
+<tr>
+<th>Date</th>
+<th>Mode</th>
+<th>Score</th>
+<th>Badge</th>
+</tr>
+</thead>
+<tbody id="statsTableBody">
+<!-- Populated by JS -->
+</tbody>
+</table>
+<div class="btn-row">
+<button class="btn" id="closeStatsBtn">🔙 Back</button>
+<button class="btn secondary" id="clearStatsBtn">🗑️ Clear</button>
+</div>
+</div>
+</div>
+<!-- Pause Screen -->
+<div class="overlay hidden" id="pauseScreen">
+<h1 style="margin-bottom: 20px;">PAUSED</h1>
+<button class="btn" id="resumeBtn">▶ Resume</button>
+</div>
+</div>
 <script>
 (() => {
   // --- DOM Elements ---
@@ -708,5 +697,5 @@
 
 })();
 </script>
-</body>
+<script src="./pwa-register.js" type="module"></script></body>
 </html>
