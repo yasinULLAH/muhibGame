@@ -54,11 +54,11 @@ if (workbox) {
     },
     {
         "url": "build pwa make html app offline and installable yasin best working re-run this for updates best for html only.pyw",
-        "revision": "bd94a6fd2014172f73a9316945ab2e16"
+        "revision": "a9f12964bddf9071fc97e333b587f108"
     },
     {
         "url": "index.html",
-        "revision": "017802af683ecce38ded9ec986907c2a"
+        "revision": "ed892af1da867918b927801d5d98820d"
     },
     {
         "url": "logo.png",
@@ -66,7 +66,7 @@ if (workbox) {
     },
     {
         "url": "manifest.json",
-        "revision": "eaa9c2bdcadb2ee6d7cccb09ed887221"
+        "revision": "91ad536adf9ef3a1e7fe401bab859455"
     },
     {
         "url": "offline.html",
@@ -77,8 +77,12 @@ if (workbox) {
         "revision": "3ec872e4f752840ad8f85922ff6cebe7"
     },
     {
+        "url": "README.md",
+        "revision": "7a4471fc74ea23588cc9d932e8376209"
+    },
+    {
         "url": "sw.js",
-        "revision": "abad35a577f78329f1edb18666759c72"
+        "revision": "3b070ca879ec3e312b0cdba68ed2e58b"
     },
     {
         "url": "audio/sfx_die.wav",

@@ -11,7 +11,7 @@ APP_NAME = "My Web App"
 SHORT_NAME = "WebApp"
 APP_DESCRIPTION = "A description of the web application."
 BACKGROUND_COLOR = "#ffffff"
-THEME_COLOR = "#007bff"
+THEME_COLOR = "#4ec0ca"
 VERSION = "1.0.9"
 
 def get_file_hash(path):
@@ -119,7 +119,7 @@ def create_manifest(output_dir, icon_metadata, html_files):
         "short_name": app_title_from_html or SHORT_NAME,
         "description": APP_DESCRIPTION,
         "start_url": start_url,
-        "display": "standalone",
+        "display": "fullscreen",
         "background_color": BACKGROUND_COLOR,
         "theme_color": THEME_COLOR,
         "orientation": "portrait-primary",
