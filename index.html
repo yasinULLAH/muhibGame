@@ -23,7 +23,6 @@
     background-color: #4ec0ca;
     box-shadow: 0 10px 40px rgba(0,0,0,0.5);
     max-width: 100%; max-height: 100%;
-    /* Keep it sharp */
     image-rendering: pixelated; 
   }
   .overlay {
@@ -33,6 +32,7 @@
     text-align: center;
     padding: 20px;
     pointer-events: none;
+    z-index: 10;
   }
   .overlay.active { pointer-events: auto; }
   .hidden { display: none !important; }
@@ -65,19 +65,38 @@
     background: linear-gradient(#ffd93d, #f39c12);
     color: #2c3e50;
     border: 3px solid #fff;
-    padding: 14px 35px;
-    font-size: clamp(1.2rem, 4vw, 1.5rem);
+    padding: 12px 25px;
+    min-height: 44px;
+    font-size: clamp(1rem, 4vw, 1.3rem);
     font-weight: 900;
     border-radius: 50px;
     cursor: pointer;
     box-shadow: 0 6px 0 #c87f00, 0 8px 20px rgba(0,0,0,0.4);
-    margin-top: 15px;
+    margin: 10px 5px;
     transition: transform 0.1s, box-shadow 0.1s;
     pointer-events: auto;
     text-transform: uppercase;
     letter-spacing: 1px;
   }
   .btn:active { transform: translateY(6px); box-shadow: 0 0px 0 #c87f00; }
+  
+  .btn-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 15px; width: 100%; }
+  .btn.secondary {
+    background: linear-gradient(#95a5a6, #7f8c8d);
+    box-shadow: 0 6px 0 #5d6d6e, 0 8px 20px rgba(0,0,0,0.3);
+    color: white; border-color: #ecf0f1;
+  }
+  .btn.secondary:active { box-shadow: 0 0px 0 #5d6d6e; }
+
+  .difficulty-row {
+    display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin: 15px 0; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 30px;
+    pointer-events: auto;
+    width: 100%;
+  }
+  .diff-btn {
+    background: #34495e; color: white; border: 2px solid #2c3e50; padding: 10px 15px; border-radius: 25px; font-weight: bold; cursor: pointer; transition: 0.2s; min-height: 44px; min-width: 80px; flex: 1 1 auto;
+  }
+  .diff-btn.active { background: #e74c3c; border-color: #c0392b; box-shadow: 0 0 10px rgba(231,76,60,0.5); }
   
   .score-display {
     position: absolute;
@@ -93,44 +112,64 @@
     -webkit-text-stroke: 2px #000;
   }
   
-  .game-over-box {
+  .game-over-box, .stats-box {
     background: #ded895;
-    padding: 30px 40px;
+    padding: 20px;
     border-radius: 10px;
     border: 4px solid #543847;
     box-shadow: 0 10px 0 #543847, 0 15px 30px rgba(0,0,0,0.5);
     color: #543847;
-    min-width: 300px;
+    width: 90%;
+    max-width: 400px;
+    max-height: 90vh;
+    overflow-y: auto;
   }
-  .game-over-box h2 { 
-    font-size: clamp(2rem, 7vw, 3rem); 
+  .game-over-box h2, .stats-box h2 { 
+    font-size: clamp(1.8rem, 6vw, 2.5rem); 
     margin-bottom: 15px; 
     color: #e86101; 
     text-shadow: 2px 2px 0 #fff;
     -webkit-text-stroke: 1px #fff;
   }
+
+  .badge-display {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.3); padding: 10px; border-radius: 10px; margin-bottom: 15px;
+    border: 2px solid rgba(0,0,0,0.1);
+  }
+  .badge-icon { font-size: 3rem; margin-bottom: 5px; filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.3)); }
+  .badge-text { font-weight: bold; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px; color: #fff; text-shadow: 1px 1px 0 #000; }
+
   .score-row {
     display: flex; justify-content: space-between; align-items: center;
     background: rgba(0,0,0,0.1);
     padding: 10px 15px;
     border-radius: 8px;
     margin-bottom: 10px;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-weight: bold;
   }
-  .score-row span.val { color: #fff; text-shadow: 1px 1px 0 #000; font-size: 1.8rem; }
+  .score-row span.val { color: #fff; text-shadow: 1px 1px 0 #000; font-size: 1.5rem; }
   
-  .btn-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 20px; }
-  .btn.secondary {
-    background: linear-gradient(#95a5a6, #7f8c8d);
-    box-shadow: 0 6px 0 #5d6d6e, 0 8px 20px rgba(0,0,0,0.3);
-    color: white; border-color: #ecf0f1;
+  .hint { margin-top: 15px; font-size: clamp(0.9rem, 3vw, 1.1rem); color: white; text-shadow: 1px 1px 0 #000; }
+  
+  /* Stats Table */
+  #statsTable { width: 100%; border-collapse: collapse; margin-bottom: 15px; font-size: clamp(0.75rem, 3vw, 1rem); text-align: center; }
+  #statsTable th { background: #543847; color: white; padding: 8px 4px; }
+  #statsTable td { padding: 8px 4px; border-bottom: 1px solid rgba(0,0,0,0.1); font-weight: bold; }
+  #statsTable tr:nth-child(even) { background: rgba(0,0,0,0.05); }
+
+  /* Top bar for Pause/Mute */
+  #topControls {
+    position: absolute; top: 10px; right: 10px; z-index: 20; display: flex; gap: 10px; pointer-events: auto;
   }
-  .btn.secondary:active { box-shadow: 0 0px 0 #5d6d6e; }
-  
-  .hint { margin-top: 20px; font-size: clamp(0.9rem, 3vw, 1.1rem); color: white; text-shadow: 1px 1px 0 #000; }
-  
-  /* Loading Screen */
+  .icon-btn {
+    background: rgba(255,255,255,0.8); border: 2px solid #333; font-size: 1.5rem; padding: 5px 10px;
+    border-radius: 10px; cursor: pointer; box-shadow: 0 4px 0 #333; transition: 0.1s;
+    min-height: 44px; min-width: 44px; display: flex; align-items: center; justify-content: center;
+  }
+  .icon-btn:active { transform: translateY(4px); box-shadow: 0 0 0 #333; }
+
   #loading {
     position: absolute; inset: 0; background: #222;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -138,6 +177,10 @@
   }
   .loader { border: 5px solid #f3f3f3; border-top: 5px solid #f39c12; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin-bottom: 15px; }
   @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  
+  /* Paused Overlay */
+  #pauseScreen { background: rgba(0,0,0,0.6); z-index: 15; }
+  #pauseScreen h1 { animation: none; }
 </style>
 </head>
 <body>
@@ -150,6 +193,11 @@
 <div id="gameWrap">
   <canvas id="game"></canvas>
 
+  <div id="topControls">
+    <button id="pauseBtn" class="icon-btn hidden">⏸️</button>
+    <button id="muteBtn" class="icon-btn">🔊</button>
+  </div>
+
   <div id="scoreDisplay" class="score-display hidden">0</div>
 
   <!-- Start Screen -->
@@ -160,7 +208,17 @@
       <strong>Muhib Ullah ❤️</strong>
       <small>Keep flying high, little bro!</small>
     </div>
-    <button class="btn" id="startBtn">▶ Play</button>
+    
+    <div class="difficulty-row">
+      <button class="diff-btn" data-diff="easy">EASY</button>
+      <button class="diff-btn active" data-diff="medium">MEDIUM</button>
+      <button class="diff-btn" data-diff="hard">HARD</button>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" id="startBtn">▶ Play</button>
+      <button class="btn secondary" id="statsBtn">🏆 Stats</button>
+    </div>
     <p class="hint">Tap / Click / Space to flap</p>
   </div>
 
@@ -168,19 +226,55 @@
   <div id="gameOverScreen" class="overlay hidden">
     <div class="game-over-box">
       <h2>Game Over!</h2>
+      <div class="badge-display">
+         <div id="badgeIcon" class="badge-icon">🥚</div>
+         <div id="badgeText" class="badge-text">No Badge</div>
+      </div>
       <div class="score-row">
         <span>Score</span>
         <span id="finalScore" class="val">0</span>
       </div>
       <div class="score-row">
-        <span>Best</span>
+        <span>Best (<span id="bestDiffLabel">Med</span>)</span>
         <span id="bestScore" class="val">0</span>
       </div>
       <div class="btn-row">
         <button class="btn" id="restartBtn">🔁 Play Again</button>
+        <button class="btn secondary" id="homeBtn">🏠 Home</button>
       </div>
     </div>
   </div>
+
+  <!-- Stats Screen -->
+  <div id="statsScreen" class="overlay hidden">
+    <div class="stats-box">
+      <h2>🏆 Top 10 History</h2>
+      <table id="statsTable">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Mode</th>
+            <th>Score</th>
+            <th>Badge</th>
+          </tr>
+        </thead>
+        <tbody id="statsTableBody">
+          <!-- Populated by JS -->
+        </tbody>
+      </table>
+      <div class="btn-row">
+        <button class="btn" id="closeStatsBtn">🔙 Back</button>
+        <button class="btn secondary" id="clearStatsBtn">🗑️ Clear</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pause Screen -->
+  <div id="pauseScreen" class="overlay hidden">
+    <h1 style="margin-bottom: 20px;">PAUSED</h1>
+    <button class="btn" id="resumeBtn">▶ Resume</button>
+  </div>
+
 </div>
 
 <script>
@@ -191,11 +285,28 @@
   const uiLoading = document.getElementById('loading');
   const uiStart = document.getElementById('startScreen');
   const uiGameOver = document.getElementById('gameOverScreen');
+  const uiStats = document.getElementById('statsScreen');
+  const uiPause = document.getElementById('pauseScreen');
   const uiScore = document.getElementById('scoreDisplay');
+  
   const finalScoreEl = document.getElementById('finalScore');
   const bestScoreEl = document.getElementById('bestScore');
+  const bestDiffLabel = document.getElementById('bestDiffLabel');
+  
+  const badgeIconEl = document.getElementById('badgeIcon');
+  const badgeTextEl = document.getElementById('badgeText');
+  const statsTableBody = document.getElementById('statsTableBody');
+
   const startBtn = document.getElementById('startBtn');
   const restartBtn = document.getElementById('restartBtn');
+  const homeBtn = document.getElementById('homeBtn');
+  const statsBtn = document.getElementById('statsBtn');
+  const closeStatsBtn = document.getElementById('closeStatsBtn');
+  const clearStatsBtn = document.getElementById('clearStatsBtn');
+  const diffBtns = document.querySelectorAll('.diff-btn');
+  const muteBtn = document.getElementById('muteBtn');
+  const pauseBtn = document.getElementById('pauseBtn');
+  const resumeBtn = document.getElementById('resumeBtn');
 
   // --- Game Resolution ---
   const W = 320;
@@ -216,7 +327,7 @@
   window.addEventListener('resize', resize);
   resize();
 
-  // --- Assets ---
+  // --- Assets & Audio ---
   const assets = {
     theme1: new Image(),
     theme2: new Image(),
@@ -226,34 +337,102 @@
     sfxDie: new Audio('audio/sfx_die.wav'),
     sfxSwoosh: new Audio('audio/sfx_swooshing.wav')
   };
-
   assets.theme1.src = 'img/og-theme.png';
   assets.theme2.src = 'img/og-theme-2.png';
+
+  let isMuted = localStorage.getItem('flappyMuhibMuted') === 'true';
+  updateMuteUI();
+
+  function toggleMute() {
+    isMuted = !isMuted;
+    localStorage.setItem('flappyMuhibMuted', isMuted);
+    updateMuteUI();
+  }
+  function updateMuteUI() {
+    muteBtn.innerText = isMuted ? '🔇' : '🔊';
+  }
+  function playSound(snd) {
+    if (isMuted) return;
+    snd.currentTime = 0;
+    snd.play().catch(()=>{});
+  }
+  muteBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleMute(); });
 
   let loadedCount = 0;
   function checkLoad() {
     loadedCount++;
     if (loadedCount === 2) {
       uiLoading.classList.add('hidden');
-      uiStart.classList.remove('hidden');
-      uiStart.classList.add('active');
+      showStartScreen();
       init();
     }
   }
   assets.theme1.onload = checkLoad;
   assets.theme2.onload = checkLoad;
 
-  function playSound(snd) {
-    snd.currentTime = 0;
-    snd.play().catch(()=>{});
+  // --- Settings & Difficulty ---
+  const DIFFICULTIES = {
+    easy: { gap: 150, dx: 2, gravity: 0.15, jump: 4, pipeFreq: 120 },
+    medium: { gap: 120, dx: 3, gravity: 0.25, jump: 4.6, pipeFreq: 90 },
+    hard: { gap: 90, dx: 4, gravity: 0.35, jump: 5.5, pipeFreq: 70 }
+  };
+  let currentDiff = 'medium';
+
+  diffBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      diffBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentDiff = btn.dataset.diff;
+      playSound(assets.sfxSwoosh);
+    });
+  });
+
+  // --- Badges ---
+  const BADGES = [
+    { score: 100, name: 'Platinum', color: '#e5e4e2', icon: '💎' },
+    { score: 50, name: 'Gold', color: '#ffd700', icon: '🏆' },
+    { score: 25, name: 'Silver', color: '#c0c0c0', icon: '🥈' },
+    { score: 10, name: 'Bronze', color: '#cd7f32', icon: '🥉' },
+    { score: 0, name: 'Beginner', color: '#fff', icon: '🥚' }
+  ];
+  function getBadge(s) { return BADGES.find(b => s >= b.score); }
+
+  // --- Stats & History ---
+  function getHistory() { return JSON.parse(localStorage.getItem('flappyMuhibHistory') || '[]'); }
+  function saveStat(score, diff, badge) {
+    let hist = getHistory();
+    let shortDate = new Date().toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+    hist.push({ score, diff, badge: badge.icon, date: shortDate });
+    hist.sort((a,b) => b.score - a.score);
+    hist = hist.slice(0, 10);
+    localStorage.setItem('flappyMuhibHistory', JSON.stringify(hist));
+  }
+  function getBestScore(diff) {
+    const hist = getHistory().filter(h => h.diff === diff);
+    return hist.length > 0 ? hist[0].score : 0;
+  }
+
+  function renderStats() {
+    const hist = getHistory();
+    statsTableBody.innerHTML = '';
+    if(hist.length === 0) {
+      statsTableBody.innerHTML = '<tr><td colspan="4">No games played yet!</td></tr>';
+      return;
+    }
+    hist.forEach(h => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${h.date}</td><td>${h.diff.toUpperCase()}</td><td>${h.score}</td><td>${h.badge}</td>`;
+      statsTableBody.appendChild(tr);
+    });
   }
 
   // --- Game Variables ---
   const STATE = { GET_READY: 0, PLAYING: 1, GAME_OVER: 2 };
   let state = STATE.GET_READY;
+  let isPaused = false;
   let frames = 0;
   let score = 0;
-  let bestScore = parseInt(localStorage.getItem('flappyMuhibBest') || '0', 10);
 
   // --- Game Objects ---
   const bg = {
@@ -265,7 +444,7 @@
       ctx.drawImage(assets.theme1, this.sX, this.sY, this.w, this.h, this.x + this.w*2, this.y, this.w, this.h);
     },
     update: function() {
-      if (state === STATE.PLAYING) {
+      if (state === STATE.PLAYING && !isPaused) {
         this.x = (this.x - 0.5) % (this.w);
       }
     }
@@ -280,24 +459,20 @@
       ctx.drawImage(assets.theme1, this.sX, this.sY, this.w, this.h, this.x + this.w*2, this.y, this.w, this.h);
     },
     update: function() {
-      if (state === STATE.PLAYING) {
-        this.x = (this.x - 2) % (this.w);
+      if (state === STATE.PLAYING && !isPaused) {
+        this.x = (this.x - DIFFICULTIES[currentDiff].dx) % (this.w);
       }
     }
   };
 
   const bird = {
     anim: [
-      {sX: 276, sY: 114},
-      {sX: 276, sY: 140},
-      {sX: 276, sY: 166},
-      {sX: 276, sY: 140}
+      {sX: 276, sY: 114}, {sX: 276, sY: 140}, {sX: 276, sY: 166}, {sX: 276, sY: 140}
     ],
     x: 60, y: 150,
     w: 34, h: 24,
-    r: 8, // reduced collision radius for more forgiving gameplay
-    frame: 0,
-    velocity: 0, gravity: 0.25, jump: 4.6, rotation: 0,
+    r: 10,
+    frame: 0, velocity: 0, rotation: 0,
     draw: function() {
       let f = this.anim[this.frame];
       ctx.save();
@@ -307,32 +482,35 @@
       ctx.restore();
     },
     flap: function() {
-      this.velocity = -this.jump;
+      this.velocity = -DIFFICULTIES[currentDiff].jump;
       playSound(assets.sfxFlap);
     },
     update: function() {
-      // Flap speed depends on state
-      let period = state === STATE.GET_READY ? 10 : 5;
-      this.frame += frames % period === 0 ? 1 : 0;
-      this.frame = this.frame % this.anim.length;
+      if(isPaused) return;
+      
+      if (state !== STATE.GAME_OVER) {
+        let period = state === STATE.GET_READY ? 10 : 5;
+        this.frame += frames % period === 0 ? 1 : 0;
+        this.frame = this.frame % this.anim.length;
+      }
 
       if (state === STATE.GET_READY) {
         this.y = 150 + Math.cos(frames/10) * 5; 
         this.rotation = 0;
-      } else {
-        this.velocity += this.gravity;
+      } else if (state === STATE.PLAYING || state === STATE.GAME_OVER) {
+        let diff = DIFFICULTIES[currentDiff];
+        this.velocity += diff.gravity;
         this.y += this.velocity;
 
-        // Rotation
-        if (this.velocity < this.jump) {
+        if (this.velocity < diff.jump) {
           this.rotation = -25 * Math.PI/180;
         } else {
           this.rotation = 90 * Math.PI/180;
-          this.frame = 1; // stop flapping when falling fast
+          if(state !== STATE.GAME_OVER) this.frame = 1;
         }
 
         // Floor collision
-        if (this.y + this.h/2 - 4 >= H - fg.h) { // slightly forgiving floor collision
+        if (this.y + this.h/2 - 4 >= H - fg.h) { 
           this.y = H - fg.h - this.h/2 + 4;
           if (state === STATE.PLAYING) {
             playSound(assets.sfxHit);
@@ -348,54 +526,35 @@
       }
     },
     reset: function() {
-      this.y = 150;
-      this.velocity = 0;
-      this.rotation = 0;
-      this.frame = 0;
+      this.y = 150; this.velocity = 0; this.rotation = 0; this.frame = 0;
     }
   };
 
   const pipes = {
     position: [],
-    top: { sX: 56, sY: 323 },
-    bot: { sX: 84, sY: 323 },
-    w: 52, // drawing w
-    h: 320, // drawing h (scaled up height to ensure it covers screen)
-    imgW: 26, imgH: 160, // source w, h
-    gap: 120, // increased gap to be more forgiving
-    dx: 2, // speed
+    top: { sX: 56, sY: 323 }, bot: { sX: 84, sY: 323 },
+    w: 52, h: 320, imgW: 26, imgH: 160,
     
     draw: function() {
+      let gap = DIFFICULTIES[currentDiff].gap;
       for (let i = 0; i < this.position.length; i++) {
         let p = this.position[i];
         let topYPos = p.y;
-        let bottomYPos = p.y + this.h + this.gap;
-        
+        let bottomYPos = p.y + this.h + gap;
         ctx.drawImage(assets.theme2, this.top.sX, this.top.sY, this.imgW, this.imgH, p.x, topYPos, this.w, this.h);
         ctx.drawImage(assets.theme2, this.bot.sX, this.bot.sY, this.imgW, this.imgH, p.x, bottomYPos, this.w, this.h);
       }
     },
-    
     update: function() {
-      if (state !== STATE.PLAYING) return;
+      if (state !== STATE.PLAYING || isPaused) return;
+
+      let diff = DIFFICULTIES[currentDiff];
 
       // Add pipes
-      if (frames % 100 === 0) {
-        // y is top pipe's Y coordinate. It goes upwards so we need negative
-        // max Y = -10, min Y = -this.h + gap + something?
-        // Let's ensure the gap is always visible.
-        // Screen height available = H - fg.h = 480 - 112 = 368
-        // Gap is 100.
-        // top pipe max Y = -this.h + 50 (leaves 50px of top pipe)
-        // bot pipe must also have at least 50px visible.
+      if (frames % diff.pipeFreq === 0) {
         let maxYPos = -10;
         let minYPos = -this.h + 50; 
-        
-        // Ensure bottom pipe is visible too
-        // bottomYPos = p.y + this.h + this.gap
-        // It must be < H - fg.h - 50 -> p.y + 320 + 100 < 368 - 50 = 318
-        // -> p.y < -102
-        if (maxYPos > -102) maxYPos = -102;
+        if (maxYPos > -(diff.gap + 20)) maxYPos = -(diff.gap + 20); // ensure space for gap
 
         this.position.push({
           x: W,
@@ -406,88 +565,58 @@
 
       for (let i = 0; i < this.position.length; i++) {
         let p = this.position[i];
-        
-        // Move pipes
-        p.x -= this.dx;
+        p.x -= diff.dx;
 
-        // Collision Detection using AABB (Bird treated as a box for simplicity and accuracy)
-        let bLeft = bird.x - bird.r;
-        let bRight = bird.x + bird.r;
-        let bTop = bird.y - bird.r;
-        let bBottom = bird.y + bird.r;
-
+        // Collision
+        let bLeft = bird.x - bird.r; let bRight = bird.x + bird.r;
+        let bTop = bird.y - bird.r; let bBottom = bird.y + bird.r;
         let pTopBottom = p.y + this.h;
-        let pBotTop = p.y + this.h + this.gap;
-        let pLeft = p.x;
-        let pRight = p.x + this.w;
+        let pBotTop = p.y + this.h + diff.gap;
+        let pLeft = p.x; let pRight = p.x + this.w;
 
-        // Collision with top pipe
-        if (bRight > pLeft && bLeft < pRight && bTop < pTopBottom) {
-            playSound(assets.sfxHit);
-            gameOver();
-        }
-        // Collision with bottom pipe
-        if (bRight > pLeft && bLeft < pRight && bBottom > pBotTop) {
-            playSound(assets.sfxHit);
-            gameOver();
-        }
+        if (bRight > pLeft && bLeft < pRight && bTop < pTopBottom) { playSound(assets.sfxHit); gameOver(); }
+        if (bRight > pLeft && bLeft < pRight && bBottom > pBotTop) { playSound(assets.sfxHit); gameOver(); }
 
         // Score logic
         if (p.x + this.w < bird.x && !p.passed) {
-          score++;
-          p.passed = true;
-          playSound(assets.sfxScore);
-          uiScore.innerText = score;
+          score++; p.passed = true; playSound(assets.sfxScore); uiScore.innerText = score;
         }
 
-        // Remove pipes that are off screen
-        if (p.x + this.w <= 0) {
-          this.position.shift();
-          i--;
-        }
+        if (p.x + this.w <= 0) { this.position.shift(); i--; }
       }
     },
-    reset: function() {
-      this.position = [];
-    }
+    reset: function() { this.position = []; }
   };
 
-  // --- Game Loop & Functions ---
+  // --- Game Loop & Core ---
   function draw() {
-    ctx.fillStyle = '#4ec0ca';
-    ctx.fillRect(0, 0, W, H);
-    
-    bg.draw();
-    pipes.draw();
-    fg.draw();
-    bird.draw();
+    ctx.fillStyle = '#4ec0ca'; ctx.fillRect(0, 0, W, H);
+    bg.draw(); pipes.draw(); fg.draw(); bird.draw();
   }
-
   function update() {
-    bg.update();
-    fg.update();
-    bird.update();
-    pipes.update();
+    bg.update(); fg.update(); bird.update(); pipes.update();
   }
-
   function loop() {
-    update();
-    draw();
-    frames++;
+    update(); draw();
+    if(!isPaused && state !== STATE.GAME_OVER) frames++;
     requestAnimationFrame(loop);
   }
+  function init() { loop(); }
 
-  function init() {
-    loop(); // start rendering
+  // --- State Changes ---
+  function showStartScreen() {
+    uiStart.classList.remove('hidden'); uiStart.classList.add('active');
+    uiGameOver.classList.remove('active'); uiGameOver.classList.add('hidden');
+    uiScore.classList.add('hidden');
+    pauseBtn.classList.add('hidden');
   }
 
   function startGame() {
     state = STATE.PLAYING;
-    uiStart.classList.remove('active');
-    uiStart.classList.add('hidden');
-    uiGameOver.classList.remove('active');
-    uiGameOver.classList.add('hidden');
+    uiStart.classList.remove('active'); uiStart.classList.add('hidden');
+    uiGameOver.classList.remove('active'); uiGameOver.classList.add('hidden');
     uiScore.classList.remove('hidden');
+    pauseBtn.classList.remove('hidden');
     uiScore.innerText = score;
     bird.flap();
   }
@@ -495,16 +624,20 @@
   function gameOver() {
     state = STATE.GAME_OVER;
     uiScore.classList.add('hidden');
+    pauseBtn.classList.add('hidden');
     
     setTimeout(() => { playSound(assets.sfxDie); }, 300);
 
-    if (score > bestScore) {
-      bestScore = score;
-      localStorage.setItem('flappyMuhibBest', bestScore);
-    }
-    
+    let badge = getBadge(score);
+    saveStat(score, currentDiff, badge);
+
+    badgeIconEl.innerText = badge.icon;
+    badgeTextEl.innerText = badge.name;
+    badgeTextEl.style.color = badge.color;
+
     finalScoreEl.innerText = score;
-    bestScoreEl.innerText = bestScore;
+    bestDiffLabel.innerText = currentDiff.substring(0,3).toUpperCase();
+    bestScoreEl.innerText = getBestScore(currentDiff);
     
     setTimeout(() => {
       uiGameOver.classList.remove('hidden');
@@ -514,52 +647,64 @@
   }
 
   function resetGame() {
-    pipes.reset();
-    bird.reset();
-    score = 0;
-    uiScore.innerText = score;
+    pipes.reset(); bird.reset();
+    score = 0; uiScore.innerText = score;
+    frames = 0;
     state = STATE.GET_READY;
-    
-    uiGameOver.classList.remove('active');
-    uiGameOver.classList.add('hidden');
-    uiStart.classList.remove('hidden');
-    uiStart.classList.add('active');
-    playSound(assets.sfxSwoosh);
+  }
+
+  function togglePause() {
+    if(state !== STATE.PLAYING) return;
+    isPaused = !isPaused;
+    if(isPaused) {
+      uiPause.classList.remove('hidden'); uiPause.classList.add('active');
+    } else {
+      uiPause.classList.add('hidden'); uiPause.classList.remove('active');
+    }
   }
 
   // --- Inputs ---
   function inputDown(e) {
-    // If e.target is a button, don't trigger canvas events
     if(e && e.target.tagName === 'BUTTON') return;
+    if(isPaused) return;
     
     switch(state) {
-      case STATE.GET_READY:
-        startGame();
-        break;
-      case STATE.PLAYING:
-        bird.flap();
-        break;
+      case STATE.GET_READY: startGame(); break;
+      case STATE.PLAYING: bird.flap(); break;
     }
   }
 
   canvas.addEventListener('mousedown', inputDown);
   canvas.addEventListener('touchstart', (e) => { e.preventDefault(); inputDown(e); }, {passive: false});
   window.addEventListener('keydown', (e) => {
-    if(e.code === 'Space' || e.code === 'ArrowUp') {
-      e.preventDefault();
-      inputDown(e);
+    if(e.code === 'Space' || e.code === 'ArrowUp') { e.preventDefault(); inputDown(e); }
+    if(e.code === 'Escape' || e.code === 'KeyP') { e.preventDefault(); togglePause(); }
+  });
+
+  // Buttons
+  startBtn.addEventListener('click', (e) => { e.stopPropagation(); startGame(); });
+  restartBtn.addEventListener('click', (e) => { e.stopPropagation(); resetGame(); startGame(); });
+  homeBtn.addEventListener('click', (e) => { e.stopPropagation(); resetGame(); showStartScreen(); });
+  
+  statsBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    renderStats();
+    uiStats.classList.remove('hidden'); uiStats.classList.add('active');
+  });
+  closeStatsBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    uiStats.classList.remove('active'); uiStats.classList.add('hidden');
+  });
+  clearStatsBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if(confirm('Clear all stats?')) {
+      localStorage.removeItem('flappyMuhibHistory');
+      renderStats();
     }
   });
 
-  startBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    startGame();
-  });
-
-  restartBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    resetGame();
-  });
+  pauseBtn.addEventListener('click', (e) => { e.stopPropagation(); togglePause(); });
+  resumeBtn.addEventListener('click', (e) => { e.stopPropagation(); togglePause(); });
 
 })();
 </script>
