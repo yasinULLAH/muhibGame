@@ -295,7 +295,7 @@
     ],
     x: 60, y: 150,
     w: 34, h: 24,
-    r: 12, // collision radius
+    r: 8, // reduced collision radius for more forgiving gameplay
     frame: 0,
     velocity: 0, gravity: 0.25, jump: 4.6, rotation: 0,
     draw: function() {
@@ -332,8 +332,8 @@
         }
 
         // Floor collision
-        if (this.y + this.h/2 >= H - fg.h) {
-          this.y = H - fg.h - this.h/2;
+        if (this.y + this.h/2 - 4 >= H - fg.h) { // slightly forgiving floor collision
+          this.y = H - fg.h - this.h/2 + 4;
           if (state === STATE.PLAYING) {
             playSound(assets.sfxHit);
             gameOver();
@@ -362,7 +362,7 @@
     w: 52, // drawing w
     h: 320, // drawing h (scaled up height to ensure it covers screen)
     imgW: 26, imgH: 160, // source w, h
-    gap: 100, // vertical gap between pipes
+    gap: 120, // increased gap to be more forgiving
     dx: 2, // speed
     
     draw: function() {
