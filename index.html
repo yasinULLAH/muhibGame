@@ -1001,6 +1001,181 @@
 
   .skin-card.equipped .skin-status { background: #fbbf24; color: #1e1b0e; }
 
+  .hangar-top-tools {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+  .deal-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.18), rgba(168, 85, 247, 0.18));
+    border: 1px solid rgba(251, 191, 36, 0.45);
+    border-radius: 12px;
+    padding: 7px 10px;
+    text-align: left;
+    font-size: 0.72rem;
+  }
+  .presets-bar {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+  .preset-slot-btn {
+    flex: 1;
+    min-width: 82px;
+    padding: 5px 7px;
+    border-radius: 9px;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.05);
+    color: #cbd5e1;
+    font-family: inherit;
+    font-size: 0.67rem;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+  }
+  .preset-slot-btn.saved { border-color: rgba(56, 189, 248, 0.45); color: #e0f2fe; background: rgba(56, 189, 248, 0.12); }
+  .preset-save-mini {
+    padding: 2px 5px;
+    border-radius: 6px;
+    background: rgba(251, 191, 36, 0.22);
+    color: #fde68a;
+    font-size: 0.6rem;
+    font-weight: 900;
+  }
+  .skin-controls-bar {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 7px;
+  }
+  .skin-search-input {
+    flex: 1;
+    padding: 6px 10px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: rgba(0, 0, 0, 0.32);
+    color: #fff;
+    font-family: inherit;
+    font-size: 0.74rem;
+    font-weight: 600;
+    outline: none;
+  }
+  .skin-search-input:focus { border-color: #38bdf8; }
+  .skin-sort-select {
+    padding: 6px 8px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: #0f172a;
+    color: #e2e8f0;
+    font-family: inherit;
+    font-size: 0.72rem;
+    font-weight: 700;
+    outline: none;
+    cursor: pointer;
+  }
+  .mastery-tag {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    font-size: 0.56rem;
+    font-weight: 900;
+    padding: 1px 5px;
+    border-radius: 6px;
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-transform: uppercase;
+  }
+  .booster-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+    margin-bottom: 10px;
+  }
+  .booster-chip {
+    position: relative;
+    padding: 6px 4px;
+    border-radius: 11px;
+    border: 1.5px solid var(--border);
+    background: rgba(255, 255, 255, 0.05);
+    color: #cbd5e1;
+    font-family: inherit;
+    font-size: 0.65rem;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    transition: all 0.14s ease;
+  }
+  .booster-chip.armed {
+    border-color: #10b981;
+    background: rgba(16, 185, 129, 0.2);
+    color: #a7f3d0;
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.3);
+  }
+  .booster-qty {
+    font-size: 0.58rem;
+    padding: 1px 5px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.45);
+    color: #fde68a;
+  }
+  .upg-btn-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-end;
+  }
+  .upg-max-btn {
+    padding: 3px 8px;
+    border-radius: 7px;
+    border: 1px solid rgba(56, 189, 248, 0.5);
+    background: rgba(56, 189, 248, 0.18);
+    color: #7dd3fc;
+    font-family: inherit;
+    font-size: 0.64rem;
+    font-weight: 900;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .upg-max-btn:hover { background: rgba(56, 189, 248, 0.32); }
+  #testFlightHud {
+    position: absolute;
+    top: calc(62px + var(--safe-top));
+    right: calc(12px + var(--safe-right));
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(15, 23, 42, 0.9);
+    border: 1.5px solid #38bdf8;
+    border-radius: 999px;
+    padding: 5px 12px;
+    font-size: 0.8rem;
+    font-weight: 900;
+    color: #e0f2fe;
+    z-index: 35;
+  }
+  .test-end-btn {
+    border: none;
+    background: #38bdf8;
+    color: #0f172a;
+    font-family: inherit;
+    font-size: 0.68rem;
+    font-weight: 900;
+    padding: 3px 8px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+
   #openSettingsBtn {
     position: relative;
     overflow: hidden;
@@ -1480,6 +1655,8 @@
 <div id="powerupHud"></div>
 <!-- Blitz Timer -->
 <div class="hidden" id="blitzHud"><svg aria-hidden="true" class="svg-ico" style="color:#c084fc" viewbox="0 0 24 24"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2.5 2"></path><path d="M9 2h6"></path></svg> <span id="blitzTimeEl">45.0</span>s</div>
+<!-- Test Flight HUD -->
+<div class="hidden" id="testFlightHud"><span>TEST FLIGHT: <span id="testFlightTimeEl">10.0</span>s</span><button class="test-end-btn" id="endTestFlightBtn" type="button">Back to Shop</button></div>
 <!-- Live Score -->
 <div class="hidden" id="scoreDisplay">0</div>
 <!-- Optional On-Screen Mobile Flap Button -->
@@ -1530,6 +1707,10 @@
 <button class="seg-btn active" data-diff="medium">Medium</button>
 <button class="seg-btn" data-diff="hard">Hard</button>
 </div>
+</div>
+<div class="control-group" style="margin-bottom:8px;">
+<div class="control-label"><span>Pre-Flight Boosters (Tap to Arm / Buy)</span><span id="armedBoosterCountEl" style="color:#10b981;">0 Armed</span></div>
+<div class="booster-strip" id="startBoosterBar"></div>
 </div>
 <button class="btn-primary" id="startBtn"><svg aria-hidden="true" class="svg-ico" style="color:currentColor" viewbox="0 0 24 24"><polygon fill="currentColor" points="6 4 20 12 6 20 6 4"></polygon></svg> Play Now</button>
 <div class="dock-grid">
@@ -1635,25 +1816,58 @@
 </div>
 <div class="preview-overlay-bot">
 <div class="preview-meta" id="previewSubMeta">Skin • Trail • World</div>
+<div style="display:flex;gap:5px;pointer-events:auto;">
+<button class="preview-action-btn" id="testFlightBtn" style="background:linear-gradient(180deg,#38bdf8,#0284c7);border-color:#7dd3fc;color:#0f172a;" type="button">Test Fly 10s</button>
 <button class="preview-action-btn hidden" id="previewActionBtn" type="button">Unlock</button>
 </div>
 </div>
+</div>
+<!-- Daily Combo Deal, Mystery Egg & Loadout Presets -->
+<div class="hangar-top-tools">
+<div class="deal-banner" id="dailyDealBanner"></div>
+<div class="presets-bar" id="loadoutPresetsBar"></div>
+</div>
 <div class="segmented" id="hangarTabs" style="margin-bottom:8px;">
 <button class="seg-btn active" data-htab="skins"><svg aria-hidden="true" class="svg-ico" style="color:#38bdf8" viewbox="0 0 24 24"><path d="M16 7h.01"></path><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"></path><path d="m20 7 2 .5-2 .5"></path></svg> Skins (<span id="skinCountTabEl">0</span>)</button>
+<button class="seg-btn" data-htab="gear"><svg aria-hidden="true" class="svg-ico" style="color:#f472b6" viewbox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg> Gear &amp; Pets</button>
 <button class="seg-btn" data-htab="upgrades"><svg aria-hidden="true" class="svg-ico" style="color:#fde047" viewbox="0 0 24 24"><polygon fill="currentColor" points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg> Upgrades</button>
 <button class="seg-btn" data-htab="world"><svg aria-hidden="true" class="svg-ico" style="color:#38bdf8" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M2 12h20"></path><path d="M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18"></path></svg> Worlds</button>
 </div>
 <!-- Skins & Trails Panel -->
 <div id="htabSkins">
+<div class="skin-controls-bar">
+<input class="skin-search-input" id="skinSearchInput" placeholder="Search 88 skins or perks..." type="text"/>
+<select aria-label="Sort Skins" class="skin-sort-select" id="skinSortSelect">
+<option value="default">Sort: Tier</option>
+<option value="price_asc">Price: Low → High</option>
+<option value="price_desc">Price: High → Low</option>
+<option value="affordable">Affordable Now</option>
+<option value="locked">Locked Only</option>
+<option value="mastery">Highest Mastery</option>
+</select>
+</div>
 <div class="filter-pills" id="skinRarityFilters"></div>
-<div class="section-sub"><span>Bird Skins</span><span id="skinUnlockedCountEl" style="color:#fde68a;">1/84</span></div>
+<div class="section-sub"><span>Bird Skins (Rarity Perks &amp; Mastery Active)</span><span id="skinUnlockedCountEl" style="color:#fde68a;">1/88</span></div>
 <div class="skins-grid" id="skinsGrid"></div>
 <div class="section-sub"><span>Wing Trail Style</span><span id="trailUnlockedCountEl" style="color:#38bdf8;">1/24</span></div>
 <div class="themes-row" id="trailsRow"></div>
 </div>
+<!-- Gear, Pets, Pipes, FX, Audio & Boosters Panel -->
+<div class="hidden" id="htabGear">
+<div class="section-sub"><span>Pre-Flight Boosters &amp; Mystery Lucky Egg</span><span style="color:#10b981;">Tap to Buy / Arm</span></div>
+<div class="themes-row" id="hangarBoostersRow" style="max-height:none;"></div>
+<div class="section-sub"><span>Companion Pets / Wingmen</span><span id="activePetLabelEl" style="color:#fde047;">None</span></div>
+<div class="themes-row" id="petsRow"></div>
+<div class="section-sub"><span>Custom Pipe Skins (Obstacle Themes)</span><span id="activePipeLabelEl" style="color:#38bdf8;">World Default</span></div>
+<div class="themes-row" id="pipesRow"></div>
+<div class="section-sub"><span>Crash &amp; Score Explosions (FX Packs)</span><span id="activeFxLabelEl" style="color:#f472b6;">Classic</span></div>
+<div class="themes-row" id="fxRow"></div>
+<div class="section-sub"><span>Procedural Sound Packs (Audio Themes)</span><span id="activeSfxPackLabelEl" style="color:#6ee7b7;">Modern Arcade</span></div>
+<div class="themes-row" id="sfxPacksRow"></div>
+</div>
 <!-- Upgrades Panel -->
 <div class="hidden" id="htabUpgrades">
-<div class="section-sub"><span>20 Permanent Lab Upgrades (Tap any to preview)</span><span id="upgLevelSumEl" style="color:#fde68a;">Lv.0</span></div>
+<div class="section-sub"><span>20 Permanent Lab Upgrades (Single or Buy MAX)</span><span id="upgLevelSumEl" style="color:#fde68a;">Lv.0</span></div>
 <div class="upg-list" id="upgradesList"></div>
 </div>
 <!-- World Panel -->
@@ -2042,8 +2256,24 @@
     selectedSkin: 'muhib_gold',
     unlockedTrails: ['feather'],
     selectedTrail: 'feather',
+    unlockedPipes: ['theme_default'],
+    selectedPipe: 'theme_default',
+    unlockedPets: ['none'],
+    selectedPet: 'none',
+    unlockedFx: ['classic_fx'],
+    selectedFx: 'classic_fx',
+    unlockedSoundPacks: ['default_sfx'],
+    selectedSoundPack: 'default_sfx',
+    unlockedThemes: ['auto', 'day', 'sunset', 'night', 'cyber', 'aurora', 'volcano', 'space', 'desert', 'sakura_valley', 'atlantis'],
+    unlockedWeathers: ['auto', 'clear', 'petals', 'rain', 'snow', 'fireflies', 'embers', 'stardust', 'meteors', 'lightning'],
     selectedTheme: 'auto',
     selectedWeather: 'auto',
+    skinMastery: {},
+    boosters: { rocket: 0, charm: 0, chrono: 0, safetynet: 0 },
+    armedBoosters: { rocket: false, charm: false, chrono: false, safetynet: false },
+    loadoutPresets: [null, null, null],
+    dailyDealBoughtDate: '',
+    totalFevers: 0,
     upgrades: {
       shield: 0,
       slowmo: 0,
@@ -2157,6 +2387,16 @@
         daily: { ...DEFAULT_PROFILE.daily, ...(p.daily || {}) },
         unlockedSkins: Array.isArray(p.unlockedSkins) && p.unlockedSkins.length ? p.unlockedSkins : ['muhib_gold'],
         unlockedTrails: Array.isArray(p.unlockedTrails) && p.unlockedTrails.length ? p.unlockedTrails : ['feather'],
+        unlockedPipes: Array.isArray(p.unlockedPipes) && p.unlockedPipes.length ? p.unlockedPipes : ['theme_default'],
+        unlockedPets: Array.isArray(p.unlockedPets) && p.unlockedPets.length ? p.unlockedPets : ['none'],
+        unlockedFx: Array.isArray(p.unlockedFx) && p.unlockedFx.length ? p.unlockedFx : ['classic_fx'],
+        unlockedSoundPacks: Array.isArray(p.unlockedSoundPacks) && p.unlockedSoundPacks.length ? p.unlockedSoundPacks : ['default_sfx'],
+        unlockedThemes: Array.isArray(p.unlockedThemes) && p.unlockedThemes.length ? p.unlockedThemes : DEFAULT_PROFILE.unlockedThemes,
+        unlockedWeathers: Array.isArray(p.unlockedWeathers) && p.unlockedWeathers.length ? p.unlockedWeathers : DEFAULT_PROFILE.unlockedWeathers,
+        skinMastery: (p.skinMastery && typeof p.skinMastery === 'object') ? p.skinMastery : {},
+        boosters: { ...DEFAULT_PROFILE.boosters, ...(p.boosters || {}) },
+        armedBoosters: { ...DEFAULT_PROFILE.armedBoosters, ...(p.armedBoosters || {}) },
+        loadoutPresets: Array.isArray(p.loadoutPresets) && p.loadoutPresets.length === 3 ? p.loadoutPresets : [null, null, null],
         unlockedAchievements: Array.isArray(p.unlockedAchievements) ? p.unlockedAchievements : [],
         history: Array.isArray(p.history) ? p.history : []
       };
@@ -2321,8 +2561,88 @@
     { id: 'chef_bird', name: 'Master Chef', rarity: 'Rare', cost: 195, body: '#f8fafc', belly: '#e2e8f0', wing: '#ef4444', beak: '#f59e0b', crest: '#ffffff', trail: '#fef08a', head: 'wizard', cape: '#ef4444', perk: 'Five-Star Culinary Aviator' },
     { id: 'spartan_ares', name: 'Spartan Commander', rarity: 'Legendary', cost: 630, body: '#991b1b', belly: '#dca54c', wing: '#b45309', beak: '#fbbf24', crest: '#ef4444', trail: '#f87171', head: 'samurai', cape: '#7f1d1d', wingStyle: 'feathered', perk: 'Ancient Bronze War Crest' },
     { id: 'amethyst_geode', name: 'Amethyst Drake', rarity: 'Epic', cost: 455, body: '#7e22ce', belly: '#f3e8ff', wing: '#a855f7', beak: '#fde047', crest: '#d8b4fe', trail: '#c084fc', horns: true, wingStyle: 'crystal', pattern: 'crystal', perk: 'Crystalline Cave Wyrm' },
-    { id: 'transcendent_muhib', name: 'Ultimate Muhib', rarity: 'Supreme', cost: 3000, body: '#ffffff', belly: '#fef08a', wing: '#38bdf8', beak: '#f43f5e', crest: '#fbbf24', trail: '#fde047', crown: true, halo: true, wingStyle: 'angel', tailStyle: 'phoenix', cape: '#7c3aed', pattern: 'stars', aura: 'prism', orbit: 'stars', eyeStyle: 'star', perk: 'The Ultimate Legend of Muhib!' }
+    { id: 'transcendent_muhib', name: 'Ultimate Muhib', rarity: 'Supreme', cost: 3000, body: '#ffffff', belly: '#fef08a', wing: '#38bdf8', beak: '#f43f5e', crest: '#fbbf24', trail: '#fde047', crown: true, halo: true, wingStyle: 'angel', tailStyle: 'phoenix', cape: '#7c3aed', pattern: 'stars', aura: 'prism', orbit: 'stars', eyeStyle: 'star', perk: 'The Ultimate Legend of Muhib!' },
+    // --- 4 Milestone / Achievement-Exclusive Skins ---
+    { id: 'classic_centurion', name: 'Classic Centurion', rarity: 'Supreme', cost: 0, milestoneOnly: true, milestoneLabel: 'Score 35+ in Classic', checkMilestone: (p) => Math.max(p.bestScores.classic.easy, p.bestScores.classic.medium, p.bestScores.classic.hard) >= 35, body: '#f8fafc', belly: '#fde047', wing: '#2563eb', beak: '#f59e0b', crest: '#dc2626', trail: '#60a5fa', crown: true, halo: true, head: 'knight', wingStyle: 'angel', tailStyle: 'phoenix', cape: '#1d4ed8', aura: 'divine', orbit: 'shields', perk: 'Milestone: Score 35+ in Classic Mode' },
+    { id: 'streak_immortal', name: 'Streak Sovereign', rarity: 'Celestial', cost: 0, milestoneOnly: true, milestoneLabel: '5-Day Login Streak', checkMilestone: (p) => (p.daily?.streak || 0) >= 5, body: '#f97316', belly: '#fef08a', wing: '#ec4899', beak: '#fde047', crest: '#fbbf24', trail: '#fb923c', crown: true, halo: true, wingStyle: 'flame', tailStyle: 'phoenix', aura: 'solar', orbit: 'flames', perk: 'Milestone: Reach a 5-Day Login Streak' },
+    { id: 'fever_overlord', name: 'Fever Overlord', rarity: 'Mythic', cost: 0, milestoneOnly: true, milestoneLabel: '10× Fever Triggers', checkMilestone: (p) => (p.totalFevers || 0) >= 10, body: '#7c3aed', belly: '#fde047', wing: '#f43f5e', beak: '#22d3ee', crest: '#f97316', trail: '#fde047', horns: true, halo: true, wingStyle: 'plasma', tailStyle: 'lightning', aura: 'prism', orbit: 'stars', eyeStyle: 'fire', perk: 'Milestone: Trigger Fever Mode 10 Times' },
+    { id: 'veteran_ace', name: '50-Flight Ace', rarity: 'Legendary', cost: 0, milestoneOnly: true, milestoneLabel: '50 Total Flights', checkMilestone: (p) => (p.totalFlights || 0) >= 50, body: '#0f172a', belly: '#e2e8f0', wing: '#fbbf24', beak: '#f59e0b', crest: '#38bdf8', trail: '#fde68a', goggles: true, crown: true, wingStyle: 'mecha', tailStyle: 'mecha', cape: '#b91c1c', aura: 'cyber', perk: 'Milestone: Complete 50 Total Flights' }
   ];
+
+  const RARITY_TIER_PERKS = {
+    Classic: { desc: 'Balanced Classic Flight', magBonus: 0, startCombo: 0, coinBonus: 0, puDurBonus: 0, fallRed: 0, freeShield: false },
+    Rare: { desc: '+8% Coin Magnet Pull Radius', magBonus: 0.08, startCombo: 0, coinBonus: 0, puDurBonus: 0, fallRed: 0, freeShield: false },
+    Epic: { desc: 'Start Runs with +1 Combo Charged', magBonus: 0.08, startCombo: 1, coinBonus: 0, puDurBonus: 0, fallRed: 0, freeShield: false },
+    Legendary: { desc: '+10% Bonus Coins Every Flight', magBonus: 0.1, startCombo: 1, coinBonus: 0.10, puDurBonus: 0, fallRed: 0, freeShield: false },
+    Mythic: { desc: '+1.5s Duration on All Power-Ups', magBonus: 0.12, startCombo: 1, coinBonus: 0.10, puDurBonus: 1.5, fallRed: 0, freeShield: false },
+    Celestial: { desc: '+2.0s Power-Ups & +15% Flight Coins', magBonus: 0.15, startCombo: 1, coinBonus: 0.15, puDurBonus: 2.0, fallRed: 0.04, freeShield: false },
+    Supreme: { desc: 'Free Micro-Shield + Slow-Fall Glide + 20% Coins', magBonus: 0.2, startCombo: 2, coinBonus: 0.20, puDurBonus: 2.0, fallRed: 0.08, freeShield: true }
+  };
+
+  function getSkinMastery(skinId) {
+    const pts = (profile && profile.skinMastery && profile.skinMastery[skinId]) || 0;
+    if (pts >= 300) return { pts, rank: 'Diamond', color: '#38bdf8', border: '#7dd3fc', next: null, level: 4 };
+    if (pts >= 150) return { pts, rank: 'Gold', color: '#fbbf24', border: '#fde047', next: 300, level: 3 };
+    if (pts >= 75) return { pts, rank: 'Silver', color: '#e2e8f0', border: '#cbd5e1', next: 150, level: 2 };
+    if (pts >= 25) return { pts, rank: 'Bronze', color: '#d97706', border: '#fdba74', next: 75, level: 1 };
+    return { pts, rank: 'Rookie', color: '#94a3b8', border: 'transparent', next: 25, level: 0 };
+  }
+
+  const PIPE_SKINS = [
+    { id: 'theme_default', name: 'World Default', cost: 0, style: 'default', color: '#22c55e' },
+    { id: 'crystal_pillars', name: 'Crystal Pillars', cost: 160, style: 'crystal', main: '#38bdf8', light: '#e0f2fe', dark: '#0284c7', outline: '#082f49', color: '#38bdf8' },
+    { id: 'laser_beams', name: 'Laser Gates', cost: 220, style: 'laser', main: '#f43f5e', light: '#ffe4e6', dark: '#9f1239', outline: '#4c0519', color: '#f43f5e' },
+    { id: 'bamboo_stalks', name: 'Jade Bamboo', cost: 140, style: 'bamboo', main: '#84cc16', light: '#ecfccb', dark: '#3f6212', outline: '#1a2e05', color: '#84cc16' },
+    { id: 'marble_columns', name: 'Marble Temple', cost: 200, style: 'marble', main: '#cbd5e1', light: '#ffffff', dark: '#64748b', outline: '#0f172a', color: '#e2e8f0' },
+    { id: 'candy_canes', name: 'Candy Canes', cost: 180, style: 'candy', main: '#ef4444', light: '#ffffff', dark: '#b91c1c', outline: '#450a0a', color: '#f87171' },
+    { id: 'neon_hologram', name: 'Neon Hologram', cost: 280, style: 'hologram', main: '#06b6d4', light: '#a5f3fc', dark: '#0e7490', outline: '#22d3ee', color: '#22d3ee' },
+    { id: 'royal_gold_pipes', name: '24K Gold Pillars', cost: 360, style: 'gold', main: '#fbbf24', light: '#fef08a', dark: '#b45309', outline: '#451a03', color: '#fbbf24' }
+  ];
+
+  const COMPANION_PETS = [
+    { id: 'none', name: 'No Wingman', cost: 0, color: '#64748b', grabRadius: 0, perk: 'Solo Flight' },
+    { id: 'mini_muhib', name: 'Mini Muhib', cost: 180, color: '#fbbf24', grabRadius: 38, perk: 'Grabs coins within 38px' },
+    { id: 'cyber_drone', name: 'Aegis Drone', cost: 260, color: '#22d3ee', grabRadius: 46, scoreChance: 0.06, perk: '46px coin grab & +6% bonus pt' },
+    { id: 'star_fairy', name: 'Starlight Fairy', cost: 320, color: '#f472b6', grabRadius: 44, feverBonus: 1.2, perk: '44px coin grab & +1.2s Fever' },
+    { id: 'baby_dragon', name: 'Ember Wyrmling', cost: 400, color: '#f97316', grabRadius: 52, ccCoin: 1, perk: '52px coin grab & +1 Close Call coin' },
+    { id: 'celestial_orb', name: 'Seraph Spirit', cost: 520, color: '#fde047', grabRadius: 62, coinBonus: 0.12, perk: '62px coin grab & +12% run coins' }
+  ];
+
+  const FX_PACKS = [
+    { id: 'classic_fx', name: 'Classic Sparks', cost: 0, shape: 'circle', colors: ['#fbbf24', '#ffffff'], color: '#fbbf24' },
+    { id: 'fireworks_fx', name: 'Grand Fireworks', cost: 130, shape: 'star', colors: ['#f43f5e', '#fde047', '#38bdf8', '#a855f7'], color: '#f43f5e' },
+    { id: 'confetti_fx', name: 'Confetti Pop', cost: 150, shape: 'square', colors: ['#ec4899', '#22d3ee', '#a3e635', '#fbbf24'], color: '#ec4899' },
+    { id: 'pixel_shatter', name: '8-Bit Shatter', cost: 175, shape: 'square', colors: ['#22c55e', '#86efac', '#fde047'], color: '#22c55e' },
+    { id: 'lightning_strike', name: 'Thunder Burst', cost: 210, shape: 'bolt', colors: ['#fde047', '#38bdf8', '#ffffff'], color: '#fde047' },
+    { id: 'cherry_burst', name: 'Sakura Storm', cost: 195, shape: 'petal', colors: ['#f472b6', '#fbcfe8', '#fb7185'], color: '#f472b6' },
+    { id: 'love_explosion', name: 'Heart Supernova', cost: 240, shape: 'heart', colors: ['#f43f5e', '#fb7185', '#fda4af'], color: '#fb7185' }
+  ];
+
+  const SOUND_PACKS = [
+    { id: 'default_sfx', name: 'Modern Arcade', cost: 0, color: '#38bdf8', desc: 'Balanced crisp synth chimes' },
+    { id: 'retro_8bit', name: '8-Bit Chiptune', cost: 140, color: '#22c55e', desc: 'Classic square-wave cartridge SFX' },
+    { id: 'scifi_laser', name: 'Sci-Fi Laser', cost: 190, color: '#22d3ee', desc: 'Futuristic plasma sweeps' },
+    { id: 'nature_flute', name: 'Zen Woodwind', cost: 165, color: '#5eead4', desc: 'Mellow harmonic flute tones' },
+    { id: 'steampunk_mech', name: 'Clockwork Brass', cost: 210, color: '#f59e0b', desc: 'Punchy metallic gear chimes' }
+  ];
+
+  const BOOSTERS_CATALOG = [
+    { key: 'rocket', name: 'Headstart Rocket', short: 'Rocket', cost: 50, color: '#f97316', desc: 'Blasts safely past the first 6 pipes at high speed' },
+    { key: 'charm', name: 'Golden Charm', short: '2× Gems', cost: 75, color: '#fbbf24', desc: 'Spawns 2× more Ruby Gems & Gold Coins next run' },
+    { key: 'chrono', name: 'Chrono-Cell', short: '+10s Blitz', cost: 60, color: '#c084fc', desc: 'Starts Blitz with 55s (or +3s Warp Shield in other modes)' },
+    { key: 'safetynet', name: 'Safety Net', short: 'Floor Save', cost: 100, color: '#10b981', desc: 'Bounces you safely off the ground once per flight' }
+  ];
+
+  const WORLD_COSTS = {
+    black_hole: 200, matrix_grid: 180, candy_kingdom: 160, blood_eclipse: 220,
+    olympus_gold: 260, ice_glacier: 150, emerald_jungle: 170, steampunk_city: 190,
+    crystal_cavern: 240, valhalla_dawn: 300, synth_horizon: 280
+  };
+
+  const WEATHER_COSTS = {
+    matrix_rain: 140, confetti: 120, bubbles_sea: 130, golden_leaves: 150,
+    void_rifts: 180, aurora_waves: 170, heart_rain: 160, crystal_shards: 200
+  };
 
   const TRAILS = [
     { id: 'feather', name: 'Classic', cost: 0, shape: 'circle', color: '#fde68a' },
@@ -2631,13 +2951,34 @@
       if (!profile.settings.sfx || profile.settings.sfxVol <= 0) return;
       const c = ensureContext();
       if (!c) return;
-      const vol = baseVol * (profile.settings.sfxVol / 100);
+      const pack = profile.selectedSoundPack || 'default_sfx';
+      let effType = type;
+      let f1 = freq;
+      let f2 = endFreq;
+      if (pack === 'retro_8bit') {
+        effType = 'square';
+        f1 = Math.round(freq * 1.08);
+        f2 = Math.round(endFreq * 1.08);
+      } else if (pack === 'scifi_laser') {
+        effType = type === 'sine' ? 'sawtooth' : 'triangle';
+        f1 = freq * 1.24;
+        f2 = endFreq * 0.82;
+      } else if (pack === 'nature_flute') {
+        effType = 'sine';
+        f1 = freq * 0.86;
+        f2 = endFreq * 0.88;
+      } else if (pack === 'steampunk_mech') {
+        effType = type === 'sine' ? 'triangle' : 'sawtooth';
+        f1 = freq * 0.76;
+        f2 = endFreq * 0.74;
+      }
+      const vol = baseVol * (profile.settings.sfxVol / 100) * (effType === 'square' ? 0.72 : 1);
       const t = c.currentTime + delay;
       const osc = c.createOscillator();
       const gain = c.createGain();
-      osc.type = type;
-      osc.frequency.setValueAtTime(freq, t);
-      if (endFreq !== freq) osc.frequency.exponentialRampToValueAtTime(Math.max(20, endFreq), t + dur);
+      osc.type = effType;
+      osc.frequency.setValueAtTime(Math.max(20, f1), t);
+      if (f2 !== f1) osc.frequency.exponentialRampToValueAtTime(Math.max(20, f2), t + dur);
       gain.gain.setValueAtTime(0.001, t);
       gain.gain.linearRampToValueAtTime(vol, t + 0.012);
       gain.gain.exponentialRampToValueAtTime(0.001, t + dur);
@@ -2815,6 +3156,12 @@
 
   let comboCount = 0;
   let feverTimer = 0;
+  let testFlightTimer = 0;
+  let isTestFlight = false;
+  let rocketPipesLeft = 0;
+  let runGoldenCharm = false;
+  let runSafetyNet = false;
+  const petPos = { x: 70, y: 240, phase: 0 };
 
   let elapsed = 0;
   let distSincePipe = 0;
@@ -2931,7 +3278,33 @@
   }
 
   function getActiveSkin() {
+    if (isTestFlight && previewState.skinId) {
+      return SKINS.find(s => s.id === previewState.skinId) || SKINS[0];
+    }
     return SKINS.find(s => s.id === profile.selectedSkin) || SKINS[0];
+  }
+
+  function getActivePet() {
+    const id = (isTestFlight && previewState.petId) ? previewState.petId : (profile.selectedPet || 'none');
+    return COMPANION_PETS.find(p => p.id === id) || COMPANION_PETS[0];
+  }
+
+  function getActivePipeSkin() {
+    const id = (isTestFlight && previewState.pipeId) ? previewState.pipeId : (profile.selectedPipe || 'theme_default');
+    return PIPE_SKINS.find(p => p.id === id) || PIPE_SKINS[0];
+  }
+
+  function getActiveFxPack() {
+    const id = (isTestFlight && previewState.fxId) ? previewState.fxId : (profile.selectedFx || 'classic_fx');
+    return FX_PACKS.find(f => f.id === id) || FX_PACKS[0];
+  }
+
+  function spawnFxBurst(x, y, count = 14, speed = 160, size = 4) {
+    const fx = getActiveFxPack();
+    for (let i = 0; i < count; i++) {
+      const col = fx.colors[i % fx.colors.length];
+      spawnParticles(x, y, col, 1, speed, size, fx.shape);
+    }
   }
 
   function getTrailColor(skin, trailId = profile.selectedTrail) {
@@ -3095,14 +3468,24 @@
     powerups.doubleScore = 0;
     powerups.tiny = 0;
 
-    // Shield Mastery starting shield chance in Arcade/Blitz
-    if ((currentMode === 'arcade' || currentMode === 'blitz') && profile.upgrades.shield > 0) {
-      if (Math.random() < profile.upgrades.shield * 0.1) {
+    const activeSkin = getActiveSkin();
+    const tierPerk = RARITY_TIER_PERKS[activeSkin.rarity] || RARITY_TIER_PERKS.Classic;
+    rocketPipesLeft = 0;
+    runGoldenCharm = false;
+    runSafetyNet = false;
+
+    // Rarity Tier Perks: Epic+ starting combo & Supreme free micro-shield
+    if (currentMode === 'arcade' || currentMode === 'blitz') {
+      if (tierPerk.startCombo > 0) comboCount = Math.min(4, tierPerk.startCombo);
+      if (tierPerk.freeShield) powerups.shield = true;
+      if (profile.upgrades.shield > 0 && Math.random() < profile.upgrades.shield * 0.1) {
         powerups.shield = true;
       }
     }
 
     bird.x = Math.round(Math.min(WORLD_W * 0.27, 190));
+    petPos.x = bird.x - 34;
+    petPos.y = PLAY_H * 0.46;
     bird.y = PLAY_H * 0.46;
     bird.vy = 0;
     bird.r = bird.baseR;
@@ -3143,6 +3526,48 @@
       bird.invuln = Math.max(bird.invuln, 1.0 + profile.upgrades.starting_boost * 0.75);
       spawnPopup(bird.x, bird.y - 44, 'HEADSTART WARP!', '#fde047', 14);
     }
+    // Consume & Activate Armed Pre-Flight Boosters (not consumed during Test Flight)
+    if (!isTestFlight) {
+      let consumedAny = false;
+      if (profile.armedBoosters?.rocket && (profile.boosters?.rocket || 0) > 0) {
+        profile.boosters.rocket -= 1;
+        if (profile.boosters.rocket <= 0) profile.armedBoosters.rocket = false;
+        rocketPipesLeft = 6;
+        bird.invuln = Math.max(bird.invuln, 6.0);
+        consumedAny = true;
+        spawnPopup(bird.x, bird.y - 56, 'ROCKET BLAST (6 PIPES)!', '#f97316', 16);
+      }
+      if (profile.armedBoosters?.charm && (profile.boosters?.charm || 0) > 0) {
+        profile.boosters.charm -= 1;
+        if (profile.boosters.charm <= 0) profile.armedBoosters.charm = false;
+        runGoldenCharm = true;
+        consumedAny = true;
+        spawnPopup(bird.x, bird.y - 40, '2× GOLDEN CHARM ACTIVE!', '#fbbf24', 15);
+      }
+      if (profile.armedBoosters?.chrono && (profile.boosters?.chrono || 0) > 0) {
+        profile.boosters.chrono -= 1;
+        if (profile.boosters.chrono <= 0) profile.armedBoosters.chrono = false;
+        if (currentMode === 'blitz') {
+          blitzTimeLeft += 10.0;
+          blitzTimeEl.textContent = blitzTimeLeft.toFixed(1);
+          spawnPopup(bird.x, bird.y - 26, '+10s CHRONO CELL!', '#c084fc', 15);
+        } else {
+          bird.invuln = Math.max(bird.invuln, 3.5);
+          spawnPopup(bird.x, bird.y - 26, 'CHRONO PHASE SHIELD!', '#c084fc', 15);
+        }
+        consumedAny = true;
+      }
+      if (profile.armedBoosters?.safetynet && (profile.boosters?.safetynet || 0) > 0) {
+        profile.boosters.safetynet -= 1;
+        if (profile.boosters.safetynet <= 0) profile.armedBoosters.safetynet = false;
+        runSafetyNet = true;
+        consumedAny = true;
+      }
+      if (consumedAny) {
+        saveProfile();
+        renderStartBoosters();
+      }
+    }
     flapBird();
   }
 
@@ -3165,9 +3590,14 @@
     comboCount = Math.min(5, comboCount + amount);
       if (comboCount >= 5) {
       comboCount = 0;
-      feverTimer = 7.0 + (profile.upgrades.fever_boost || 0) * 1.5;
+      const petBonus = getActivePet().feverBonus || 0;
+      const skinTierBonus = (RARITY_TIER_PERKS[getActiveSkin().rarity]?.puDurBonus || 0);
+      feverTimer = 7.0 + (profile.upgrades.fever_boost || 0) * 1.5 + petBonus + skinTierBonus * 0.5;
       runFeverTriggered = true;
-      incrementMissionProgress('fever', 1);
+      if (!isTestFlight) {
+        profile.totalFevers = (profile.totalFevers || 0) + 1;
+        incrementMissionProgress('fever', 1);
+      }
       AudioEngine.sfx.fever();
       scoreDisplay.classList.add('fever');
       spawnParticles(bird.x, bird.y, '#fde047', 24, 190, 4.5);
@@ -3216,9 +3646,10 @@
     if (currentMode === 'arcade' || currentMode === 'blitz') {
       const centerX = pipe.x + pipeW / 2;
       const centerY = gapTop + effGap / 2 + (Math.random() - 0.5) * (effGap * 0.36);
-      const luckBonus = profile.upgrades.luck * 0.03;
+      const charmMult = runGoldenCharm ? 2.2 : 1;
+      const luckBonus = (profile.upgrades.luck * 0.03 + (runGoldenCharm ? 0.14 : 0));
       const roll = Math.random();
-      const coinCutoff = 0.52 + (profile.upgrades.gold_rush || 0) * 0.04;
+      const coinCutoff = Math.min(0.85, 0.52 + (profile.upgrades.gold_rush || 0) * 0.04 + (charmMult - 1) * 0.2);
 
       if (currentMode === 'blitz' && roll < 0.22) {
         items.push({ type: 'clock', x: centerX, y: centerY, r: 13, taken: false, phase: 0 });
@@ -3266,8 +3697,8 @@
       return;
     }
 
-    // Zen practice mode: gentle bounce instead of death!
-    if (currentMode === 'zen') {
+    // Test flight or Zen practice mode: gentle bounce instead of death!
+    if (currentMode === 'zen' || isTestFlight) {
       bird.invuln = 0.7;
       bird.vy = hitTop ? 160 : -260;
       AudioEngine.sfx.bounce();
@@ -3323,6 +3754,13 @@
     const isNewBest = score > prevBest && score > 0;
     if (isNewBest) profile.bestScores[currentMode][currentDiff] = score;
 
+    // Rarity Tier & Companion Pet End-of-Flight Coin Multiplier
+    const skinCoinMult = RARITY_TIER_PERKS[skin.rarity]?.coinBonus || 0;
+    const petCoinMult = getActivePet().coinBonus || 0;
+    if (!runRevived && (skinCoinMult + petCoinMult) > 0 && runCoins > 0) {
+      const bonusEndCoins = Math.max(1, Math.round(runCoins * (skinCoinMult + petCoinMult)));
+      runCoins += bonusEndCoins;
+    }
     const distMeters = Math.round(runDistancePx / 28);
     const dCoins = Math.max(0, runCoins - runBanked.coins);
     const dScore = Math.max(0, score - runBanked.score);
@@ -3336,6 +3774,15 @@
       runBanked.flightCounted = true;
     }
     profile.totalScore += dScore;
+    if (dScore > 0) {
+      if (!profile.skinMastery) profile.skinMastery = {};
+      const prevM = getSkinMastery(profile.selectedSkin).level;
+      profile.skinMastery[profile.selectedSkin] = (profile.skinMastery[profile.selectedSkin] || 0) + dScore;
+      const nextM = getSkinMastery(profile.selectedSkin);
+      if (nextM.level > prevM) {
+        showToast(UI_ICONS.crown, `${skin.name} Mastery Up!`, `Reached ${nextM.rank} Mastery Frame!`);
+      }
+    }
     profile.totalDistanceM += dDistM;
     profile.totalCloseCalls += dClose;
     profile.totalPowerups += dPu;
@@ -3364,6 +3811,13 @@
     profile.history.sort((a, b) => b.score - a.score);
     profile.history = profile.history.slice(0, 20);
 
+    // Check Milestone-Exclusive Skins
+    SKINS.forEach(sk => {
+      if (sk.milestoneOnly && !profile.unlockedSkins.includes(sk.id) && sk.checkMilestone && sk.checkMilestone(profile)) {
+        profile.unlockedSkins.push(sk.id);
+        showToast(UI_ICONS.crown, `Milestone Skin Unlocked!`, `${sk.name} is now in your Hangar!`);
+      }
+    });
     checkAchievements({ score, diff: currentDiff, mode: currentMode, closeCalls: runCloseCalls, feverTriggered: runFeverTriggered });
     saveProfile();
     updateHudStats();
@@ -3572,8 +4026,18 @@
     if (state === STATE.PAUSED || state === STATE.COUNTDOWN) return;
 
     const diff = getActiveDifficulty();
+    if (isTestFlight && state === STATE.PLAYING) {
+      testFlightTimer = Math.max(0, testFlightTimer - dt);
+      const tfEl = document.getElementById('testFlightTimeEl');
+      if (tfEl) tfEl.textContent = testFlightTimer.toFixed(1);
+      if (testFlightTimer <= 0) {
+        endTestFlightToHangar();
+        return;
+      }
+    }
+    const rocketMult = rocketPipesLeft > 0 ? 2.35 : 1;
     const slowFactor = powerups.slowmo > 0 ? 0.62 : 1;
-    const speed = diff.speed * slowFactor;
+    const speed = diff.speed * slowFactor * rocketMult;
 
     for (const c of clouds) {
       c.x -= c.speed * (state === STATE.PLAYING ? slowFactor : 0.6) * dt;
@@ -3647,11 +4111,22 @@
     cityOffset = (cityOffset + speed * 0.25 * dt) % (WORLD_W + 260);
 
     // Bird physics
+    const activeSkin = getActiveSkin();
+    const tierFallRed = RARITY_TIER_PERKS[activeSkin.rarity]?.fallRed || 0;
     const effGravity = Math.max(680, diff.gravity - (profile.upgrades.feather_light || 0) * 35);
-    bird.vy += effGravity * dt;
-    const maxFall = 620 - (profile.upgrades.wind_glider || 0) * 32;
+    if (rocketPipesLeft > 0) {
+      bird.vy = (PLAY_H * 0.45 - bird.y) * 6;
+      bird.invuln = Math.max(bird.invuln, 0.5);
+    } else {
+      bird.vy += effGravity * dt;
+    }
+    const maxFall = (620 - (profile.upgrades.wind_glider || 0) * 32) * (1 - tierFallRed);
     bird.vy = Math.min(bird.vy, maxFall);
     bird.y += bird.vy * dt;
+    // Update Companion Pet orbit position
+    petPos.phase += dt * 5.2;
+    petPos.x += ((bird.x - 36) - petPos.x) * Math.min(1, dt * 10);
+    petPos.y += ((bird.y - 14 + Math.sin(petPos.phase) * 9) - petPos.y) * Math.min(1, dt * 10);
     bird.wingPhase += dt * (bird.vy < 0 ? 22 : 10);
 
     const targetRot = bird.vy < 140 ? -0.44 : Math.min(Math.PI * 0.46, ((bird.vy - 140) / 420) * (Math.PI * 0.46));
@@ -3677,9 +4152,16 @@
 
     if (bird.y + bird.r >= PLAY_H) {
       bird.y = PLAY_H - bird.r;
-      if (currentMode === 'zen') {
+      if (currentMode === 'zen' || isTestFlight) {
         bird.vy = -diff.jump * 0.85;
         AudioEngine.sfx.bounce();
+      } else if (runSafetyNet) {
+        runSafetyNet = false;
+        bird.vy = -diff.jump * 1.15;
+        bird.invuln = 1.4;
+        AudioEngine.sfx.powerup();
+        spawnFxBurst(bird.x, PLAY_H - 10, 16, 170, 4);
+        spawnPopup(bird.x, bird.y - 32, 'SAFETY NET SAVED!', '#10b981', 16);
       } else {
         triggerGameOver('Flight Over!');
         return;
@@ -3713,9 +4195,17 @@
 
       if (!p.passed && p.x + p.w * 0.5 < bird.x) {
         p.passed = true;
+        if (rocketPipesLeft > 0) {
+          rocketPipesLeft -= 1;
+          if (rocketPipesLeft === 0) bird.invuln = 1.2;
+        }
         let pts = (feverTimer > 0 || powerups.doubleScore > 0) ? 2 : 1;
-        if ((profile.upgrades.double_mastery || 0) > 0 && Math.random() < profile.upgrades.double_mastery * 0.08) {
+        const petScoreChance = getActivePet().scoreChance || 0;
+        if (((profile.upgrades.double_mastery || 0) * 0.08 + petScoreChance) > 0 && Math.random() < ((profile.upgrades.double_mastery || 0) * 0.08 + petScoreChance)) {
           pts += 1;
+        }
+        if (profile.selectedFx && profile.selectedFx !== 'classic_fx') {
+          spawnFxBurst(bird.x, bird.y, 7, 110, 3);
         }
         score += pts;
         scoreDisplay.textContent = String(score);
@@ -3735,7 +4225,7 @@
           runCloseCalls += 1;
           addCombo(2);
           if (currentMode === 'arcade' || currentMode === 'blitz') {
-            const bonus = diff.coinMult + (profile.upgrades.close_call_master || 0);
+            const bonus = diff.coinMult + (profile.upgrades.close_call_master || 0) + (getActivePet().ccCoin || 0);
             runCoins += bonus;
             coinCountEl.textContent = String(profile.coins + (runCoins - runBanked.coins));
             spawnPopup(bird.x, bird.y - 30, `CLOSE CALL! +${bonus}`, '#38bdf8', 14);
@@ -3767,9 +4257,12 @@
       if (p.x + p.w < -40) pipes.splice(i, 1);
     }
 
-    // Collectibles update
+    // Collectibles update (including Rarity Magnet Bonus & Companion Pet Auto-Grab)
+    const activePet = getActivePet();
+    const tierPerk = RARITY_TIER_PERKS[getActiveSkin().rarity] || RARITY_TIER_PERKS.Classic;
     const magActive = powerups.magnet > 0 || feverTimer > 0;
-    const magRadius = 175 + profile.upgrades.magnet * 28;
+    const magRadius = (175 + profile.upgrades.magnet * 28) * (1 + (tierPerk.magBonus || 0));
+    const puDurAdd = tierPerk.puDurBonus || 0;
 
     for (let i = items.length - 1; i >= 0; i--) {
       const it = items[i];
@@ -3786,8 +4279,9 @@
         }
       }
 
-      const d = Math.hypot(bird.x - it.x, bird.y - it.y);
-      if (d < bird.r + it.r + 4) {
+      const dBird = Math.hypot(bird.x - it.x, bird.y - it.y);
+      const dPet = activePet.grabRadius > 0 ? Math.hypot(petPos.x - it.x, petPos.y - it.y) : 9999;
+      if (dBird < bird.r + it.r + 4 || ((it.type === 'coin' || it.type === 'gem') && dPet < activePet.grabRadius)) {
         it.taken = true;
         if (it.type === 'coin') {
           const rushBonus = Math.floor(diff.coinMult * ((profile.upgrades.gold_rush || 0) * 0.25));
@@ -3834,28 +4328,28 @@
           spawnPopup(it.x, it.y - 16, 'SHIELD ON!', '#38bdf8', 15);
           updatePowerupHud();
         } else if (it.type === 'slowmo') {
-          powerups.slowmo = 6.0 + profile.upgrades.slowmo * 1.2;
+          powerups.slowmo = 6.0 + profile.upgrades.slowmo * 1.2 + puDurAdd;
           runPowerups += 1;
           AudioEngine.sfx.powerup();
           spawnParticles(it.x, it.y, '#a855f7', 14, 150, 3.6);
           spawnPopup(it.x, it.y - 16, 'SLOW-MO!', '#c084fc', 15);
           updatePowerupHud();
         } else if (it.type === 'magnet') {
-          powerups.magnet = 8.0 + profile.upgrades.magnet * 1.5;
+          powerups.magnet = 8.0 + profile.upgrades.magnet * 1.5 + puDurAdd;
           runPowerups += 1;
           AudioEngine.sfx.powerup();
           spawnParticles(it.x, it.y, '#f43f5e', 14, 150, 3.6);
           spawnPopup(it.x, it.y - 16, 'COIN MAGNET!', '#fda4af', 15);
           updatePowerupHud();
         } else if (it.type === 'double') {
-          powerups.doubleScore = 8.0 + (profile.upgrades.double_mastery || 0) * 1.5;
+          powerups.doubleScore = 8.0 + (profile.upgrades.double_mastery || 0) * 1.5 + puDurAdd;
           runPowerups += 1;
           AudioEngine.sfx.powerup();
           spawnParticles(it.x, it.y, '#fde047', 14, 150, 3.6);
           spawnPopup(it.x, it.y - 16, '2× SCORE!', '#fde047', 15);
           updatePowerupHud();
         } else if (it.type === 'tiny') {
-          powerups.tiny = 7.5 + (profile.upgrades.tiny_mastery || 0) * 1.5;
+          powerups.tiny = 7.5 + (profile.upgrades.tiny_mastery || 0) * 1.5 + puDurAdd;
           runPowerups += 1;
           AudioEngine.sfx.powerup();
           spawnParticles(it.x, it.y, '#34d399', 14, 150, 3.6);
@@ -4040,25 +4534,104 @@
     ctx.restore();
   }
 
-  function drawPipe(x, y, w, h, isTop, theme) {
+  function drawPipe(x, y, w, h, isTop, theme, c = ctx, pipeSkinOverride = null) {
     if (h <= 0) return;
+    const pSkin = pipeSkinOverride || getActivePipeSkin();
+    const pMain = pSkin.style !== 'default' ? pSkin.main : theme.pipeMain;
+    const pLight = pSkin.style !== 'default' ? pSkin.light : theme.pipeLight;
+    const pDark = pSkin.style !== 'default' ? pSkin.dark : theme.pipeDark;
+    const pOut = pSkin.style !== 'default' ? pSkin.outline : theme.pipeOutline;
+
     const capH = 26;
     const capOver = 4;
-    const grad = ctx.createLinearGradient(x, 0, x + w, 0);
-    grad.addColorStop(0, theme.pipeDark);
-    grad.addColorStop(0.25, theme.pipeLight);
-    grad.addColorStop(0.55, theme.pipeMain);
-    grad.addColorStop(1, theme.pipeDark);
-    ctx.fillStyle = grad;
-    ctx.strokeStyle = theme.pipeOutline;
-    ctx.lineWidth = 2.5;
-    ctx.fillRect(x, y, w, h);
-    ctx.strokeRect(x, y, w, h);
+    const grad = c.createLinearGradient(x, 0, x + w, 0);
+    grad.addColorStop(0, pDark);
+    grad.addColorStop(0.25, pLight);
+    grad.addColorStop(0.55, pMain);
+    grad.addColorStop(1, pDark);
+    c.fillStyle = grad;
+    c.strokeStyle = pOut;
+    c.lineWidth = 2.5;
+    c.fillRect(x, y, w, h);
+    c.strokeRect(x, y, w, h);
+
+    if (pSkin.style === 'candy') {
+      c.save();
+      c.beginPath();
+      c.rect(x, y, w, h);
+      c.clip();
+      c.fillStyle = 'rgba(255,255,255,0.75)';
+      for (let sy = y - 40; sy < y + h + 40; sy += 24) {
+        c.beginPath();
+        c.moveTo(x, sy); c.lineTo(x + w, sy + 16); c.lineTo(x + w, sy + 26); c.lineTo(x, sy + 10);
+        c.closePath(); c.fill();
+      }
+      c.restore();
+    } else if (pSkin.style === 'bamboo') {
+      c.strokeStyle = pOut;
+      c.lineWidth = 2;
+      for (let by = y + 32; by < y + h - 10; by += 36) {
+        c.beginPath(); c.moveTo(x - 2, by); c.lineTo(x + w + 2, by); c.stroke();
+      }
+    } else if (pSkin.style === 'marble') {
+      c.strokeStyle = 'rgba(15,23,42,0.22)';
+      c.lineWidth = 2;
+      for (let mx = x + 12; mx < x + w - 8; mx += 11) {
+        c.beginPath(); c.moveTo(mx, y); c.lineTo(mx, y + h); c.stroke();
+      }
+    } else if (pSkin.style === 'hologram' || pSkin.style === 'laser') {
+      c.strokeStyle = pLight;
+      c.lineWidth = 1.5;
+      c.beginPath();
+      c.moveTo(x + w * 0.5, y); c.lineTo(x + w * 0.5, y + h);
+      c.stroke();
+    }
+
     const capY = isTop ? (y + h - capH) : y;
-    ctx.fillRect(x - capOver, capY, w + capOver * 2, capH);
-    ctx.strokeRect(x - capOver, capY, w + capOver * 2, capH);
-    ctx.fillStyle = 'rgba(255,255,255,0.22)';
-    ctx.fillRect(x + 8, y, 6, h);
+    c.fillStyle = grad;
+    c.fillRect(x - capOver, capY, w + capOver * 2, capH);
+    c.strokeStyle = pOut;
+    c.strokeRect(x - capOver, capY, w + capOver * 2, capH);
+    c.fillStyle = 'rgba(255,255,255,0.24)';
+    c.fillRect(x + 8, y, 6, h);
+  }
+
+  function drawCompanionPet(c, pet, px, py, timeSec) {
+    if (!pet || pet.id === 'none') return;
+    c.save();
+    c.translate(px, py);
+    // Subtle glow
+    c.fillStyle = pet.color;
+    c.globalAlpha = 0.22;
+    c.beginPath(); c.arc(0, 0, 13 + Math.sin(timeSec * 8) * 2, 0, Math.PI * 2); c.fill();
+    c.globalAlpha = 1;
+    if (pet.id === 'cyber_drone') {
+      c.fillStyle = '#1e293b'; c.strokeStyle = '#22d3ee'; c.lineWidth = 1.8;
+      c.beginPath(); c.arc(0, 0, 8, 0, Math.PI * 2); c.fill(); c.stroke();
+      c.fillStyle = '#22d3ee'; c.beginPath(); c.arc(3, 0, 3, 0, Math.PI * 2); c.fill();
+    } else if (pet.id === 'star_fairy') {
+      c.fillStyle = 'rgba(251, 207, 232, 0.75)';
+      const wy = Math.sin(timeSec * 22) * 3;
+      c.beginPath(); c.ellipse(-4, -3 + wy, 6, 3.5, -0.4, 0, Math.PI * 2); c.fill();
+      c.fillStyle = '#f472b6'; c.strokeStyle = '#fff'; c.lineWidth = 1.4;
+      c.beginPath(); c.arc(0, 0, 6.5, 0, Math.PI * 2); c.fill(); c.stroke();
+    } else if (pet.id === 'baby_dragon') {
+      c.fillStyle = '#f97316'; c.strokeStyle = '#450a0a'; c.lineWidth = 1.6;
+      c.beginPath(); c.arc(0, 0, 8, 0, Math.PI * 2); c.fill(); c.stroke();
+      c.fillStyle = '#fde047'; c.beginPath(); c.moveTo(-2, -2); c.lineTo(-9, -8); c.lineTo(-6, 1); c.closePath(); c.fill();
+      c.fillStyle = '#fff'; c.beginPath(); c.arc(3, -2, 2, 0, Math.PI * 2); c.fill();
+    } else if (pet.id === 'celestial_orb') {
+      c.strokeStyle = '#fde047'; c.lineWidth = 1.8;
+      c.beginPath(); c.arc(0, 0, 10, 0, Math.PI * 2); c.stroke();
+      c.fillStyle = '#ffffff'; c.beginPath(); c.arc(0, 0, 5.5, 0, Math.PI * 2); c.fill();
+    } else {
+      // Mini Muhib
+      c.fillStyle = '#fbbf24'; c.strokeStyle = '#0f172a'; c.lineWidth = 1.6;
+      c.beginPath(); c.ellipse(0, 0, 9, 7, 0, 0, Math.PI * 2); c.fill(); c.stroke();
+      c.fillStyle = '#ef4444'; c.beginPath(); c.moveTo(7, -1); c.lineTo(12, 1); c.lineTo(7, 3); c.closePath(); c.fill();
+      c.fillStyle = '#0f172a'; c.beginPath(); c.arc(4, -2, 1.6, 0, Math.PI * 2); c.fill();
+    }
+    c.restore();
   }
 
   function drawItem(it) {
@@ -4772,7 +5345,22 @@
   }
 
   function drawBird() {
+    const pet = getActivePet();
+    if (pet && pet.id !== 'none') {
+      drawCompanionPet(ctx, pet, petPos.x, petPos.y, elapsed);
+    }
     const skin = getActiveSkin();
+    const mastery = getSkinMastery(skin.id);
+    if (mastery.level >= 3) {
+      ctx.save();
+      ctx.strokeStyle = mastery.color;
+      ctx.lineWidth = 2;
+      ctx.globalAlpha = 0.55;
+      ctx.beginPath();
+      ctx.arc(bird.x, bird.y, 26 + Math.sin(elapsed * 6) * 2, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+    }
     drawBirdSprite(ctx, skin, {
       x: bird.x,
       y: bird.y,
@@ -4887,9 +5475,14 @@
   const skinRarityFilters = document.getElementById('skinRarityFilters');
 
   let activeSkinFilter = 'ALL';
+  let activeSkinSearch = '';
+  let activeSkinSort = 'default';
   const previewState = {
     skinId: null,
     trailId: null,
+    pipeId: null,
+    petId: null,
+    fxId: null,
     themeKey: null,
     weatherKey: null,
     upgradeKey: null,
@@ -4915,6 +5508,7 @@
     previewState.birdVy = -145;
     const skin = SKINS.find(s => s.id === (previewState.skinId || profile.selectedSkin)) || SKINS[0];
     const trId = previewState.trailId || profile.selectedTrail;
+    const fx = FX_PACKS.find(f => f.id === (previewState.fxId || profile.selectedFx)) || FX_PACKS[0];
     for (let i = 0; i < 7; i++) {
       previewState.particles.push({
         x: 115,
@@ -4922,14 +5516,51 @@
         vx: -65 - Math.random() * 55,
         vy: (Math.random() - 0.5) * 50,
         r: 2.5 + Math.random() * 2.5,
-        color: getTrailColor(skin, trId),
+        color: previewState.fxId ? fx.colors[i % fx.colors.length] : getTrailColor(skin, trId),
         life: 0.65
       });
     }
   }
 
+  function startTestFlight10s() {
+    AudioEngine.ensureContext();
+    AudioEngine.sfx.powerup();
+    isTestFlight = true;
+    testFlightTimer = 10.0;
+    resetWorldForRun();
+    state = STATE.PLAYING;
+    hideAllModals();
+    scoreDisplay.classList.remove('hidden');
+    pauseBtn.classList.add('hidden');
+    document.getElementById('testFlightHud').classList.remove('hidden');
+    flapBird();
+    spawnPopup(bird.x, bird.y - 30, '10s TEST FLIGHT!', '#38bdf8', 16);
+  }
+
+  function endTestFlightToHangar() {
+    isTestFlight = false;
+    testFlightTimer = 0;
+    document.getElementById('testFlightHud').classList.add('hidden');
+    resetWorldForRun();
+    state = STATE.MENU;
+    hideAllModals();
+    scoreDisplay.classList.add('hidden');
+    pauseBtn.classList.add('hidden');
+    renderHangar();
+    hangarScreen.classList.remove('hidden');
+  }
+
+  document.getElementById('testFlightBtn')?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    startTestFlight10s();
+  });
+  document.getElementById('endTestFlightBtn')?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    endTestFlightToHangar();
+  });
+
   document.getElementById('hangarPreviewStage')?.addEventListener('pointerdown', (e) => {
-    if (e.target === previewActionBtn || previewActionBtn.contains(e.target)) return;
+    if (e.target.closest('.preview-action-btn')) return;
     AudioEngine.ensureContext();
     AudioEngine.sfx.flap();
     triggerPreviewFlap();
@@ -4962,8 +5593,10 @@
 
     const skinUnlocked = profile.unlockedSkins.includes(sk.id);
     const trailUnlocked = profile.unlockedTrails.includes(tr.id);
-    previewTitleBadge.innerHTML = `<span style="color:${RARITY_COLORS[sk.rarity] || '#fde047'}">●</span> <span>${sk.name}</span> <span style="color:#94a3b8;font-weight:600;">(${sk.rarity})</span>`;
-    previewSubMeta.textContent = `${sk.perk || 'Custom Aviator'} • Trail: ${tr.name} • ${thName} (${wtName})`;
+    const mastery = getSkinMastery(sk.id);
+    const tierPerk = RARITY_TIER_PERKS[sk.rarity] || RARITY_TIER_PERKS.Classic;
+    previewTitleBadge.innerHTML = `<span style="color:${RARITY_COLORS[sk.rarity] || '#fde047'}">●</span> <span>${sk.name}</span> <span style="color:${mastery.color};font-weight:800;">[${mastery.rank} ${mastery.pts}pt]</span>`;
+    previewSubMeta.textContent = `${tierPerk.desc} • Trail: ${tr.name} • ${thName}`;
 
     if (!skinUnlocked) {
       previewActionBtn.classList.remove('hidden');
@@ -5048,24 +5681,15 @@
     c.closePath();
     c.fill();
 
-    // Sample Pipes scrolling in preview
+    // Sample Pipes scrolling in preview (uses previewed Pipe Skin!)
     const p1x = w - ((elapsed * 75) % (w + 80));
     const gapH = upgDemo === 'gap' ? 86 : 68;
-    // Draw miniature sample pipe on preview canvas
-    c.fillStyle = theme.pipeMain;
-    c.strokeStyle = theme.pipeOutline;
-    c.lineWidth = 1.6;
     const topH = 24;
     const botY = topH + gapH;
-    c.fillRect(p1x, 0, 32, topH);
-    c.strokeRect(p1x, 0, 32, topH);
-    c.fillRect(p1x - 2, topH - 10, 36, 10);
-    c.strokeRect(p1x - 2, topH - 10, 36, 10);
+    const previewPipeSkin = PIPE_SKINS.find(p => p.id === (previewState.pipeId || profile.selectedPipe)) || PIPE_SKINS[0];
+    drawPipe(p1x, 0, 32, topH, true, theme, c, previewPipeSkin);
     if (playH - botY > 0) {
-      c.fillRect(p1x, botY, 32, playH - botY);
-      c.strokeRect(p1x, botY, 32, playH - botY);
-      c.fillRect(p1x - 2, botY, 36, 10);
-      c.strokeRect(p1x - 2, botY, 36, 10);
+      drawPipe(p1x, botY, 32, playH - botY, false, theme, c, previewPipeSkin);
     }
 
     // Weather drops in preview
@@ -5141,6 +5765,11 @@
       }
     }
 
+    // Draw Companion Pet on Preview Canvas
+    const previewPet = COMPANION_PETS.find(p => p.id === (previewState.petId || profile.selectedPet)) || COMPANION_PETS[0];
+    if (previewPet && previewPet.id !== 'none') {
+      drawCompanionPet(c, previewPet, 88, previewState.birdY - 10 + Math.sin(elapsed * 5) * 6, elapsed);
+    }
     // Draw Bird on Preview Canvas
     drawBirdSprite(c, skin, {
       x: 125,
@@ -5161,6 +5790,20 @@
 
   function buyOrEquipSkin(skin) {
     AudioEngine.ensureContext();
+    if (skin.milestoneOnly && !profile.unlockedSkins.includes(skin.id)) {
+      if (skin.checkMilestone && skin.checkMilestone(profile)) {
+        profile.unlockedSkins.push(skin.id);
+        profile.selectedSkin = skin.id;
+        AudioEngine.sfx.milestone();
+        saveProfile();
+        renderHangar();
+        showToast(UI_ICONS.crown, `Milestone Skin Claimed!`, skin.name);
+        return;
+      }
+      AudioEngine.sfx.hit();
+      showToast(UI_ICONS.lock, `Milestone Locked`, skin.perk);
+      return;
+    }
     const unlocked = profile.unlockedSkins.includes(skin.id);
     if (unlocked) {
       profile.selectedSkin = skin.id;
@@ -5225,6 +5868,103 @@
     }
   }
 
+  function hatchMysteryLuckyEgg() {
+    AudioEngine.ensureContext();
+    const EGG_COST = 150;
+    if (profile.coins < EGG_COST) {
+      AudioEngine.sfx.hit();
+      showToast(UI_ICONS.coin, `Need ${EGG_COST - profile.coins} more coins`, 'Mystery Lucky Egg costs 150 Coins');
+      return;
+    }
+    profile.coins -= EGG_COST;
+    AudioEngine.sfx.fever();
+    triggerShake(6, 0.2);
+
+    const lockedSkins = SKINS.filter(s => !s.milestoneOnly && !profile.unlockedSkins.includes(s.id));
+    const lockedTrails = TRAILS.filter(t => !profile.unlockedTrails.includes(t.id));
+    const lockedPets = COMPANION_PETS.filter(p => !profile.unlockedPets.includes(p.id));
+    const lockedPipes = PIPE_SKINS.filter(p => !profile.unlockedPipes.includes(p.id));
+    const roll = Math.random();
+
+    if (roll < 0.42 && lockedSkins.length > 0) {
+      const won = lockedSkins[Math.floor(Math.random() * lockedSkins.length)];
+      profile.unlockedSkins.push(won.id);
+      profile.selectedSkin = won.id;
+      previewState.skinId = won.id;
+      showToast(UI_ICONS.crown, `LUCKY EGG: ${won.name}!`, `Unlocked ${won.rarity} Skin (${won.cost} value)!`);
+    } else if (roll < 0.65 && (lockedPets.length > 0 || lockedPipes.length > 0)) {
+      if (lockedPets.length > 0 && Math.random() < 0.5) {
+        const won = lockedPets[Math.floor(Math.random() * lockedPets.length)];
+        profile.unlockedPets.push(won.id);
+        profile.selectedPet = won.id;
+        showToast(UI_ICONS.star, `LUCKY EGG PET: ${won.name}!`, won.perk);
+      } else if (lockedPipes.length > 0) {
+        const won = lockedPipes[Math.floor(Math.random() * lockedPipes.length)];
+        profile.unlockedPipes.push(won.id);
+        profile.selectedPipe = won.id;
+        showToast(UI_ICONS.sparkle, `LUCKY EGG PIPE: ${won.name}!`, 'Custom Obstacle Theme Equipped');
+      }
+    } else if (roll < 0.82 && lockedTrails.length > 0) {
+      const won = lockedTrails[Math.floor(Math.random() * lockedTrails.length)];
+      profile.unlockedTrails.push(won.id);
+      profile.selectedTrail = won.id;
+      showToast(UI_ICONS.sparkle, `LUCKY EGG TRAIL: ${won.name}!`, 'Equipped automatically');
+    } else {
+      // Duplicate protection / Jackpot pack
+      const jackpotCoins = 110 + Math.floor(Math.random() * 140);
+      profile.coins += jackpotCoins;
+      profile.totalCoinsEarned += jackpotCoins;
+      profile.reviveHearts += 2;
+      profile.boosters.rocket = (profile.boosters.rocket || 0) + 1;
+      showToast(UI_ICONS.gift, `EGG JACKPOT! +${jackpotCoins} Coins`, '+2 Revive Hearts & +1 Headstart Rocket!');
+    }
+    saveProfile();
+    updateHudStats();
+    renderHangar();
+    renderStartBoosters();
+  }
+
+  function renderStartBoosters() {
+    const bar = document.getElementById('startBoosterBar');
+    const countEl = document.getElementById('armedBoosterCountEl');
+    if (!bar) return;
+    let armedCount = 0;
+    bar.innerHTML = '';
+    BOOSTERS_CATALOG.forEach(b => {
+      const qty = (profile.boosters && profile.boosters[b.key]) || 0;
+      const armed = !!(profile.armedBoosters && profile.armedBoosters[b.key] && qty > 0);
+      if (armed) armedCount++;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = `booster-chip${armed ? ' armed' : ''}`;
+      btn.innerHTML = `
+        <span style="color:${b.color};">${b.short}</span>
+        <span class="booster-qty">${qty > 0 ? (armed ? `ARMED (${qty})` : `Own: ${qty}`) : `${b.cost}c`}</span>
+      `;
+      btn.addEventListener('click', () => {
+        AudioEngine.ensureContext();
+        if (qty > 0) {
+          profile.armedBoosters[b.key] = !profile.armedBoosters[b.key];
+          AudioEngine.sfx.click();
+        } else if (profile.coins >= b.cost) {
+          profile.coins -= b.cost;
+          profile.boosters[b.key] = 1;
+          profile.armedBoosters[b.key] = true;
+          AudioEngine.sfx.powerup();
+          showToast(UI_ICONS.bolt, `${b.name} Armed!`, b.desc);
+        } else {
+          AudioEngine.sfx.hit();
+          showToast(UI_ICONS.coin, `Need ${b.cost - profile.coins} more coins`, b.desc);
+        }
+        saveProfile();
+        updateHudStats();
+        renderStartBoosters();
+      });
+      bar.appendChild(btn);
+    });
+    if (countEl) countEl.textContent = `${armedCount} Armed`;
+  }
+
   function renderHangar() {
     hangarCoinsEl.textContent = String(profile.coins);
     if (skinCountTabEl) skinCountTabEl.textContent = String(SKINS.length);
@@ -5236,15 +5976,118 @@
     if (activeThemeLabelEl) activeThemeLabelEl.textContent = THEMES[profile.selectedTheme]?.name || 'Auto';
     if (activeWeatherLabelEl) activeWeatherLabelEl.textContent = WEATHERS[profile.selectedWeather] || 'Auto';
 
+    // Daily Combo Deal & Mystery Lucky Egg Banner
+    const dealBanner = document.getElementById('dailyDealBanner');
+    if (dealBanner) {
+      const todayKey = getTodayKey();
+      const seed = todayKey.split('').reduce((a, ch) => a + ch.charCodeAt(0), 0);
+      const dealSkins = SKINS.filter(s => !s.milestoneOnly && s.cost >= 120 && s.cost <= 900);
+      const dSkin = dealSkins[seed % dealSkins.length] || SKINS[4];
+      const dTrail = TRAILS[(seed * 3) % TRAILS.length] || TRAILS[2];
+      const basePrice = dSkin.cost + dTrail.cost + 70;
+      const dealPrice = Math.round(basePrice * 0.65);
+      const boughtToday = profile.dailyDealBoughtDate === todayKey;
+      dealBanner.innerHTML = `
+        <div style="flex:1;min-width:0;">
+          <div style="font-weight:900;color:#fde047;font-size:0.74rem;">DAILY BUNDLE (-35% OFF): ${dSkin.name} + ${dTrail.name} Trail + 2 Hearts</div>
+          <div style="color:#cbd5e1;font-size:0.66rem;">Value ${basePrice}c • Or hatch a Mystery Lucky Egg for random rare loot!</div>
+        </div>
+        <div style="display:flex;gap:5px;flex-shrink:0;">
+          <button type="button" class="upg-buy-btn${boughtToday ? ' maxed' : ''}" id="buyDailyDealBtn">${boughtToday ? 'Claimed' : `Deal ${dealPrice}c`}</button>
+          <button type="button" class="upg-buy-btn" id="hatchEggTopBtn" style="background:rgba(168,85,247,0.25);border-color:#c084fc;color:#f3e8ff;">Lucky Egg 150c</button>
+        </div>
+      `;
+      document.getElementById('buyDailyDealBtn')?.addEventListener('click', () => {
+        if (boughtToday) return;
+        AudioEngine.ensureContext();
+        if (profile.coins < dealPrice) {
+          AudioEngine.sfx.hit();
+          showToast(UI_ICONS.coin, `Need ${dealPrice - profile.coins} more coins`);
+          return;
+        }
+        profile.coins -= dealPrice;
+        profile.dailyDealBoughtDate = todayKey;
+        if (!profile.unlockedSkins.includes(dSkin.id)) profile.unlockedSkins.push(dSkin.id);
+        if (!profile.unlockedTrails.includes(dTrail.id)) profile.unlockedTrails.push(dTrail.id);
+        profile.selectedSkin = dSkin.id;
+        profile.selectedTrail = dTrail.id;
+        profile.reviveHearts += 2;
+        AudioEngine.sfx.fever();
+        saveProfile();
+        updateHudStats();
+        renderHangar();
+        showToast(UI_ICONS.gift, 'Daily Bundle Unlocked!', `${dSkin.name} + ${dTrail.name} + 2 Hearts!`);
+      });
+      document.getElementById('hatchEggTopBtn')?.addEventListener('click', hatchMysteryLuckyEgg);
+    }
+
+    // Loadout Presets (3 Save Slots)
+    const presetsBar = document.getElementById('loadoutPresetsBar');
+    if (presetsBar) {
+      presetsBar.innerHTML = '';
+      for (let i = 0; i < 3; i++) {
+        const slot = profile.loadoutPresets ? profile.loadoutPresets[i] : null;
+        const skName = slot ? (SKINS.find(s => s.id === slot.skin)?.name || 'Custom') : 'Empty';
+        const btn = document.createElement('div');
+        btn.className = `preset-slot-btn${slot ? ' saved' : ''}`;
+        btn.innerHTML = `
+          <span class="preset-load-area" style="flex:1;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">Slot ${i + 1}: ${skName}</span>
+          <span class="preset-save-mini" title="Save current setup to Slot ${i + 1}">SAVE</span>
+        `;
+        btn.querySelector('.preset-save-mini').addEventListener('click', (e) => {
+          e.stopPropagation();
+          AudioEngine.sfx.powerup();
+          if (!profile.loadoutPresets) profile.loadoutPresets = [null, null, null];
+          profile.loadoutPresets[i] = {
+            skin: profile.selectedSkin,
+            trail: profile.selectedTrail,
+            pipe: profile.selectedPipe,
+            pet: profile.selectedPet,
+            fx: profile.selectedFx,
+            sfx: profile.selectedSoundPack,
+            theme: profile.selectedTheme,
+            weather: profile.selectedWeather
+          };
+          saveProfile();
+          renderHangar();
+          showToast(UI_ICONS.check, `Loadout Slot ${i + 1} Saved!`, 'One-tap equip anytime');
+        });
+        btn.addEventListener('click', () => {
+          if (!slot) {
+            // Save if empty
+            btn.querySelector('.preset-save-mini').click();
+            return;
+          }
+          AudioEngine.sfx.click();
+          if (slot.skin && profile.unlockedSkins.includes(slot.skin)) profile.selectedSkin = slot.skin;
+          if (slot.trail && profile.unlockedTrails.includes(slot.trail)) profile.selectedTrail = slot.trail;
+          if (slot.pipe && profile.unlockedPipes.includes(slot.pipe)) profile.selectedPipe = slot.pipe;
+          if (slot.pet && profile.unlockedPets.includes(slot.pet)) profile.selectedPet = slot.pet;
+          if (slot.fx && profile.unlockedFx.includes(slot.fx)) profile.selectedFx = slot.fx;
+          if (slot.sfx && profile.unlockedSoundPacks.includes(slot.sfx)) profile.selectedSoundPack = slot.sfx;
+          if (slot.theme && profile.unlockedThemes.includes(slot.theme)) profile.selectedTheme = slot.theme;
+          if (slot.weather && profile.unlockedWeathers.includes(slot.weather)) profile.selectedWeather = slot.weather;
+          previewState.skinId = profile.selectedSkin;
+          previewState.trailId = profile.selectedTrail;
+          previewState.pipeId = profile.selectedPipe;
+          previewState.petId = profile.selectedPet;
+          saveProfile();
+          renderHangar();
+          showToast(UI_ICONS.bolt, `Equipped Slot ${i + 1}!`, `${skName} Loadout Active`);
+        });
+        presetsBar.appendChild(btn);
+      }
+    }
+
     // Rarity Filter Bar
-    const rarities = ['ALL', 'OWNED', 'Classic', 'Rare', 'Epic', 'Legendary', 'Mythic', 'Celestial', 'Supreme'];
+    const rarities = ['ALL', 'OWNED', 'MILESTONE', 'Classic', 'Rare', 'Epic', 'Legendary', 'Mythic', 'Celestial', 'Supreme'];
     if (skinRarityFilters) {
       skinRarityFilters.innerHTML = '';
       rarities.forEach(r => {
         const b = document.createElement('button');
         b.type = 'button';
         b.className = `filter-pill${activeSkinFilter === r ? ' active' : ''}`;
-        b.textContent = r === 'ALL' ? `All (${SKINS.length})` : r === 'OWNED' ? `Owned (${profile.unlockedSkins.length})` : r;
+        b.textContent = r === 'ALL' ? `All (${SKINS.length})` : r === 'OWNED' ? `Owned (${profile.unlockedSkins.length})` : r === 'MILESTONE' ? 'Milestone' : r;
         b.addEventListener('click', () => {
           AudioEngine.sfx.click();
           activeSkinFilter = r;
@@ -5254,29 +6097,41 @@
       });
     }
 
-    // 1. Skins
+    // 1. Skins with Search, Sort & Mastery Badges
     skinsGrid.innerHTML = '';
-    const filteredSkins = SKINS.filter(s => {
+    const q = activeSkinSearch.trim().toLowerCase();
+    let filteredSkins = SKINS.filter(s => {
+      if (q && !s.name.toLowerCase().includes(q) && !(s.perk || '').toLowerCase().includes(q) && !s.rarity.toLowerCase().includes(q)) return false;
       if (activeSkinFilter === 'ALL') return true;
       if (activeSkinFilter === 'OWNED') return profile.unlockedSkins.includes(s.id);
+      if (activeSkinFilter === 'MILESTONE') return !!s.milestoneOnly;
       return s.rarity === activeSkinFilter;
     });
+
+    if (activeSkinSort === 'price_asc') filteredSkins.sort((a, b) => a.cost - b.cost);
+    else if (activeSkinSort === 'price_desc') filteredSkins.sort((a, b) => b.cost - a.cost);
+    else if (activeSkinSort === 'affordable') filteredSkins = filteredSkins.filter(s => !profile.unlockedSkins.includes(s.id) && !s.milestoneOnly && s.cost <= profile.coins);
+    else if (activeSkinSort === 'locked') filteredSkins = filteredSkins.filter(s => !profile.unlockedSkins.includes(s.id));
+    else if (activeSkinSort === 'mastery') filteredSkins.sort((a, b) => ((profile.skinMastery?.[b.id] || 0) - (profile.skinMastery?.[a.id] || 0)));
 
     filteredSkins.forEach(skin => {
       const unlocked = profile.unlockedSkins.includes(skin.id);
       const equipped = profile.selectedSkin === skin.id;
       const isPreviewing = (previewState.skinId || profile.selectedSkin) === skin.id;
+      const mastery = getSkinMastery(skin.id);
       const card = document.createElement('button');
       card.type = 'button';
       card.className = `skin-card${equipped ? ' equipped' : ''}${isPreviewing ? ' previewing' : ''}`;
+      const statusLabel = equipped ? 'Equipped' : unlocked ? 'Equip' : skin.milestoneOnly ? (skin.milestoneLabel || 'Milestone') : `${UI_ICONS.coin} ${skin.cost}`;
       card.innerHTML = `
-        <div class="skin-swatch" style="background: radial-gradient(circle, rgba(255,255,255,0.12), rgba(15,23,42,0.65)); border: 1.5px solid ${RARITY_COLORS[skin.rarity] || skin.wing};">
+        ${mastery.pts > 0 ? `<span class="mastery-tag" style="color:${mastery.color};border-color:${mastery.color};">${mastery.rank} • ${mastery.pts}</span>` : ''}
+        <div class="skin-swatch" style="background: radial-gradient(circle, rgba(255,255,255,0.12), rgba(15,23,42,0.65)); border: 1.5px solid ${mastery.level >= 2 ? mastery.color : (RARITY_COLORS[skin.rarity] || skin.wing)};">
           ${renderSkinSvg(skin)}
         </div>
         <div class="skin-name">${skin.name}</div>
         <span class="skin-rarity" style="color:${RARITY_COLORS[skin.rarity] || '#94a3b8'};">${skin.rarity || 'Rare'}</span>
         <div class="skin-perk">${skin.perk || 'Custom Aviator'}</div>
-        <div class="skin-status">${equipped ? 'Equipped' : unlocked ? 'Equip' : `${UI_ICONS.coin} ${skin.cost}`}</div>
+        <div class="skin-status">${statusLabel}</div>
       `;
       card.addEventListener('pointerenter', () => {
         previewState.skinId = skin.id;
@@ -5288,12 +6143,12 @@
         previewState.skinId = skin.id;
         previewState.upgradeKey = null;
         triggerPreviewFlap();
-        if (unlocked || wasPreviewing || profile.coins >= skin.cost) {
+        if (unlocked || wasPreviewing || skin.milestoneOnly || profile.coins >= skin.cost) {
           buyOrEquipSkin(skin);
         } else {
           AudioEngine.sfx.click();
           renderHangar();
-          showToast(UI_ICONS.bird, `Previewing ${skin.name}`, `Tap Unlock on preview bar (${skin.cost} coins)`);
+          showToast(UI_ICONS.bird, `Previewing ${skin.name}`, `Tap 'Test Fly 10s' or Unlock (${skin.cost} coins)`);
         }
       });
       skinsGrid.appendChild(card);
@@ -5325,12 +6180,226 @@
       trailsRow.appendChild(btn);
     });
 
-    // 3. Upgrades + Revive Heart
+    // 2B. Gear & Pets Tab (Boosters, Companion Pets, Pipe Skins, FX Packs, Sound Packs)
+    const hangarBoostersRow = document.getElementById('hangarBoostersRow');
+    if (hangarBoostersRow) {
+      hangarBoostersRow.innerHTML = '';
+      BOOSTERS_CATALOG.forEach(b => {
+        const qty = (profile.boosters && profile.boosters[b.key]) || 0;
+        const armed = !!(profile.armedBoosters && profile.armedBoosters[b.key] && qty > 0);
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `theme-chip${armed ? ' active' : ''}`;
+        btn.innerHTML = `
+          <div class="theme-swatch-bar" style="background:${b.color};"></div>
+          <span>${b.name}</span>
+          <span style="font-size:0.62rem;color:#fde68a;">${qty > 0 ? `${armed ? 'ARMED' : 'Tap to Arm'} (Own ${qty}) • +1 (${b.cost}c)` : `Buy ${b.cost}c`}</span>
+        `;
+        btn.addEventListener('click', () => {
+          AudioEngine.ensureContext();
+          if (profile.coins >= b.cost) {
+            profile.coins -= b.cost;
+            profile.boosters[b.key] = (profile.boosters[b.key] || 0) + 1;
+            profile.armedBoosters[b.key] = true;
+            AudioEngine.sfx.powerup();
+            saveProfile();
+            updateHudStats();
+            renderHangar();
+            renderStartBoosters();
+            showToast(UI_ICONS.bolt, `+1 ${b.name} Armed!`, b.desc);
+          } else if (qty > 0) {
+            profile.armedBoosters[b.key] = !profile.armedBoosters[b.key];
+            AudioEngine.sfx.click();
+            saveProfile();
+            renderHangar();
+            renderStartBoosters();
+          } else {
+            AudioEngine.sfx.hit();
+            showToast(UI_ICONS.coin, `Need ${b.cost - profile.coins} more coins`, b.desc);
+          }
+        });
+        hangarBoostersRow.appendChild(btn);
+      });
+    }
+
+    const petsRow = document.getElementById('petsRow');
+    const activePetLabelEl = document.getElementById('activePetLabelEl');
+    if (activePetLabelEl) activePetLabelEl.textContent = COMPANION_PETS.find(p => p.id === profile.selectedPet)?.name || 'None';
+    if (petsRow) {
+      petsRow.innerHTML = '';
+      COMPANION_PETS.forEach(pet => {
+        const unlocked = profile.unlockedPets.includes(pet.id);
+        const active = profile.selectedPet === pet.id;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `theme-chip${active ? ' active' : ''}`;
+        btn.innerHTML = `
+          <div class="theme-swatch-bar" style="background:${pet.color};"></div>
+          <span>${unlocked ? pet.name : `${pet.name} (${pet.cost}c)`}</span>
+          <span style="font-size:0.58rem;color:#94a3b8;">${pet.perk}</span>
+        `;
+        btn.addEventListener('pointerenter', () => { previewState.petId = pet.id; });
+        btn.addEventListener('click', () => {
+          AudioEngine.ensureContext();
+          previewState.petId = pet.id;
+          if (unlocked) {
+            profile.selectedPet = pet.id;
+            AudioEngine.sfx.click();
+            saveProfile();
+            renderHangar();
+          } else if (profile.coins >= pet.cost) {
+            profile.coins -= pet.cost;
+            profile.unlockedPets.push(pet.id);
+            profile.selectedPet = pet.id;
+            AudioEngine.sfx.milestone();
+            saveProfile();
+            updateHudStats();
+            renderHangar();
+            showToast(UI_ICONS.star, `Companion Unlocked: ${pet.name}!`, pet.perk);
+          } else {
+            AudioEngine.sfx.hit();
+            showToast(UI_ICONS.coin, `Need ${pet.cost - profile.coins} more coins`, 'Previewing pet in Live Studio!');
+          }
+        });
+        petsRow.appendChild(btn);
+      });
+    }
+
+    const pipesRow = document.getElementById('pipesRow');
+    const activePipeLabelEl = document.getElementById('activePipeLabelEl');
+    if (activePipeLabelEl) activePipeLabelEl.textContent = PIPE_SKINS.find(p => p.id === profile.selectedPipe)?.name || 'Default';
+    if (pipesRow) {
+      pipesRow.innerHTML = '';
+      PIPE_SKINS.forEach(ps => {
+        const unlocked = profile.unlockedPipes.includes(ps.id);
+        const active = profile.selectedPipe === ps.id;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `theme-chip${active ? ' active' : ''}`;
+        btn.innerHTML = `
+          <div class="theme-swatch-bar" style="background:${ps.color};"></div>
+          <span>${unlocked ? ps.name : `${ps.name} (${ps.cost}c)`}</span>
+        `;
+        btn.addEventListener('pointerenter', () => { previewState.pipeId = ps.id; });
+        btn.addEventListener('click', () => {
+          AudioEngine.ensureContext();
+          previewState.pipeId = ps.id;
+          if (unlocked) {
+            profile.selectedPipe = ps.id;
+            AudioEngine.sfx.click();
+            saveProfile();
+            renderHangar();
+          } else if (profile.coins >= ps.cost) {
+            profile.coins -= ps.cost;
+            profile.unlockedPipes.push(ps.id);
+            profile.selectedPipe = ps.id;
+            AudioEngine.sfx.milestone();
+            saveProfile();
+            updateHudStats();
+            renderHangar();
+            showToast(UI_ICONS.sparkle, `Pipe Skin Unlocked: ${ps.name}!`);
+          } else {
+            AudioEngine.sfx.hit();
+            showToast(UI_ICONS.coin, `Need ${ps.cost - profile.coins} more coins`, 'Previewing pipes in Live Studio!');
+          }
+        });
+        pipesRow.appendChild(btn);
+      });
+    }
+
+    const fxRow = document.getElementById('fxRow');
+    const activeFxLabelEl = document.getElementById('activeFxLabelEl');
+    if (activeFxLabelEl) activeFxLabelEl.textContent = FX_PACKS.find(f => f.id === profile.selectedFx)?.name || 'Classic';
+    if (fxRow) {
+      fxRow.innerHTML = '';
+      FX_PACKS.forEach(fx => {
+        const unlocked = profile.unlockedFx.includes(fx.id);
+        const active = profile.selectedFx === fx.id;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `theme-chip${active ? ' active' : ''}`;
+        btn.innerHTML = `
+          <div class="theme-swatch-bar" style="background:${fx.color};"></div>
+          <span>${unlocked ? fx.name : `${fx.name} (${fx.cost}c)`}</span>
+        `;
+        btn.addEventListener('click', () => {
+          AudioEngine.ensureContext();
+          previewState.fxId = fx.id;
+          triggerPreviewFlap();
+          if (unlocked) {
+            profile.selectedFx = fx.id;
+            AudioEngine.sfx.click();
+            saveProfile();
+            renderHangar();
+          } else if (profile.coins >= fx.cost) {
+            profile.coins -= fx.cost;
+            profile.unlockedFx.push(fx.id);
+            profile.selectedFx = fx.id;
+            AudioEngine.sfx.milestone();
+            saveProfile();
+            updateHudStats();
+            renderHangar();
+            showToast(UI_ICONS.sparkle, `FX Pack Unlocked: ${fx.name}!`);
+          } else {
+            AudioEngine.sfx.hit();
+            showToast(UI_ICONS.coin, `Need ${fx.cost - profile.coins} more coins`);
+          }
+        });
+        fxRow.appendChild(btn);
+      });
+    }
+
+    const sfxPacksRow = document.getElementById('sfxPacksRow');
+    const activeSfxPackLabelEl = document.getElementById('activeSfxPackLabelEl');
+    if (activeSfxPackLabelEl) activeSfxPackLabelEl.textContent = SOUND_PACKS.find(s => s.id === profile.selectedSoundPack)?.name || 'Modern Arcade';
+    if (sfxPacksRow) {
+      sfxPacksRow.innerHTML = '';
+      SOUND_PACKS.forEach(sp => {
+        const unlocked = profile.unlockedSoundPacks.includes(sp.id);
+        const active = profile.selectedSoundPack === sp.id;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `theme-chip${active ? ' active' : ''}`;
+        btn.innerHTML = `
+          <div class="theme-swatch-bar" style="background:${sp.color};"></div>
+          <span>${unlocked ? sp.name : `${sp.name} (${sp.cost}c)`}</span>
+          <span style="font-size:0.58rem;color:#94a3b8;">${sp.desc}</span>
+        `;
+        btn.addEventListener('click', () => {
+          AudioEngine.ensureContext();
+          if (unlocked) {
+            profile.selectedSoundPack = sp.id;
+            AudioEngine.sfx.score();
+            saveProfile();
+            renderHangar();
+          } else if (profile.coins >= sp.cost) {
+            profile.coins -= sp.cost;
+            profile.unlockedSoundPacks.push(sp.id);
+            profile.selectedSoundPack = sp.id;
+            AudioEngine.sfx.milestone();
+            saveProfile();
+            updateHudStats();
+            renderHangar();
+            showToast(UI_ICONS.vol, `Sound Pack Unlocked: ${sp.name}!`, sp.desc);
+          } else {
+            AudioEngine.sfx.hit();
+            showToast(UI_ICONS.coin, `Need ${sp.cost - profile.coins} more coins`);
+          }
+        });
+        sfxPacksRow.appendChild(btn);
+      });
+    }
+
+    // 3. Upgrades + Buy MAX Button + Revive Heart
     upgradesList.innerHTML = '';
     UPGRADES.forEach(u => {
       const lvl = profile.upgrades[u.key] || 0;
       const isMax = lvl >= u.max;
       const cost = u.baseCost * (lvl + 1);
+      let maxTotalCost = 0;
+      for (let lv = lvl; lv < u.max; lv++) maxTotalCost += u.baseCost * (lv + 1);
+      const canBuyMax = !isMax && (u.max - lvl > 1) && profile.coins >= maxTotalCost;
+
       const pips = Array.from({ length: u.max }, (_, idx) => `<div class="upg-pip${idx < lvl ? ' filled' : ''}"></div>`).join('');
       const row = document.createElement('div');
       row.className = `upg-item${previewState.upgradeKey === u.key ? ' previewing' : ''}`;
@@ -5342,7 +6411,10 @@
           <div class="upg-desc">${u.desc}</div>
           <div class="upg-pips">${pips}</div>
         </div>
-        <button type="button" class="upg-buy-btn${isMax ? ' maxed' : ''}">${isMax ? 'MAXED' : `${UI_ICONS.coin} ${cost}`}</button>
+        <div class="upg-btn-group">
+          <button type="button" class="upg-buy-btn${isMax ? ' maxed' : ''}">${isMax ? 'MAXED' : `${UI_ICONS.coin} ${cost}`}</button>
+          ${canBuyMax ? `<button type="button" class="upg-max-btn">BUY MAX (${maxTotalCost})</button>` : ''}
+        </div>
       `;
       row.addEventListener('pointerenter', () => {
         previewState.upgradeKey = u.key;
@@ -5352,6 +6424,17 @@
         previewState.upgradeKey = u.key;
         triggerPreviewFlap();
         updatePreviewBanner();
+        if (e.target.closest('.upg-max-btn') && canBuyMax) {
+          e.stopPropagation();
+          profile.coins -= maxTotalCost;
+          profile.upgrades[u.key] = u.max;
+          AudioEngine.sfx.fever();
+          saveProfile();
+          updateHudStats();
+          renderHangar();
+          showToast(u.icon, `${u.title} MAXED OUT!`, `Upgraded straight to Lv.${u.max}`);
+          return;
+        }
         if (e.target.closest('.upg-buy-btn') && !isMax) {
           buyOrEquipUpgrade(u);
         } else {
@@ -5390,9 +6473,11 @@
     });
     upgradesList.appendChild(heartRow);
 
-    // 4. Sky Themes (22 Worlds with live gradient preview bars)
+    // 4. Sky Themes (22 Worlds with unlock progression for exotic dimensions)
     themesRow.innerHTML = '';
     Object.entries(THEMES).forEach(([key, t]) => {
+      const cost = WORLD_COSTS[key] || 0;
+      const unlocked = cost === 0 || profile.unlockedThemes.includes(key);
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = `theme-chip${profile.selectedTheme === key ? ' active' : ''}`;
@@ -5401,7 +6486,7 @@
         : `linear-gradient(90deg, ${t.skyTop}, ${t.skyMid}, ${t.groundTop})`;
       btn.innerHTML = `
         <div class="theme-swatch-bar" style="background:${grad};"></div>
-        <span>${t.name}</span>
+        <span>${unlocked ? t.name : `${t.name} (${cost}c)`}</span>
       `;
       btn.addEventListener('pointerenter', () => {
         previewState.themeKey = key;
@@ -5410,23 +6495,39 @@
       });
       btn.addEventListener('click', () => {
         AudioEngine.ensureContext();
-        AudioEngine.sfx.click();
-        profile.selectedTheme = key;
         previewState.themeKey = key;
         previewState.upgradeKey = null;
-        saveProfile();
-        renderHangar();
+        if (unlocked) {
+          AudioEngine.sfx.click();
+          profile.selectedTheme = key;
+          saveProfile();
+          renderHangar();
+        } else if (profile.coins >= cost) {
+          profile.coins -= cost;
+          profile.unlockedThemes.push(key);
+          profile.selectedTheme = key;
+          AudioEngine.sfx.milestone();
+          saveProfile();
+          updateHudStats();
+          renderHangar();
+          showToast(UI_ICONS.star, `World Unlocked: ${t.name}!`);
+        } else {
+          AudioEngine.sfx.hit();
+          showToast(UI_ICONS.coin, `Need ${cost - profile.coins} more coins`, 'Previewing world in Live Studio!');
+        }
       });
       themesRow.appendChild(btn);
     });
 
-    // 5. Weather (18 Dynamic Atmospheric Effects)
+    // 5. Weather (18 Atmospheric Effects with unlock progression)
     weatherRow.innerHTML = '';
     Object.entries(WEATHERS).forEach(([key, label]) => {
+      const cost = WEATHER_COSTS[key] || 0;
+      const unlocked = cost === 0 || profile.unlockedWeathers.includes(key);
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = `theme-chip${profile.selectedWeather === key ? ' active' : ''}`;
-      btn.textContent = label;
+      btn.textContent = unlocked ? label : `${label} (${cost}c)`;
       btn.addEventListener('pointerenter', () => {
         previewState.weatherKey = key;
         previewState.upgradeKey = null;
@@ -5434,12 +6535,26 @@
       });
       btn.addEventListener('click', () => {
         AudioEngine.ensureContext();
-        AudioEngine.sfx.click();
-        profile.selectedWeather = key;
         previewState.weatherKey = key;
         previewState.upgradeKey = null;
-        saveProfile();
-        renderHangar();
+        if (unlocked) {
+          AudioEngine.sfx.click();
+          profile.selectedWeather = key;
+          saveProfile();
+          renderHangar();
+        } else if (profile.coins >= cost) {
+          profile.coins -= cost;
+          profile.unlockedWeathers.push(key);
+          profile.selectedWeather = key;
+          AudioEngine.sfx.milestone();
+          saveProfile();
+          updateHudStats();
+          renderHangar();
+          showToast(UI_ICONS.sparkle, `Weather Unlocked: ${label}!`);
+        } else {
+          AudioEngine.sfx.hit();
+          showToast(UI_ICONS.coin, `Need ${cost - profile.coins} more coins`, 'Previewing weather in Live Studio!');
+        }
       });
       weatherRow.appendChild(btn);
     });
@@ -5669,9 +6784,18 @@
   // Hangar tabs
   const htabPanels = {
     skins: document.getElementById('htabSkins'),
+    gear: document.getElementById('htabGear'),
     upgrades: document.getElementById('htabUpgrades'),
     world: document.getElementById('htabWorld')
   };
+  document.getElementById('skinSearchInput')?.addEventListener('input', (e) => {
+    activeSkinSearch = e.target.value;
+    renderHangar();
+  });
+  document.getElementById('skinSortSelect')?.addEventListener('change', (e) => {
+    activeSkinSort = e.target.value;
+    renderHangar();
+  });
   document.querySelectorAll('#hangarTabs .seg-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       AudioEngine.sfx.click();
@@ -5748,6 +6872,16 @@
     profile.reviveHearts = 999;
     profile.unlockedSkins = SKINS.map(s => s.id);
     profile.unlockedTrails = TRAILS.map(t => t.id);
+    profile.unlockedPipes = PIPE_SKINS.map(p => p.id);
+    profile.unlockedPets = COMPANION_PETS.map(p => p.id);
+    profile.unlockedFx = FX_PACKS.map(f => f.id);
+    profile.unlockedSoundPacks = SOUND_PACKS.map(s => s.id);
+    profile.unlockedThemes = Object.keys(THEMES);
+    profile.unlockedWeathers = Object.keys(WEATHERS);
+    profile.boosters = { rocket: 99, charm: 99, chrono: 99, safetynet: 99 };
+    profile.skinMastery = {};
+    SKINS.forEach(s => { profile.skinMastery[s.id] = 500; });
+    renderStartBoosters();
     UPGRADES.forEach(u => {
       profile.upgrades[u.key] = u.max;
     });
@@ -5998,6 +7132,7 @@
     syncSettingsUI();
     updateHudStats();
     updateMissionsDot();
+    renderStartBoosters();
     resizeCanvas();
     if (rafId) cancelAnimationFrame(rafId);
     lastTime = 0;
