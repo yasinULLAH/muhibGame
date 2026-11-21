@@ -77,13 +77,13 @@
   /* ---------- Top HUD Bar ---------- */
   #hudTop {
     position: absolute;
-    top: calc(12px + var(--safe-top));
-    left: calc(12px + var(--safe-left));
-    right: calc(12px + var(--safe-right));
+    top: calc(10px + var(--safe-top));
+    left: calc(10px + var(--safe-left));
+    right: calc(10px + var(--safe-right));
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
-    gap: 8px;
+    gap: 6px;
     pointer-events: none;
     z-index: 40;
   }
@@ -91,11 +91,12 @@
   .hud-left, .hud-right {
     display: flex;
     align-items: center;
-    gap: 7px;
-    flex-wrap: wrap;
+    gap: 6px;
+    flex-wrap: nowrap;
+    min-width: 0;
   }
   .hud-left { pointer-events: none; }
-  .hud-right { pointer-events: auto; }
+  .hud-right { pointer-events: auto; flex: 0 0 auto; }
 
   .pill {
     display: inline-flex;
@@ -1370,6 +1371,91 @@
       background: rgba(15, 23, 42, 0.96);
     }
   }
+
+  /* ---------- Compact HUD for phones (portrait) ---------- */
+  @media (max-width: 480px) {
+    #hudTop {
+      top: calc(7px + var(--safe-top));
+      left: calc(7px + var(--safe-left));
+      right: calc(7px + var(--safe-right));
+      gap: 5px;
+    }
+    .hud-left, .hud-right { gap: 4px; }
+    .hud-left {
+      background: rgba(15, 23, 42, 0.92);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 2px;
+      gap: 0;
+      overflow: hidden;
+    }
+    .hud-left .pill {
+      padding: 4px 8px;
+      font-size: 0.73rem;
+      gap: 3px;
+      border-radius: 0;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+    }
+    .hud-left .pill + .pill { border-left: 1px solid rgba(255, 255, 255, 0.14); }
+    .hud-left .pill .svg-ico { width: 12px; height: 12px; }
+    .icon-btn {
+      width: 33px;
+      height: 33px;
+      border-radius: 10px;
+    }
+    .icon-btn .svg-ico { width: 16px; height: 16px; }
+    #scoreDisplay { top: calc(48px + var(--safe-top)); }
+    #powerupHud, #blitzHud { top: calc(52px + var(--safe-top)); }
+    #powerupHud { left: calc(7px + var(--safe-left)); }
+    #blitzHud { right: calc(7px + var(--safe-right)); }
+    .pu-bar { min-width: 104px; font-size: 0.68rem; padding: 3px 8px 3px 6px; }
+    #hudTop:has(#hudFps:not(.hidden)) #hudBest { display: none; }
+    body:has(#scoreDisplay:not(.hidden)) #hudBest { display: none; }
+  }
+
+  @media (max-width: 360px) {
+    .hud-left .pill { padding: 3px 6px; font-size: 0.69rem; }
+    .hud-left .pill .svg-ico { width: 11px; height: 11px; }
+    .icon-btn { width: 30px; height: 30px; border-radius: 9px; }
+    .icon-btn .svg-ico { width: 15px; height: 15px; }
+  }
+
+  /* ---------- Compact HUD for phones (landscape) ---------- */
+  @media (max-height: 430px) and (orientation: landscape) {
+    #hudTop { top: calc(6px + var(--safe-top)); }
+    .hud-left {
+      background: rgba(15, 23, 42, 0.92);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 2px;
+      gap: 0;
+    }
+    .hud-left .pill {
+      border-radius: 0;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      padding: 3px 8px;
+      font-size: 0.72rem;
+    }
+    .hud-left .pill + .pill { border-left: 1px solid rgba(255, 255, 255, 0.14); }
+    .hud-left .pill .svg-ico { width: 12px; height: 12px; }
+    .icon-btn { width: 32px; height: 32px; border-radius: 10px; }
+    .icon-btn .svg-ico { width: 16px; height: 16px; }
+    #scoreDisplay { top: calc(40px + var(--safe-top)); font-size: clamp(1.9rem, 5.5vw, 2.8rem); }
+    #powerupHud, #blitzHud { top: calc(42px + var(--safe-top)); }
+    body:has(#scoreDisplay:not(.hidden)) #hudBest { display: none; }
+  }
+
+  /* The browser fullscreen control is useless on phones/tablets and inside
+     installed apps — the game already owns the whole screen there. */
+  @media (hover: none) and (pointer: coarse),
+         (display-mode: standalone),
+         (display-mode: fullscreen) {
+    #fullscreenBtn { display: none !important; }
+  }
 </style>
 <link href="manifest.json" rel="manifest"/><link href="favicon.ico" rel="icon" type="image/x-icon"/></head>
 <body>
@@ -1387,7 +1473,7 @@
 <button aria-label="Pause Game" class="icon-btn hidden" id="pauseBtn" title="Pause (P)"><svg aria-hidden="true" class="svg-ico" style="color:currentColor" viewbox="0 0 24 24"><rect fill="currentColor" height="16" rx="1" width="4" x="6" y="4"></rect><rect fill="currentColor" height="16" rx="1" width="4" x="14" y="4"></rect></svg></button>
 <button aria-label="Toggle Sound" class="icon-btn" id="muteBtn" title="Mute / Unmute (M)"><svg aria-hidden="true" class="svg-ico" style="color:currentColor" viewbox="0 0 24 24"><polygon fill="currentColor" points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg></button>
 <button aria-label="Rotate Screen" class="icon-btn hidden" id="rotateBtn" title="Switch to Landscape"><svg aria-hidden="true" class="svg-ico" style="color:currentColor" viewbox="0 0 24 24"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><rect height="12" rx="2" width="6" x="9" y="6"></rect></svg></button>
-<button aria-label="Toggle Fullscreen" class="icon-btn" id="fullscreenBtn" title="Fullscreen"><svg aria-hidden="true" class="svg-ico" style="color:currentColor" viewbox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3"></path><path d="M21 8V5a2 2 0 0 0-2-2h-3"></path><path d="M3 16v3a2 2 0 0 0 2 2h3"></path><path d="M16 21h3a2 2 0 0 0 2-2v-3"></path></svg></button>
+<button aria-label="Toggle Fullscreen" class="icon-btn hidden" id="fullscreenBtn" title="Fullscreen"><svg aria-hidden="true" class="svg-ico" style="color:currentColor" viewbox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3"></path><path d="M21 8V5a2 2 0 0 0-2-2h-3"></path><path d="M3 16v3a2 2 0 0 0 2 2h3"></path><path d="M16 21h3a2 2 0 0 0 2-2v-3"></path></svg></button>
 </div>
 </div>
 <!-- Active Power-Up & Combo Bars -->
@@ -5830,10 +5916,14 @@
     }
   });
 
-  // Fullscreen
-  if (!document.fullscreenEnabled && !document.webkitFullscreenEnabled) {
+  // Fullscreen: only offer it on desktop browsers with a mouse. Phones,
+  // tablets, PWAs and APK webviews already fill the screen.
+  const fullscreenSupported = !!(document.fullscreenEnabled || document.webkitFullscreenEnabled);
+  const touchFirstDevice = !!(window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches);
+  if (!fullscreenSupported || touchFirstDevice) {
     fullscreenBtn.classList.add('hidden');
   } else {
+    fullscreenBtn.classList.remove('hidden');
     fullscreenBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       AudioEngine.sfx.click();
@@ -5902,17 +5992,22 @@
     || !!window.AndroidApp
     || !!window.ReactNativeWebView;
   const isAppMode = isStandalone || isWebView;
+  const isTouchPrimary = !!(
+    (window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches)
+    || (navigator.maxTouchPoints > 0 && /Android|iPhone|iPad|iPod|Mobile/i.test(ua))
+  );
   const canUseOrientationApi = !!(screen.orientation && typeof screen.orientation.lock === 'function');
 
-  // Inside an installed app / APK the game already owns the whole screen,
-  // so the browser fullscreen button is redundant — hide it.
-  if (isAppMode) {
+  // Phones/tablets and installed apps already fill the screen, so the
+  // browser fullscreen button is redundant — hide it (CSS enforces this too).
+  if (isAppMode || isTouchPrimary) {
     const fsBtn = document.getElementById('fullscreenBtn');
-    if (fsBtn) fsBtn.classList.add('hidden');
+    if (fsBtn) fsBtn.remove();
   }
 
-  // Only offer the orientation control inside an installed app or APK webview.
-  if (!isAppMode) return;
+  // Offer the orientation control on touch devices (PWA/APK/mobile browser),
+  // where the platform has no built-in rotate control for the page.
+  if (!(isTouchPrimary || isWebView)) return;
   rotateBtn.classList.remove('hidden');
 
   const viewportIsLandscape = () => window.innerWidth > window.innerHeight;
