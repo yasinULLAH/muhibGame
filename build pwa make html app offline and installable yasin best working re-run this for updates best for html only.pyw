@@ -78,7 +78,7 @@ def discover_assets(project_dir, generated_icons):
     html_files = []
     
     for root, _, files in os.walk(project_dir):
-        if any(part.startswith('.') for part in root.split(os.sep)):
+        if any(part.startswith('.') or part in ('android', 'node_modules', 'dist-electron', 'dist') for part in root.split(os.sep)):
             continue
         for file in files:
             file_path = os.path.join(root, file)

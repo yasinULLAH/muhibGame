@@ -1,0 +1,40 @@
+{
+  "name": "flappy-muhib",
+  "version": "1.0.0",
+  "description": "Flappy Muhib Definitive Edition",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist:win": "electron-builder --win portable"
+  },
+  "build": {
+    "appId": "com.yasinullah.flappymuhib",
+    "productName": "Flappy Muhib",
+    "win": {
+      "target": "portable",
+      "icon": "icon-512.png"
+    },
+    "portable": {
+      "artifactName": "Flappy-Muhib-Portable.exe"
+    },
+    "directories": {
+      "output": "dist-electron"
+    },
+    "files": [
+      "index.html",
+      "main.js",
+      "audio/**/*",
+      "img/**/*",
+      "favicon.ico",
+      "logo.png",
+      "icon-*.png",
+      "manifest.json",
+      "offline.html",
+      "version.json"
+    ]
+  },
+  "devDependencies": {
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8"
+  }
+}

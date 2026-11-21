@@ -62,7 +62,7 @@ if (workbox) {
     },
     {
         "url": "index.html",
-        "revision": "4261559487f33f92b1a68c1710d84f11"
+        "revision": "3fe5dc50a4c455396c9732ca68d75f90"
     },
     {
         "url": "logo.png",
