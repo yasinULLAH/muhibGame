@@ -66,7 +66,7 @@ if (workbox) {
     },
     {
         "url": "index.html",
-        "revision": "35bbc01e71501815a308f00b3b04927e"
+        "revision": "15c19469769c66a4385ed63c6867a4b6"
     },
     {
         "url": "LICENSE.md",
@@ -102,7 +102,7 @@ if (workbox) {
     },
     {
         "url": "sw.js",
-        "revision": "f7c31ac2ef1d0237b357f6029916043d"
+        "revision": "7c827c2295d0ac3a96a65010893d9d1d"
     },
     {
         "url": "audio/sfx_die.wav",

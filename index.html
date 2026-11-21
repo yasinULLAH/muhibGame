@@ -1001,6 +1001,20 @@
 
   .skin-card.equipped .skin-status { background: #fbbf24; color: #1e1b0e; }
 
+  /* ---------- Touch Action & Mobile Scroll Fixes ---------- */
+  .card, .skins-grid, .upg-list, .themes-row {
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+  .filter-pills {
+    touch-action: pan-x;
+    -webkit-overflow-scrolling: touch;
+  }
+  button, .seg-btn, .dock-btn, .skin-card, .theme-chip, .booster-chip, .filter-pill, .preset-slot-btn, input, select {
+    touch-action: manipulation;
+  }
+
   .hangar-top-tools {
     display: flex;
     flex-direction: column;
@@ -1015,62 +1029,71 @@
     background: linear-gradient(135deg, rgba(245, 158, 11, 0.18), rgba(168, 85, 247, 0.18));
     border: 1px solid rgba(251, 191, 36, 0.45);
     border-radius: 12px;
-    padding: 7px 10px;
+    padding: 8px 10px;
     text-align: left;
     font-size: 0.72rem;
   }
-  .presets-bar {
+  .deal-actions {
     display: flex;
-    align-items: center;
     gap: 5px;
-    flex-wrap: wrap;
+    flex-shrink: 0;
+  }
+  .presets-bar {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 5px;
   }
   .preset-slot-btn {
-    flex: 1;
-    min-width: 82px;
-    padding: 5px 7px;
+    min-width: 0;
+    padding: 6px 7px;
     border-radius: 9px;
     border: 1px solid var(--border);
     background: rgba(255, 255, 255, 0.05);
     color: #cbd5e1;
     font-family: inherit;
-    font-size: 0.67rem;
+    font-size: 0.66rem;
     font-weight: 800;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 4px;
+    transition: background 0.14s ease, border-color 0.14s ease;
   }
-  .preset-slot-btn.saved { border-color: rgba(56, 189, 248, 0.45); color: #e0f2fe; background: rgba(56, 189, 248, 0.12); }
+  .preset-slot-btn.saved { border-color: rgba(56, 189, 248, 0.5); color: #e0f2fe; background: rgba(56, 189, 248, 0.14); }
   .preset-save-mini {
     padding: 2px 5px;
-    border-radius: 6px;
-    background: rgba(251, 191, 36, 0.22);
+    border-radius: 5px;
+    background: rgba(251, 191, 36, 0.25);
     color: #fde68a;
-    font-size: 0.6rem;
+    font-size: 0.58rem;
     font-weight: 900;
+    flex-shrink: 0;
   }
   .skin-controls-bar {
     display: flex;
     gap: 6px;
     margin-bottom: 7px;
+    width: 100%;
   }
   .skin-search-input {
     flex: 1;
-    padding: 6px 10px;
+    min-width: 0;
+    padding: 7px 10px;
     border-radius: 10px;
     border: 1px solid var(--border);
-    background: rgba(0, 0, 0, 0.32);
+    background: rgba(0, 0, 0, 0.35);
     color: #fff;
     font-family: inherit;
-    font-size: 0.74rem;
+    font-size: 0.76rem;
     font-weight: 600;
     outline: none;
   }
   .skin-search-input:focus { border-color: #38bdf8; }
   .skin-sort-select {
-    padding: 6px 8px;
+    flex-shrink: 0;
+    max-width: 46%;
+    padding: 7px 8px;
     border-radius: 10px;
     border: 1px solid var(--border);
     background: #0f172a;
@@ -1083,57 +1106,70 @@
   }
   .mastery-tag {
     position: absolute;
-    top: 5px;
-    left: 5px;
-    font-size: 0.56rem;
+    top: 4px;
+    right: 4px;
+    font-size: 0.54rem;
     font-weight: 900;
     padding: 1px 5px;
     border-radius: 6px;
-    background: rgba(15, 23, 42, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(15, 23, 42, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.22);
     text-transform: uppercase;
+    z-index: 2;
+    line-height: 1.2;
   }
   .booster-strip {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
   .booster-chip {
     position: relative;
-    padding: 6px 4px;
+    min-width: 0;
+    padding: 6px 3px;
     border-radius: 11px;
     border: 1.5px solid var(--border);
     background: rgba(255, 255, 255, 0.05);
     color: #cbd5e1;
     font-family: inherit;
-    font-size: 0.65rem;
+    font-size: 0.64rem;
     font-weight: 800;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2px;
+    justify-content: center;
+    gap: 3px;
     transition: all 0.14s ease;
+    overflow: hidden;
+  }
+  .booster-chip > span:first-child {
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .booster-chip.armed {
     border-color: #10b981;
     background: rgba(16, 185, 129, 0.2);
     color: #a7f3d0;
-    box-shadow: 0 0 12px rgba(16, 185, 129, 0.3);
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.28);
   }
   .booster-qty {
-    font-size: 0.58rem;
+    font-size: 0.56rem;
     padding: 1px 5px;
     border-radius: 999px;
     background: rgba(0, 0, 0, 0.45);
     color: #fde68a;
+    white-space: nowrap;
   }
   .upg-btn-group {
     display: flex;
     flex-direction: column;
     gap: 4px;
     align-items: flex-end;
+    flex-shrink: 0;
   }
   .upg-max-btn {
     padding: 3px 8px;
@@ -1142,34 +1178,60 @@
     background: rgba(56, 189, 248, 0.18);
     color: #7dd3fc;
     font-family: inherit;
-    font-size: 0.64rem;
+    font-size: 0.62rem;
     font-weight: 900;
     cursor: pointer;
     white-space: nowrap;
   }
   .upg-max-btn:hover { background: rgba(56, 189, 248, 0.32); }
+  #hangarTabs .seg-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    white-space: nowrap;
+    padding: 7px 4px;
+    font-size: 0.74rem;
+  }
+  #htabGear .themes-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-height: none;
+    overflow: visible;
+  }
+  @media (min-width: 480px) {
+    #htabGear .themes-row {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .theme-chip {
+    min-width: 0;
+    text-align: center;
+    word-break: break-word;
+    line-height: 1.2;
+  }
   #testFlightHud {
     position: absolute;
-    top: calc(62px + var(--safe-top));
-    right: calc(12px + var(--safe-right));
+    top: calc(56px + var(--safe-top));
+    right: calc(10px + var(--safe-right));
     display: flex;
     align-items: center;
-    gap: 8px;
-    background: rgba(15, 23, 42, 0.9);
+    gap: 7px;
+    background: rgba(15, 23, 42, 0.92);
     border: 1.5px solid #38bdf8;
     border-radius: 999px;
-    padding: 5px 12px;
-    font-size: 0.8rem;
+    padding: 5px 11px;
+    font-size: 0.76rem;
     font-weight: 900;
     color: #e0f2fe;
     z-index: 35;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
   }
   .test-end-btn {
     border: none;
     background: #38bdf8;
     color: #0f172a;
     font-family: inherit;
-    font-size: 0.68rem;
+    font-size: 0.66rem;
     font-weight: 900;
     padding: 3px 8px;
     border-radius: 999px;
@@ -1524,10 +1586,130 @@
     }
   }
 
-  @media (max-width: 420px) {
-    .dock-grid { gap: 6px; }
-    .card { padding: 14px; }
-    .game-title { font-size: 1.9rem; }
+  @media (max-width: 480px) {
+    .overlay {
+      padding: calc(46px + var(--safe-top)) calc(8px + var(--safe-right)) calc(8px + var(--safe-bottom)) calc(8px + var(--safe-left));
+    }
+    .card {
+      padding: 12px 11px;
+      border-radius: 18px;
+    }
+    .game-title { font-size: 1.65rem; }
+    .edition-tag { font-size: 0.62rem; padding: 2px 8px; margin-bottom: 6px; }
+    .dedication { padding: 6px 9px; margin-bottom: 8px; font-size: 0.72rem; }
+    .dedication strong { font-size: 0.84rem; }
+    .control-group { margin-bottom: 7px; }
+    .control-label { font-size: 0.65rem; margin-bottom: 3px; }
+    .seg-btn { font-size: 0.74rem; padding: 6px 4px; min-height: 32px; }
+    .btn-primary { padding: 11px 14px; font-size: 0.94rem; min-height: 42px; }
+    .dock-grid { gap: 5px; margin-top: 8px; }
+    .dock-btn { min-height: 44px; padding: 6px 3px; font-size: 0.68rem; }
+    .hint-line { margin-top: 6px; font-size: 0.66rem; }
+
+    /* Hangar Mobile Layout Refinements */
+    .modal-head { margin-bottom: 8px; padding-bottom: 7px; }
+    .modal-head h2 { font-size: 0.98rem; gap: 5px; }
+    .close-x { width: 30px; height: 30px; font-size: 0.95rem; }
+    .hangar-preview-wrap { height: 132px; margin-bottom: 8px; border-radius: 13px; }
+    #previewHintBadge { display: none; }
+    .preview-badge { font-size: 0.65rem; padding: 3px 8px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .preview-overlay-bot {
+      left: 6px;
+      right: 6px;
+      bottom: 6px;
+      gap: 4px;
+    }
+    .preview-meta {
+      font-size: 0.61rem;
+      padding: 3px 7px;
+      max-width: 48%;
+    }
+    .preview-action-btn {
+      font-size: 0.64rem;
+      padding: 4px 8px;
+      white-space: nowrap;
+    }
+    .deal-banner {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 6px;
+      padding: 7px 9px;
+    }
+    .deal-actions {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+    .deal-actions .upg-buy-btn {
+      text-align: center;
+      justify-content: center;
+      padding: 6px 8px;
+      font-size: 0.7rem;
+    }
+    .preset-slot-btn {
+      padding: 5px 5px;
+      font-size: 0.62rem;
+    }
+    .preset-save-mini {
+      padding: 2px 4px;
+      font-size: 0.54rem;
+    }
+    #hangarTabs .seg-btn {
+      font-size: 0.67rem;
+      padding: 6px 2px;
+      gap: 3px;
+    }
+    #hangarTabs .seg-btn .svg-ico {
+      width: 13px;
+      height: 13px;
+    }
+    .skins-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+      max-height: 36vh;
+    }
+    .skin-card {
+      padding: 7px 5px;
+      gap: 3px;
+    }
+    .skin-name { font-size: 0.73rem; }
+    .skin-perk { font-size: 0.57rem; }
+    .skin-status { font-size: 0.64rem; padding: 2px 7px; }
+    .themes-row {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      max-height: none;
+      overflow: visible;
+    }
+    .upg-list {
+      max-height: none;
+      overflow: visible;
+    }
+    .upg-item {
+      padding: 8px;
+      gap: 8px;
+    }
+    .upg-ico { width: 34px; height: 34px; }
+    .upg-title { font-size: 0.78rem; }
+    .upg-desc { font-size: 0.65rem; line-height: 1.25; }
+    .upg-buy-btn { padding: 6px 8px; font-size: 0.68rem; }
+    #testFlightHud {
+      top: auto;
+      bottom: calc(18px + var(--safe-bottom));
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
+      white-space: nowrap;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .booster-strip {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    #hangarTabs .seg-btn .svg-ico {
+      display: none;
+    }
   }
 
   @media (max-width: 820px), (hover: none) and (pointer: coarse) {
@@ -5992,8 +6174,8 @@
           <div style="font-weight:900;color:#fde047;font-size:0.74rem;">DAILY BUNDLE (-35% OFF): ${dSkin.name} + ${dTrail.name} Trail + 2 Hearts</div>
           <div style="color:#cbd5e1;font-size:0.66rem;">Value ${basePrice}c • Or hatch a Mystery Lucky Egg for random rare loot!</div>
         </div>
-        <div style="display:flex;gap:5px;flex-shrink:0;">
-          <button type="button" class="upg-buy-btn${boughtToday ? ' maxed' : ''}" id="buyDailyDealBtn">${boughtToday ? 'Claimed' : `Deal ${dealPrice}c`}</button>
+        <div class="deal-actions">
+          <button type="button" class="upg-buy-btn${boughtToday ? ' maxed' : ''}" id="buyDailyDealBtn">${boughtToday ? 'Claimed' : `Bundle ${dealPrice}c`}</button>
           <button type="button" class="upg-buy-btn" id="hatchEggTopBtn" style="background:rgba(168,85,247,0.25);border-color:#c084fc;color:#f3e8ff;">Lucky Egg 150c</button>
         </div>
       `;
@@ -6031,7 +6213,7 @@
         const btn = document.createElement('div');
         btn.className = `preset-slot-btn${slot ? ' saved' : ''}`;
         btn.innerHTML = `
-          <span class="preset-load-area" style="flex:1;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">Slot ${i + 1}: ${skName}</span>
+          <span class="preset-load-area" style="flex:1;min-width:0;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">#${i + 1} ${skName}</span>
           <span class="preset-save-mini" title="Save current setup to Slot ${i + 1}">SAVE</span>
         `;
         btn.querySelector('.preset-save-mini').addEventListener('click', (e) => {
