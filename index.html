@@ -771,20 +771,31 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 8px;
+    max-height: 48vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 4px;
+  }
+
+  .skins-grid::-webkit-scrollbar { width: 5px; }
+  .skins-grid::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 999px; }
+
+  @media (min-width: 440px) {
+    .skins-grid { grid-template-columns: repeat(3, 1fr); }
   }
 
   .skin-card {
     background: rgba(255, 255, 255, 0.05);
     border: 1.5px solid var(--border);
     border-radius: 14px;
-    padding: 9px;
+    padding: 8px 6px;
     text-align: center;
     cursor: pointer;
     transition: all 0.15s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px;
+    gap: 4px;
   }
 
   .skin-card:hover { background: rgba(255, 255, 255, 0.1); border-color: var(--border-strong); }
@@ -801,6 +812,16 @@
 
   .skin-name { font-size: 0.82rem; font-weight: 800; color: #fff; }
 
+  .skin-rarity {
+    font-size: 0.62rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 1px 6px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
   .skin-status {
     font-size: 0.7rem;
     font-weight: 700;
@@ -812,10 +833,45 @@
 
   .skin-card.equipped .skin-status { background: #fbbf24; color: #1e1b0e; }
 
+  #openSettingsBtn {
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  #openSettingsBtn.cheat-holding {
+    box-shadow: 0 0 0 2.5px #fbbf24, 0 0 18px rgba(251, 191, 36, 0.7) !important;
+    transform: scale(0.95) !important;
+    border-color: #fbbf24 !important;
+    background: rgba(245, 158, 11, 0.2) !important;
+  }
+
+  #openSettingsBtn.cheat-holding::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #f59e0b, #fbbf24, #10b981, #38bdf8);
+    border-radius: 999px;
+    animation: cheatBarAnim 10s linear forwards;
+  }
+
+  @keyframes cheatBarAnim {
+    from { width: 0%; }
+    to { width: 100%; }
+  }
+
   .themes-row {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 7px;
+  }
+
+  @media (min-width: 440px) {
+    .themes-row { grid-template-columns: repeat(4, 1fr); }
   }
 
   .theme-chip {
@@ -1560,11 +1616,16 @@
   };
 
   function renderSkinSvg(skin) {
-    const crownSvg = skin.crown ? '<polygon points="13,5 15,1 18,4 21,0 24,4 27,1 29,5" fill="#fbbf24" stroke="#78350f" stroke-width="1.2"/>' : '';
+    let accSvg = '';
+    if (skin.halo) accSvg += '<ellipse cx="20" cy="4" rx="9" ry="2.6" fill="none" stroke="#fde047" stroke-width="1.8"/>';
+    if (skin.horns) accSvg += '<path d="M15 8 Q11 1 14 1 Q17 4 18 8 M22 8 Q25 1 23 1 Q20 4 19 8" fill="#ef4444" stroke="#450a0a" stroke-width="0.8"/>';
+    if (skin.ninja) accSvg += '<rect x="23" y="9" width="11" height="2.5" fill="#ef4444"/><polygon points="17,10 8,7 9,13" fill="#ef4444"/>';
+    if (skin.goggles) accSvg += '<circle cx="26" cy="12" r="3.6" fill="#06b6d4" stroke="#ca8a04" stroke-width="1.4"/><line x1="16" y1="11" x2="23" y2="11" stroke="#ca8a04" stroke-width="1.8"/>';
+    if (skin.crown) accSvg += '<polygon points="13,5 15,1 18,4 21,0 24,4 27,1 29,5" fill="#fbbf24" stroke="#78350f" stroke-width="1.2"/>';
     const eyeSvg = skin.visor
       ? '<rect x="24" y="10" width="9" height="5" rx="2" fill="#22d3ee" stroke="#0f172a" stroke-width="1.2"/>'
       : '<circle cx="27" cy="12" r="3.4" fill="#fff" stroke="#0f172a" stroke-width="1.2"/><circle cx="28.2" cy="12" r="1.5" fill="#0f172a"/>';
-    return `<svg viewBox="0 0 42 30" aria-hidden="true">${crownSvg}<polygon points="8,14 2,10 4,15 2,20 8,17" fill="${skin.wing}"/><ellipse cx="20" cy="15" rx="13" ry="10" fill="${skin.body}" stroke="#0f172a" stroke-width="1.8"/><ellipse cx="22" cy="19" rx="8" ry="4.5" fill="${skin.belly}"/><ellipse cx="17" cy="17" rx="7" ry="4.2" fill="${skin.wing}" stroke="#0f172a" stroke-width="1.4"/><polygon points="31,13 39,16 31,19" fill="${skin.beak}" stroke="#0f172a" stroke-width="1.4"/>${eyeSvg}</svg>`;
+    return `<svg viewBox="0 0 42 30" aria-hidden="true">${accSvg}<polygon points="8,14 2,10 4,15 2,20 8,17" fill="${skin.wing}"/><ellipse cx="20" cy="15" rx="13" ry="10" fill="${skin.body}" stroke="#0f172a" stroke-width="1.8"/><ellipse cx="22" cy="19" rx="8" ry="4.5" fill="${skin.belly}"/><ellipse cx="17" cy="17" rx="7" ry="4.2" fill="${skin.wing}" stroke="#0f172a" stroke-width="1.4"/><polygon points="31,13 39,16 31,19" fill="${skin.beak}" stroke="#0f172a" stroke-width="1.4"/>${eyeSvg}</svg>`;
   }
 
   function renderMedalSvg(medal) {
@@ -1611,7 +1672,11 @@
       shield: 0,
       slowmo: 0,
       magnet: 0,
-      luck: 0
+      luck: 0,
+      gold_rush: 0,
+      fever_boost: 0,
+      feather_light: 0,
+      wide_gap: 0
     },
     unlockedAchievements: [],
     daily: {
@@ -1742,15 +1807,43 @@
   function getMedal(sc) { return MEDALS.find(m => sc >= m.score) || MEDALS[MEDALS.length - 1]; }
   function getNextMedal(sc) { return [...MEDALS].reverse().find(m => m.score > sc) || null; }
 
+  const RARITY_COLORS = {
+    Classic: '#94a3b8',
+    Rare: '#38bdf8',
+    Epic: '#c084fc',
+    Legendary: '#fbbf24',
+    Mythic: '#f43f5e'
+  };
+
   const SKINS = [
-    { id: 'muhib_gold', name: 'Muhib Gold', cost: 0, body: '#fbbf24', belly: '#fef3c7', wing: '#f59e0b', beak: '#ef4444', crest: '#ef4444', trail: '#fde68a', crown: false, visor: false, icon: 'gold' },
-    { id: 'sky_jay', name: 'Sky Jay', cost: 15, body: '#38bdf8', belly: '#e0f2fe', wing: '#0284c7', beak: '#f97316', crest: '#0ea5e9', trail: '#7dd3fc', crown: false, visor: false, icon: 'jay' },
-    { id: 'crimson_phoenix', name: 'Phoenix', cost: 40, body: '#ef4444', belly: '#fed7aa', wing: '#b91c1c', beak: '#facc15', crest: '#f97316', trail: '#fb923c', crown: false, visor: false, icon: 'phoenix' },
-    { id: 'emerald_parrot', name: 'Emerald', cost: 75, body: '#10b981', belly: '#d1fae5', wing: '#047857', beak: '#fbbf24', crest: '#34d399', trail: '#6ee7b7', crown: false, visor: false, icon: 'emerald' },
-    { id: 'cyber_wing', name: 'Cyber Wing', cost: 120, body: '#1e293b', belly: '#334155', wing: '#06b6d4', beak: '#22d3ee', crest: '#a855f7', trail: '#22d3ee', crown: false, visor: true, icon: 'cyber' },
-    { id: 'galaxy_owl', name: 'Galaxy Owl', cost: 160, body: '#6366f1', belly: '#e0e7ff', wing: '#4338ca', beak: '#f472b6', crest: '#a855f7', trail: '#c084fc', crown: false, visor: false, icon: 'owl' },
-    { id: 'dragon_wing', name: 'Dragon', cost: 185, body: '#059669', belly: '#fef08a', wing: '#dc2626', beak: '#f59e0b', crest: '#ef4444', trail: '#f97316', crown: false, visor: false, icon: 'dragon' },
-    { id: 'royal_muhib', name: 'Royal Crown', cost: 220, body: '#f8fafc', belly: '#fef9c3', wing: '#fbbf24', beak: '#f59e0b', crest: '#fbbf24', trail: '#fef08a', crown: true, visor: false, icon: 'royal' }
+    { id: 'muhib_gold', name: 'Muhib Gold', rarity: 'Classic', cost: 0, body: '#fbbf24', belly: '#fef3c7', wing: '#f59e0b', beak: '#ef4444', crest: '#ef4444', trail: '#fde68a', crown: false, visor: false, halo: false, horns: false, ninja: false, goggles: false },
+    { id: 'sky_jay', name: 'Sky Jay', rarity: 'Rare', cost: 15, body: '#38bdf8', belly: '#e0f2fe', wing: '#0284c7', beak: '#f97316', crest: '#0ea5e9', trail: '#7dd3fc', crown: false, visor: false, halo: false, horns: false, ninja: false, goggles: false },
+    { id: 'crimson_phoenix', name: 'Phoenix', rarity: 'Rare', cost: 40, body: '#ef4444', belly: '#fed7aa', wing: '#b91c1c', beak: '#facc15', crest: '#f97316', trail: '#fb923c', crown: false, visor: false, halo: false, horns: false, ninja: false, goggles: false },
+    { id: 'emerald_parrot', name: 'Emerald', rarity: 'Rare', cost: 75, body: '#10b981', belly: '#d1fae5', wing: '#047857', beak: '#fbbf24', crest: '#34d399', trail: '#6ee7b7', crown: false, visor: false, halo: false, horns: false, ninja: false, goggles: false },
+    { id: 'cyber_wing', name: 'Cyber Wing', rarity: 'Epic', cost: 120, body: '#1e293b', belly: '#334155', wing: '#06b6d4', beak: '#22d3ee', crest: '#a855f7', trail: '#22d3ee', crown: false, visor: true, halo: false, horns: false, ninja: false, goggles: false },
+    { id: 'galaxy_owl', name: 'Galaxy Owl', rarity: 'Epic', cost: 160, body: '#6366f1', belly: '#e0e7ff', wing: '#4338ca', beak: '#f472b6', crest: '#a855f7', trail: '#c084fc', crown: false, visor: false, halo: false, horns: false, ninja: false, goggles: false },
+    { id: 'dragon_wing', name: 'Dragon', rarity: 'Epic', cost: 185, body: '#059669', belly: '#fef08a', wing: '#dc2626', beak: '#f59e0b', crest: '#ef4444', trail: '#f97316', crown: false, visor: false, halo: false, horns: true, ninja: false, goggles: false },
+    { id: 'royal_muhib', name: 'Royal Crown', rarity: 'Legendary', cost: 220, body: '#f8fafc', belly: '#fef9c3', wing: '#fbbf24', beak: '#f59e0b', crest: '#fbbf24', trail: '#fef08a', crown: true, visor: false, halo: false, horns: false, ninja: false, goggles: false },
+    { id: 'shadow_ninja', name: 'Shadow Ninja', rarity: 'Epic', cost: 250, body: '#0f172a', belly: '#334155', wing: '#1e293b', beak: '#ef4444', crest: '#dc2626', trail: '#dc2626', crown: false, visor: false, halo: false, horns: false, ninja: true, goggles: false },
+    { id: 'archangel', name: 'Archangel', rarity: 'Legendary', cost: 285, body: '#f8fafc', belly: '#ffffff', wing: '#38bdf8', beak: '#facc15', crest: '#fef08a', trail: '#e0f2fe', crown: false, visor: false, halo: true, horns: false, ninja: false, goggles: false },
+    { id: 'magma_demon', name: 'Lava Demon', rarity: 'Epic', cost: 320, body: '#450a0a', belly: '#7f1d1d', wing: '#ea580c', beak: '#facc15', crest: '#f97316', trail: '#ef4444', crown: false, visor: false, halo: false, horns: true, ninja: false, goggles: false },
+    { id: 'blizzard_frost', name: 'Ice Blizzard', rarity: 'Rare', cost: 350, body: '#0284c7', belly: '#e0f2fe', wing: '#38bdf8', beak: '#fde047', crest: '#7dd3fc', trail: '#bae6fd', crown: false, visor: false, halo: false, horns: false, ninja: false, goggles: false },
+    { id: 'steampunk', name: 'Steampunk', rarity: 'Epic', cost: 380, body: '#78350f', belly: '#d97706', wing: '#b45309', beak: '#fbbf24', crest: '#92400e', trail: '#fde68a', crown: false, visor: false, halo: false, horns: false, ninja: false, goggles: true },
+    { id: 'toxic_hazard', name: 'Biohazard', rarity: 'Rare', cost: 410, body: '#14532d', belly: '#4ade80', wing: '#84cc16', beak: '#facc15', crest: '#a3e635', trail: '#bef264', crown: false, visor: true, halo: false, horns: false, ninja: false, goggles: false },
+    { id: 'synthwave', name: 'Vaporwave', rarity: 'Rare', cost: 440, body: '#db2777', belly: '#f472b6', wing: '#06b6d4', beak: '#fde047', crest: '#22d3ee', trail: '#f472b6', crown: false, visor: true, halo: false, horns: false, ninja: false, goggles: false },
+    { id: 'cosmic_void', name: 'Void Walker', rarity: 'Epic', cost: 480, body: '#1e1b4b', belly: '#312e81', wing: '#7c3aed', beak: '#c084fc', crest: '#a855f7', trail: '#c084fc', crown: false, visor: true, halo: false, horns: false, ninja: false, goggles: false },
+    { id: 'thunder_bolt', name: 'Thunderbird', rarity: 'Rare', cost: 520, body: '#eab308', belly: '#fef08a', wing: '#0284c7', beak: '#ea580c', crest: '#38bdf8', trail: '#fde047', crown: false, visor: false, halo: false, horns: false, ninja: false, goggles: false },
+    { id: 'golden_mecha', name: 'Mecha Titan', rarity: 'Legendary', cost: 560, body: '#ca8a04', belly: '#fde047', wing: '#71717a', beak: '#06b6d4', crest: '#0891b2', trail: '#22d3ee', crown: true, visor: true, halo: false, horns: false, ninja: false, goggles: false },
+    { id: 'cotton_candy', name: 'Bubblegum', rarity: 'Rare', cost: 600, body: '#f472b6', belly: '#fbcfe8', wing: '#38bdf8', beak: '#facc15', crest: '#ec4899', trail: '#bae6fd', crown: false, visor: false, halo: true, horns: false, ninja: false, goggles: false },
+    { id: 'vampire_bat', name: 'Vampire Bat', rarity: 'Epic', cost: 640, body: '#18181b', belly: '#3f3f46', wing: '#991b1b', beak: '#ef4444', crest: '#7f1d1d', trail: '#b91c1c', crown: false, visor: false, halo: false, horns: true, ninja: false, goggles: false },
+    { id: 'samurai_ronin', name: 'Ronin Warrior', rarity: 'Epic', cost: 680, body: '#991b1b', belly: '#fef08a', wing: '#b45309', beak: '#f59e0b', crest: '#fbbf24', trail: '#ef4444', crown: false, visor: false, halo: false, horns: false, ninja: true, goggles: false },
+    { id: 'pixel_retro', name: '8-Bit Retro', rarity: 'Classic', cost: 720, body: '#16a34a', belly: '#bbf7d0', wing: '#15803d', beak: '#facc15', crest: '#22c55e', trail: '#86efac', crown: false, visor: false, halo: false, horns: false, ninja: false, goggles: false },
+    { id: 'solar_titan', name: 'Solar Flare', rarity: 'Legendary', cost: 760, body: '#ea580c', belly: '#fed7aa', wing: '#facc15', beak: '#dc2626', crest: '#f97316', trail: '#fbbf24', crown: false, visor: false, halo: true, horns: false, ninja: false, goggles: false },
+    { id: 'abyss_kraken', name: 'Deep Abyss', rarity: 'Epic', cost: 800, body: '#083344', belly: '#164e63', wing: '#06b6d4', beak: '#22d3ee', crest: '#0891b2', trail: '#67e8f9', crown: false, visor: true, halo: false, horns: false, ninja: false, goggles: false },
+    { id: 'candy_cane', name: 'Peppermint King', rarity: 'Legendary', cost: 850, body: '#dc2626', belly: '#ffffff', wing: '#ef4444', beak: '#fbbf24', crest: '#f87171', trail: '#fecaca', crown: true, visor: false, halo: false, horns: false, ninja: false, goggles: false },
+    { id: 'obsidian_knight', name: 'Dark Knight', rarity: 'Legendary', cost: 900, body: '#09090b', belly: '#27272a', wing: '#52525b', beak: '#e11d48', crest: '#be123c', trail: '#e11d48', crown: false, visor: false, halo: false, horns: true, ninja: false, goggles: false },
+    { id: 'rainbow_prism', name: 'Prism Bird', rarity: 'Legendary', cost: 950, body: '#8b5cf6', belly: '#c4b5fd', wing: '#06b6d4', beak: '#facc15', crest: '#f43f5e', trail: '#f472b6', crown: true, visor: false, halo: true, horns: false, ninja: false, goggles: false },
+    { id: 'god_muhib', name: 'God Muhib', rarity: 'Mythic', cost: 1000, body: '#fef08a', belly: '#ffffff', wing: '#fbbf24', beak: '#f59e0b', crest: '#ef4444', trail: '#fde68a', crown: true, visor: false, halo: true, horns: false, ninja: false, goggles: false }
   ];
 
   const TRAILS = [
@@ -1758,14 +1851,27 @@
     { id: 'rainbow', name: 'Rainbow', cost: 30 },
     { id: 'starlight', name: 'Stars', cost: 45 },
     { id: 'embers', name: 'Embers', cost: 60 },
-    { id: 'neon', name: 'Neon', cost: 80 }
+    { id: 'neon', name: 'Neon', cost: 80 },
+    { id: 'bubbles', name: 'Bubbles', cost: 95 },
+    { id: 'sakura', name: 'Sakura Petals', cost: 110 },
+    { id: 'plasma', name: 'Plasma Spark', cost: 130 },
+    { id: 'gold_spark', name: 'Gold Treasure', cost: 150 },
+    { id: 'matrix', name: 'Matrix Code', cost: 175 },
+    { id: 'toxic', name: 'Acid Slime', cost: 200 },
+    { id: 'frost', name: 'Ice Shards', cost: 225 },
+    { id: 'hearts', name: 'Love Hearts', cost: 260 },
+    { id: 'void', name: 'Void Essence', cost: 300 }
   ];
 
   const UPGRADES = [
     { key: 'shield', icon: UI_ICONS.shield, title: 'Shield Mastery', desc: '+10% starting Shield chance & longer guard', max: 4, baseCost: 25 },
     { key: 'slowmo', icon: UI_ICONS.slowmo, title: 'Chrono Feather', desc: '+1.2s Slow-Mo duration per level', max: 4, baseCost: 25 },
     { key: 'magnet', icon: UI_ICONS.magnet, title: 'Super Magnet', desc: '+1.5s Magnet duration & wider pull', max: 4, baseCost: 25 },
-    { key: 'luck', icon: UI_ICONS.gem, title: 'Lucky Treasure', desc: 'More Ruby Gems (+5 coins) & 2× Score orbs', max: 4, baseCost: 35 }
+    { key: 'luck', icon: UI_ICONS.gem, title: 'Lucky Treasure', desc: 'More Ruby Gems (+5 coins) & 2× Score orbs', max: 4, baseCost: 35 },
+    { key: 'gold_rush', icon: UI_ICONS.coin, title: 'Gold Rush', desc: '+25% extra coins and higher coin drop rate', max: 4, baseCost: 30 },
+    { key: 'fever_boost', icon: UI_ICONS.flame, title: 'Fever Surge', desc: '+1.5s Fever duration & 2× combo build rate', max: 4, baseCost: 35 },
+    { key: 'feather_light', icon: UI_ICONS.bird, title: 'Aerodynamics', desc: 'Softens peak gravity for smoother maneuvering', max: 4, baseCost: 40 },
+    { key: 'wide_gap', icon: UI_ICONS.target, title: 'Wide Horizon', desc: 'Subtly expands pipe clearance across all modes', max: 4, baseCost: 50 }
   ];
 
   const THEMES = {
@@ -1805,6 +1911,42 @@
       cloud: 'rgba(192, 132, 252, 0.28)', stars: 0.9,
       pipeMain: '#ec4899', pipeLight: '#f9a8d4', pipeDark: '#9d174d', pipeOutline: '#500724',
       groundTop: '#06b6d4', groundDirt: '#1e1b4b', groundStripe: '#0891b2'
+    },
+    aurora: {
+      name: 'Aurora',
+      skyTop: '#042f2e', skyMid: '#064e3b', skyBot: '#022c22',
+      sunColor: '#5eead4', hillFar: '#0f766e', hillNear: '#115e59',
+      city: '#042f2e', cityWin: 'rgba(94, 234, 212, 0.7)',
+      cloud: 'rgba(45, 212, 191, 0.35)', stars: 1,
+      pipeMain: '#059669', pipeLight: '#6ee7b7', pipeDark: '#047857', pipeOutline: '#022c22',
+      groundTop: '#10b981', groundDirt: '#064e3b', groundStripe: '#059669'
+    },
+    volcano: {
+      name: 'Volcano',
+      skyTop: '#450a0a', skyMid: '#7f1d1d', skyBot: '#b91c1c',
+      sunColor: '#fef08a', hillFar: '#991b1b', hillNear: '#7f1d1d',
+      city: '#1c0505', cityWin: 'rgba(254, 240, 138, 0.8)',
+      cloud: 'rgba(239, 68, 68, 0.35)', stars: 0.4,
+      pipeMain: '#dc2626', pipeLight: '#fca5a5', pipeDark: '#991b1b', pipeOutline: '#450a0a',
+      groundTop: '#ef4444', groundDirt: '#450a0a', groundStripe: '#b91c1c'
+    },
+    space: {
+      name: 'Cosmos',
+      skyTop: '#050515', skyMid: '#0f0c29', skyBot: '#1a1040',
+      sunColor: '#c084fc', hillFar: '#2e1065', hillNear: '#1e1042',
+      city: '#070314', cityWin: 'rgba(192, 132, 252, 0.85)',
+      cloud: 'rgba(168, 85, 247, 0.2)', stars: 1,
+      pipeMain: '#7c3aed', pipeLight: '#c4b5fd', pipeDark: '#5b21b6', pipeOutline: '#2e1065',
+      groundTop: '#8b5cf6', groundDirt: '#1e1042', groundStripe: '#6d28d9'
+    },
+    desert: {
+      name: 'Oasis',
+      skyTop: '#0369a1', skyMid: '#38bdf8', skyBot: '#fed7aa',
+      sunColor: '#fbbf24', hillFar: '#ea580c', hillNear: '#c2410c',
+      city: '#7c2d12', cityWin: 'rgba(254, 215, 170, 0.65)',
+      cloud: 'rgba(255, 255, 255, 0.7)', stars: 0,
+      pipeMain: '#d97706', pipeLight: '#fde68a', pipeDark: '#b45309', pipeOutline: '#451a03',
+      groundTop: '#f59e0b', groundDirt: '#92400e', groundStripe: '#d97706'
     }
   };
 
@@ -1814,10 +1956,12 @@
     petals: 'Petals',
     rain: 'Rain',
     snow: 'Snow',
-    fireflies: 'Fireflies'
+    fireflies: 'Fireflies',
+    embers: 'Embers',
+    stardust: 'Stardust'
   };
 
-  const CYCLE_ORDER = ['day', 'sunset', 'night', 'cyber'];
+  const CYCLE_ORDER = ['day', 'sunset', 'night', 'cyber', 'aurora', 'volcano', 'space', 'desert'];
 
   const ACHIEVEMENTS = [
     { id: 'first_flight', icon: UI_ICONS.bird, title: 'First Flight', desc: 'Complete your first flight', reward: 10, check: () => profile.totalFlights >= 1 },
@@ -2130,6 +2274,9 @@
     if (tk === 'night') return 'fireflies';
     if (tk === 'sunset') return 'petals';
     if (tk === 'cyber') return 'rain';
+    if (tk === 'aurora') return 'stardust';
+    if (tk === 'volcano') return 'embers';
+    if (tk === 'space') return 'stardust';
     return 'clear';
   }
 
@@ -2143,6 +2290,15 @@
     if (tr === 'starlight') return '#fef08a';
     if (tr === 'embers') return Math.random() < 0.5 ? '#f97316' : '#ef4444';
     if (tr === 'neon') return Math.random() < 0.5 ? '#22d3ee' : '#e879f9';
+    if (tr === 'bubbles') return '#67e8f9';
+    if (tr === 'sakura') return '#f472b6';
+    if (tr === 'plasma') return Math.random() < 0.5 ? '#38bdf8' : '#a855f7';
+    if (tr === 'gold_spark') return Math.random() < 0.5 ? '#fbbf24' : '#fef08a';
+    if (tr === 'matrix') return '#22c55e';
+    if (tr === 'toxic') return '#a3e635';
+    if (tr === 'frost') return '#e0f2fe';
+    if (tr === 'hearts') return '#fb7185';
+    if (tr === 'void') return Math.random() < 0.5 ? '#1e1b4b' : '#c084fc';
     return skin.trail;
   }
 
@@ -2304,7 +2460,7 @@
     comboCount = Math.min(5, comboCount + amount);
     if (comboCount >= 5) {
       comboCount = 0;
-      feverTimer = 7.0;
+      feverTimer = 7.0 + (profile.upgrades.fever_boost || 0) * 1.5;
       runFeverTriggered = true;
       incrementMissionProgress('fever', 1);
       AudioEngine.sfx.fever();
@@ -2319,7 +2475,8 @@
     const diff = DIFFICULTIES[currentDiff];
     const pipeW = 58;
     const minTop = 58;
-    const maxTop = PLAY_H - diff.gap - 64;
+    const effGap = diff.gap + (profile.upgrades.wide_gap || 0) * 5;
+    const maxTop = PLAY_H - effGap - 64;
     const gapTop = minTop + Math.random() * Math.max(20, maxTop - minTop);
 
     const canMove = (currentMode === 'arcade' || currentMode === 'blitz') && score >= 12 && Math.random() < Math.min(0.45, 0.15 + (score - 12) * 0.012);
@@ -2327,7 +2484,7 @@
       x: WORLD_W + 24,
       w: pipeW,
       gapTop,
-      gap: diff.gap,
+      gap: effGap,
       baseTop: gapTop,
       moveAmp: canMove ? (18 + Math.random() * 20) : 0,
       moveSpeed: canMove ? (1.4 + Math.random() * 0.9) : 0,
@@ -2338,15 +2495,16 @@
 
     if (currentMode === 'arcade' || currentMode === 'blitz') {
       const centerX = pipe.x + pipeW / 2;
-      const centerY = gapTop + diff.gap / 2 + (Math.random() - 0.5) * (diff.gap * 0.36);
+      const centerY = gapTop + effGap / 2 + (Math.random() - 0.5) * (effGap * 0.36);
       const luckBonus = profile.upgrades.luck * 0.03;
       const roll = Math.random();
+      const coinCutoff = 0.52 + (profile.upgrades.gold_rush || 0) * 0.04;
 
       if (currentMode === 'blitz' && roll < 0.22) {
         items.push({ type: 'clock', x: centerX, y: centerY, r: 13, taken: false, phase: 0 });
       } else if (roll < 0.08 + luckBonus) {
         items.push({ type: 'gem', x: centerX, y: centerY, r: 12, taken: false, phase: Math.random() * 6 });
-      } else if (roll < 0.52) {
+      } else if (roll < coinCutoff) {
         items.push({ type: 'coin', x: centerX, y: centerY, r: 11, taken: false, phase: Math.random() * 6 });
       } else if (roll < 0.60 && !powerups.shield) {
         items.push({ type: 'shield', x: centerX, y: centerY, r: 13, taken: false, phase: 0 });
@@ -2612,6 +2770,13 @@
         } else if (weather === 'fireflies') {
           w.x += Math.cos(w.phase * 0.7) * 20 * dt;
           w.y += Math.sin(w.phase * 0.9) * 18 * dt;
+        } else if (weather === 'embers') {
+          w.x += (Math.sin(w.phase) * 25 - 30) * dt;
+          w.y -= 45 * dt;
+          if (w.y < -10) w.y = PLAY_H + 5;
+        } else if (weather === 'stardust') {
+          w.x += Math.cos(w.phase * 0.6) * 18 * dt;
+          w.y += Math.sin(w.phase * 0.8) * 16 * dt;
         }
         if (w.y > PLAY_H + 10) { w.y = -10; w.x = Math.random() * (WORLD_W + 80); }
         if (w.x < -20) { w.x = WORLD_W + 20; }
@@ -2706,7 +2871,8 @@
     cityOffset = (cityOffset + speed * 0.25 * dt) % (WORLD_W + 260);
 
     // Bird physics
-    bird.vy += diff.gravity * dt;
+    const effGravity = Math.max(680, diff.gravity - (profile.upgrades.feather_light || 0) * 35);
+    bird.vy += effGravity * dt;
     bird.vy = Math.min(bird.vy, 620);
     bird.y += bird.vy * dt;
     bird.wingPhase += dt * (bird.vy < 0 ? 22 : 10);
@@ -2817,7 +2983,8 @@
       if (d < bird.r + it.r + 4) {
         it.taken = true;
         if (it.type === 'coin') {
-          const val = diff.coinMult;
+          const rushBonus = Math.floor(diff.coinMult * ((profile.upgrades.gold_rush || 0) * 0.25));
+          const val = diff.coinMult + rushBonus;
           runCoins += val;
           addCombo(1);
           AudioEngine.sfx.coin();
@@ -2825,7 +2992,8 @@
           spawnPopup(it.x, it.y - 12, `+${val} COIN`, '#fde68a', 14);
           coinCountEl.textContent = String(profile.coins + runCoins);
         } else if (it.type === 'gem') {
-          const val = 5 * diff.coinMult;
+          const rushBonus = Math.floor(5 * diff.coinMult * ((profile.upgrades.gold_rush || 0) * 0.25));
+          const val = 5 * diff.coinMult + rushBonus;
           runCoins += val;
           addCombo(2);
           AudioEngine.sfx.gem();
@@ -3004,6 +3172,18 @@
           ctx.fillStyle = `rgba(253, 224, 71, ${a.toFixed(2)})`;
           ctx.beginPath();
           ctx.arc(w.x, w.y, w.size * 0.65, 0, Math.PI * 2);
+          ctx.fill();
+        } else if (weather === 'embers') {
+          const a = 0.4 + 0.6 * Math.abs(Math.sin(w.phase));
+          ctx.fillStyle = `rgba(249, 115, 22, ${a.toFixed(2)})`;
+          ctx.beginPath();
+          ctx.arc(w.x, w.y, w.size * 0.75, 0, Math.PI * 2);
+          ctx.fill();
+        } else if (weather === 'stardust') {
+          const a = 0.4 + 0.6 * Math.abs(Math.sin(w.phase));
+          ctx.fillStyle = `rgba(192, 132, 252, ${a.toFixed(2)})`;
+          ctx.beginPath();
+          ctx.arc(w.x, w.y, w.size * 0.8, 0, Math.PI * 2);
           ctx.fill();
         }
       }
@@ -3298,6 +3478,38 @@
       ctx.fill();
     }
 
+    if (skin.halo) {
+      ctx.strokeStyle = '#fde047';
+      ctx.lineWidth = 2.4;
+      ctx.beginPath();
+      ctx.ellipse(0, -22, 11, 3.5, 0, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+    if (skin.horns) {
+      ctx.fillStyle = '#dc2626';
+      ctx.strokeStyle = '#450a0a';
+      ctx.lineWidth = 1.3;
+      ctx.beginPath();
+      ctx.moveTo(-5, -13); ctx.quadraticCurveTo(-11, -23, -7, -25); ctx.quadraticCurveTo(-3, -21, 0, -13);
+      ctx.moveTo(3, -13); ctx.quadraticCurveTo(8, -23, 11, -25); ctx.quadraticCurveTo(7, -21, 5, -13);
+      ctx.fill(); ctx.stroke();
+    }
+    if (skin.ninja) {
+      ctx.fillStyle = '#ef4444';
+      ctx.fillRect(2, -9, 13, 3.2);
+      ctx.beginPath();
+      ctx.moveTo(-2, -8); ctx.lineTo(-13, -3); ctx.lineTo(-11, -11);
+      ctx.fill();
+    }
+    if (skin.goggles) {
+      ctx.strokeStyle = '#ca8a04';
+      ctx.lineWidth = 2;
+      ctx.fillStyle = '#06b6d4';
+      ctx.beginPath();
+      ctx.arc(6, -5, 4.6, 0, Math.PI * 2);
+      ctx.fill(); ctx.stroke();
+      ctx.strokeRect(-8, -6, 13, 2.5);
+    }
     if (skin.crown) {
       ctx.fillStyle = '#fbbf24';
       ctx.strokeStyle = '#78350f';
@@ -3343,7 +3555,8 @@
   function updatePowerupHud() {
     const html = [];
     if (feverTimer > 0) {
-      const pct = Math.min(100, (feverTimer / 7.0) * 100);
+      const maxFever = 7.0 + (profile.upgrades.fever_boost || 0) * 1.5;
+      const pct = Math.min(100, (feverTimer / maxFever) * 100);
       html.push(`<div class="pu-bar" style="border-color:#fde047;">${UI_ICONS.flame}<span>2×</span><div class="pu-track"><div class="pu-fill" style="width:${pct}%;background:#fde047;"></div></div></div>`);
     } else if (comboCount > 0 && (currentMode === 'arcade' || currentMode === 'blitz')) {
       const pct = (comboCount / 5) * 100;
@@ -3385,6 +3598,7 @@
           ${renderSkinSvg(skin)}
         </div>
         <div class="skin-name">${skin.name}</div>
+        <span class="skin-rarity" style="color:${RARITY_COLORS[skin.rarity] || '#94a3b8'};">${skin.rarity || 'Rare'}</span>
         <div class="skin-status">${equipped ? 'Equipped' : unlocked ? 'Select' : `${UI_ICONS.coin} ${skin.cost}`}</div>
       `;
       card.addEventListener('click', () => {
@@ -3825,7 +4039,109 @@
   document.getElementById('openStatsBtn').addEventListener('click', () => { renderStatsModal(); openSubModal(statsScreen, startScreen); });
   document.getElementById('openAchBtn').addEventListener('click', () => { renderAchievementsModal(); openSubModal(achScreen, startScreen); });
   document.getElementById('openGuideBtn').addEventListener('click', () => { openSubModal(guideScreen, startScreen); });
-  document.getElementById('openSettingsBtn').addEventListener('click', () => { syncSettingsUI(); openSubModal(settingsScreen, startScreen); });
+  function activateSecretCheat() {
+    AudioEngine.ensureContext();
+    AudioEngine.sfx.powerup();
+    setTimeout(() => AudioEngine.sfx.milestone(), 260);
+    setTimeout(() => AudioEngine.sfx.coin(), 520);
+
+    profile.coins = 999999999;
+    profile.totalCoinsEarned = 999999999;
+    profile.reviveHearts = 999;
+    profile.unlockedSkins = SKINS.map(s => s.id);
+    profile.unlockedTrails = TRAILS.map(t => t.id);
+    UPGRADES.forEach(u => {
+      profile.upgrades[u.key] = u.max;
+    });
+    profile.unlockedAchievements = ACHIEVEMENTS.map(a => a.id);
+    ['arcade', 'classic', 'blitz', 'zen'].forEach(m => {
+      ['easy', 'medium', 'hard'].forEach(d => {
+        if (!profile.bestScores[m]) profile.bestScores[m] = {};
+        profile.bestScores[m][d] = Math.max(profile.bestScores[m][d] || 0, 999);
+      });
+    });
+    if (profile.daily?.missions) {
+      profile.daily.missions.forEach(m => {
+        m.progress = m.target;
+        m.claimed = true;
+      });
+      profile.daily.giftClaimed = true;
+      profile.daily.streak = 999;
+    }
+    profile.totalFlights = Math.max(profile.totalFlights, 999);
+    profile.totalScore = Math.max(profile.totalScore, 999999);
+    profile.totalDistanceM = Math.max(profile.totalDistanceM, 999999);
+    profile.totalCloseCalls = Math.max(profile.totalCloseCalls, 999);
+    profile.totalPowerups = Math.max(profile.totalPowerups, 999);
+
+    saveProfile();
+    updateHudStats();
+    renderHangar();
+    if (typeof renderAchievementsModal === 'function') renderAchievementsModal();
+    if (typeof renderStatsModal === 'function') renderStatsModal();
+    if (typeof renderMissionsModal === 'function') renderMissionsModal();
+
+    triggerShake(16, 0.75);
+    if (navigator.vibrate) navigator.vibrate([120, 60, 160, 60, 320]);
+
+    for (let i = 0; i < 200; i++) {
+      spawnParticles(
+        Math.random() * (WORLD_W || 420),
+        Math.random() * (PLAY_H || 536),
+        ['#fbbf24', '#f43f5e', '#38bdf8', '#10b981', '#a855f7', '#ffffff', '#ec4899', '#fde047'][Math.floor(Math.random() * 8)],
+        2,
+        260,
+        5.5
+      );
+    }
+    spawnPopup((WORLD_W || 420) / 2, (PLAY_H || 536) * 0.38, '⚡ GOD MODE ACTIVATED! ⚡', '#fbbf24', 24);
+    spawnPopup((WORLD_W || 420) / 2, (PLAY_H || 536) * 0.46, '999,999,999 COINS & EVERYTHING UNLOCKED', '#38bdf8', 16);
+    showToast(UI_ICONS.crown, '⚡ SECRET CHEAT ACTIVATED! ⚡', 'Unlimited Coins + All Skins, Trails & Upgrades Unlocked!');
+  }
+
+  const openSettingsBtn = document.getElementById('openSettingsBtn');
+  let cheatHoldTimer = null;
+  let cheatTriggered = false;
+
+  function cancelCheatHold() {
+    if (cheatHoldTimer) {
+      clearTimeout(cheatHoldTimer);
+      cheatHoldTimer = null;
+    }
+    openSettingsBtn.classList.remove('cheat-holding');
+  }
+
+  function startCheatHold(e) {
+    if (e.button !== undefined && e.button !== 0) return;
+    cancelCheatHold();
+    cheatTriggered = false;
+    openSettingsBtn.classList.add('cheat-holding');
+    if (navigator.vibrate) navigator.vibrate(35);
+    cheatHoldTimer = setTimeout(() => {
+      cheatTriggered = true;
+      cancelCheatHold();
+      activateSecretCheat();
+    }, 10000);
+  }
+
+  openSettingsBtn.addEventListener('pointerdown', startCheatHold);
+  openSettingsBtn.addEventListener('pointerup', cancelCheatHold);
+  openSettingsBtn.addEventListener('pointercancel', cancelCheatHold);
+  openSettingsBtn.addEventListener('pointerleave', cancelCheatHold);
+  openSettingsBtn.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+  });
+
+  openSettingsBtn.addEventListener('click', (e) => {
+    if (cheatTriggered) {
+      cheatTriggered = false;
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
+    syncSettingsUI();
+    openSubModal(settingsScreen, startScreen);
+  });
   document.querySelectorAll('[data-close]').forEach(btn => btn.addEventListener('click', closeSubModal));
 
   // Daily Login Gift Claim
