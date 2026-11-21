@@ -57,8 +57,12 @@ if (workbox) {
         "revision": "a9f12964bddf9071fc97e333b587f108"
     },
     {
+        "url": "flappy flopy bird game muhib.txt",
+        "revision": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    {
         "url": "index.html",
-        "revision": "ed892af1da867918b927801d5d98820d"
+        "revision": "a0819a38fdaa049b1f0c4f651c618907"
     },
     {
         "url": "logo.png",
@@ -82,7 +86,7 @@ if (workbox) {
     },
     {
         "url": "sw.js",
-        "revision": "3b070ca879ec3e312b0cdba68ed2e58b"
+        "revision": "0ade1e7408b1b1b87d57e1335c5876f5"
     },
     {
         "url": "audio/sfx_die.wav",
