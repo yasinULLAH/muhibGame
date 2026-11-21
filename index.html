@@ -5893,11 +5893,26 @@
       || window.matchMedia('(display-mode: minimal-ui)').matches))
     || window.navigator.standalone === true
   );
-  const isAndroidWebView = /;\s*wv\)/i.test(navigator.userAgent) || !!window.AndroidApp;
+  const ua = navigator.userAgent || '';
+  const isWebView = /;\s*wv[);]/i.test(ua)
+    || /\bwv\b/i.test(ua)
+    || /Version\/\d+\.\d+ Chrome\//i.test(ua) // legacy Android WebView
+    || (document.referrer || '').startsWith('android-app://')
+    || !!window.NativeBridge // WebToApp APK bridge
+    || !!window.AndroidApp
+    || !!window.ReactNativeWebView;
+  const isAppMode = isStandalone || isWebView;
   const canUseOrientationApi = !!(screen.orientation && typeof screen.orientation.lock === 'function');
 
-  // Only offer the control inside an installed app or the APK webview.
-  if (!(isStandalone || isAndroidWebView)) return;
+  // Inside an installed app / APK the game already owns the whole screen,
+  // so the browser fullscreen button is redundant — hide it.
+  if (isAppMode) {
+    const fsBtn = document.getElementById('fullscreenBtn');
+    if (fsBtn) fsBtn.classList.add('hidden');
+  }
+
+  // Only offer the orientation control inside an installed app or APK webview.
+  if (!isAppMode) return;
   rotateBtn.classList.remove('hidden');
 
   const viewportIsLandscape = () => window.innerWidth > window.innerHeight;
@@ -5944,6 +5959,9 @@
     try { localStorage.setItem(PREF_KEY, mode); } catch (e) {}
 
     // APK: native activity orientation via the JavaScript bridge.
+    if (window.NativeBridge && typeof window.NativeBridge.setOrientation === 'function') {
+      try { window.NativeBridge.setOrientation(mode); } catch (e) {}
+    }
     if (window.AndroidApp && typeof window.AndroidApp.setOrientation === 'function') {
       try { window.AndroidApp.setOrientation(mode); } catch (e) {}
     }
@@ -5969,6 +5987,9 @@
   // Restore the player's saved preference on launch.
   if (requested) {
     updateButton();
+    if (window.NativeBridge && typeof window.NativeBridge.setOrientation === 'function') {
+      try { window.NativeBridge.setOrientation(requested); } catch (e) {}
+    }
     if (window.AndroidApp && typeof window.AndroidApp.setOrientation === 'function') {
       try { window.AndroidApp.setOrientation(requested); } catch (e) {}
     }
