@@ -15,7 +15,7 @@
 <style>
   :root {
     --bg-dark: #0b1120;
-    --surface: rgba(15, 23, 42, 0.84);
+    --surface: rgba(15, 23, 42, 0.88);
     --surface-solid: #111827;
     --surface-light: rgba(255, 255, 255, 0.08);
     --border: rgba(255, 255, 255, 0.14);
@@ -89,7 +89,7 @@
   .hud-left, .hud-right {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 7px;
     flex-wrap: wrap;
     pointer-events: auto;
   }
@@ -97,33 +97,33 @@
   .pill {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    background: rgba(15, 23, 42, 0.72);
+    gap: 5px;
+    background: rgba(15, 23, 42, 0.78);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid var(--border);
     border-radius: 999px;
-    padding: 7px 13px;
-    font-size: 0.85rem;
+    padding: 6px 12px;
+    font-size: 0.82rem;
     font-weight: 700;
     color: var(--text);
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
   }
 
-  .pill-coin {
-    color: #fde68a;
-  }
+  .pill-coin { color: #fde68a; }
+  .pill-heart { color: #fda4af; }
+  .pill-fps { color: #6ee7b7; font-variant-numeric: tabular-nums; font-size: 0.75rem; }
 
   .icon-btn {
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
     border-radius: 12px;
-    background: rgba(15, 23, 42, 0.76);
+    background: rgba(15, 23, 42, 0.8);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid var(--border);
     color: var(--text);
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -133,38 +133,55 @@
   }
 
   .icon-btn:hover {
-    background: rgba(30, 41, 59, 0.92);
+    background: rgba(30, 41, 59, 0.94);
     border-color: var(--border-strong);
   }
 
-  .icon-btn:active {
-    transform: scale(0.93);
+  .icon-btn:active { transform: scale(0.93); }
+  .svg-ico {
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    vertical-align: -0.14em;
+    flex-shrink: 0;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2.1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
+  .icon-btn .svg-ico { width: 19px; height: 19px; vertical-align: 0; }
+  .dock-btn .svg-ico { width: 20px; height: 20px; vertical-align: 0; }
+  .pill .svg-ico { width: 15px; height: 15px; vertical-align: 0; }
+  .medal-orb .svg-ico { width: 32px; height: 32px; vertical-align: 0; }
+  .ach-ico .svg-ico, .upg-ico .svg-ico { width: 20px; height: 20px; vertical-align: 0; }
+  .skin-swatch svg { width: 34px; height: 26px; }
 
-  /* ---------- Active Power-Up Bars ---------- */
+
+  /* ---------- Active Power-Up, Combo & Blitz HUD ---------- */
   #powerupHud {
     position: absolute;
-    top: calc(64px + var(--safe-top));
+    top: calc(62px + var(--safe-top));
     left: calc(12px + var(--safe-left));
     display: flex;
     flex-direction: column;
     gap: 6px;
     pointer-events: none;
-    z-index: 20;
+    z-index: 22;
   }
 
   .pu-bar {
     display: flex;
     align-items: center;
-    gap: 8px;
-    background: rgba(15, 23, 42, 0.78);
+    gap: 7px;
+    background: rgba(15, 23, 42, 0.82);
     backdrop-filter: blur(8px);
     border: 1px solid var(--border);
     border-radius: 999px;
-    padding: 4px 10px 4px 6px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    min-width: 118px;
+    padding: 4px 10px 4px 7px;
+    font-size: 0.74rem;
+    font-weight: 800;
+    min-width: 128px;
   }
 
   .pu-track {
@@ -181,10 +198,40 @@
     transition: width 0.08s linear;
   }
 
+  #blitzHud {
+    position: absolute;
+    top: calc(62px + var(--safe-top));
+    right: calc(12px + var(--safe-right));
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(15, 23, 42, 0.85);
+    border: 1.5px solid rgba(251, 191, 36, 0.55);
+    border-radius: 999px;
+    padding: 5px 12px;
+    font-size: 0.9rem;
+    font-weight: 900;
+    color: #fde68a;
+    font-variant-numeric: tabular-nums;
+    pointer-events: none;
+    z-index: 22;
+  }
+
+  #blitzHud.urgent {
+    border-color: #f43f5e;
+    color: #fecdd3;
+    animation: pulseUrgent 0.5s ease-in-out infinite;
+  }
+
+  @keyframes pulseUrgent {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+  }
+
   /* ---------- Live Score Display ---------- */
   #scoreDisplay {
     position: absolute;
-    top: calc(58px + var(--safe-top));
+    top: calc(56px + var(--safe-top));
     left: 50%;
     transform: translateX(-50%);
     font-size: clamp(2.8rem, 9vw, 4.4rem);
@@ -194,18 +241,45 @@
     text-shadow: 0 4px 0 rgba(15, 23, 42, 0.85), 0 8px 24px rgba(0, 0, 0, 0.45);
     -webkit-text-stroke: 2px rgba(15, 23, 42, 0.85);
     pointer-events: none;
-    z-index: 15;
+    z-index: 18;
     transition: transform 0.12s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  #scoreDisplay.pop {
-    transform: translateX(-50%) scale(1.22);
+  #scoreDisplay.pop { transform: translateX(-50%) scale(1.22); }
+  #scoreDisplay.fever { color: #fde047; -webkit-text-stroke: 2px #78350f; }
+
+  /* ---------- On-Screen Mobile Flap Button ---------- */
+  #mobileFlapBtn {
+    position: absolute;
+    bottom: calc(22px + var(--safe-bottom));
+    right: calc(20px + var(--safe-right));
+    width: 78px;
+    height: 78px;
+    border-radius: 50%;
+    border: 2.5px solid rgba(253, 230, 138, 0.75);
+    background: radial-gradient(circle at 30% 30%, rgba(251, 191, 36, 0.92), rgba(217, 119, 6, 0.9));
+    color: #1e1b0e;
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+    cursor: pointer;
+    z-index: 24;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.08s ease;
   }
+
+  #mobileFlapBtn:active { transform: scale(0.9); }
 
   /* ---------- Get Ready Prompt ---------- */
   #getReadyPrompt {
     position: absolute;
-    bottom: calc(16% + var(--safe-bottom));
+    bottom: calc(15% + var(--safe-bottom));
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -213,19 +287,19 @@
     align-items: center;
     gap: 8px;
     pointer-events: none;
-    z-index: 16;
+    z-index: 18;
     text-align: center;
   }
 
   .tap-badge {
-    background: rgba(15, 23, 42, 0.78);
+    background: rgba(15, 23, 42, 0.82);
     backdrop-filter: blur(10px);
     border: 1.5px solid rgba(251, 191, 36, 0.65);
     color: #fef3c7;
     padding: 10px 22px;
     border-radius: 999px;
     font-weight: 800;
-    font-size: clamp(0.88rem, 3vw, 1rem);
+    font-size: clamp(0.85rem, 3vw, 1rem);
     letter-spacing: 0.06em;
     text-transform: uppercase;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
@@ -235,7 +309,7 @@
   .tap-sub {
     font-size: 0.8rem;
     font-weight: 600;
-    color: rgba(255, 255, 255, 0.92);
+    color: rgba(255, 255, 255, 0.94);
     text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
   }
 
@@ -252,7 +326,7 @@
     align-items: center;
     justify-content: center;
     pointer-events: none;
-    z-index: 32;
+    z-index: 50;
   }
 
   #countdownNum {
@@ -261,11 +335,11 @@
     color: #fbbf24;
     text-shadow: 0 6px 0 #78350f, 0 14px 30px rgba(0, 0, 0, 0.55);
     -webkit-text-stroke: 2px #451a03;
-    animation: countPop 0.9s ease-out infinite;
+    animation: countPop 0.75s ease-out infinite;
   }
 
   @keyframes countPop {
-    0% { transform: scale(1.4); opacity: 0; }
+    0% { transform: scale(1.38); opacity: 0; }
     25% { transform: scale(1); opacity: 1; }
     100% { transform: scale(0.92); opacity: 0.85; }
   }
@@ -278,11 +352,11 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: calc(60px + var(--safe-top)) calc(14px + var(--safe-right)) calc(18px + var(--safe-bottom)) calc(14px + var(--safe-left));
+    padding: calc(58px + var(--safe-top)) calc(14px + var(--safe-right)) calc(16px + var(--safe-bottom)) calc(14px + var(--safe-left));
     z-index: 45;
-    background: rgba(8, 13, 26, 0.42);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    background: rgba(8, 13, 26, 0.5);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
     transition: opacity 0.2s ease;
   }
 
@@ -293,13 +367,11 @@
     -webkit-backdrop-filter: blur(2px);
   }
 
-  .hidden {
-    display: none !important;
-  }
+  .hidden { display: none !important; }
 
   .card {
     width: 100%;
-    max-width: 440px;
+    max-width: 460px;
     max-height: 100%;
     overflow-y: auto;
     background: var(--surface);
@@ -307,22 +379,17 @@
     -webkit-backdrop-filter: blur(18px);
     border: 1px solid var(--border-strong);
     border-radius: var(--radius-lg);
-    padding: clamp(16px, 3.5vw, 24px);
+    padding: clamp(15px, 3vw, 22px);
     box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.12);
     text-align: center;
   }
 
-  .card::-webkit-scrollbar {
-    width: 6px;
-  }
-  .card::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 999px;
-  }
+  .card::-webkit-scrollbar { width: 6px; }
+  .card::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.22); border-radius: 999px; }
 
   /* ---------- Title & Dedication ---------- */
   .game-title {
-    font-size: clamp(2rem, 7vw, 2.9rem);
+    font-size: clamp(1.9rem, 6.5vw, 2.75rem);
     font-weight: 900;
     line-height: 1.05;
     letter-spacing: -0.03em;
@@ -335,7 +402,7 @@
 
   .edition-tag {
     display: inline-block;
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     font-weight: 800;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -344,41 +411,35 @@
     border: 1px solid rgba(251, 191, 36, 0.35);
     padding: 3px 10px;
     border-radius: 999px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
 
   .dedication {
     background: linear-gradient(135deg, rgba(245, 158, 11, 0.14), rgba(244, 63, 94, 0.12));
     border: 1px solid rgba(251, 191, 36, 0.28);
     border-radius: var(--radius-md);
-    padding: 10px 14px;
-    margin-bottom: 14px;
-    font-size: 0.84rem;
+    padding: 9px 12px;
+    margin-bottom: 12px;
+    font-size: 0.8rem;
     color: #e2e8f0;
-    line-height: 1.4;
+    line-height: 1.35;
   }
 
   .dedication strong {
     display: block;
-    font-size: 1.02rem;
+    font-size: 0.98rem;
     color: #fde68a;
     font-weight: 800;
     margin: 2px 0;
   }
 
-  .dedication small {
-    color: #cbd5e1;
-    font-size: 0.76rem;
-  }
+  .dedication small { color: #cbd5e1; font-size: 0.74rem; }
 
-  /* ---------- Segmented Controls ---------- */
-  .control-group {
-    margin-bottom: 11px;
-    text-align: left;
-  }
+  /* ---------- Segmented Controls & Tabs ---------- */
+  .control-group { margin-bottom: 10px; text-align: left; }
 
   .control-label {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -394,10 +455,15 @@
     grid-auto-flow: column;
     grid-auto-columns: 1fr;
     gap: 5px;
-    background: rgba(0, 0, 0, 0.32);
+    background: rgba(0, 0, 0, 0.34);
     border: 1px solid var(--border);
     padding: 4px;
     border-radius: var(--radius-md);
+  }
+
+  .segmented.grid-2x2 {
+    grid-auto-flow: row;
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .seg-btn {
@@ -405,19 +471,16 @@
     background: transparent;
     color: #cbd5e1;
     font-family: inherit;
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     font-weight: 700;
-    padding: 9px 6px;
+    padding: 8px 6px;
     border-radius: 10px;
     cursor: pointer;
     transition: all 0.16s ease;
-    min-height: 38px;
+    min-height: 36px;
   }
 
-  .seg-btn:hover {
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.06);
-  }
+  .seg-btn:hover { color: #ffffff; background: rgba(255, 255, 255, 0.06); }
 
   .seg-btn.active {
     background: linear-gradient(180deg, #3b82f6, #2563eb);
@@ -426,34 +489,41 @@
     box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
   }
 
+  .seg-btn.active[data-mode="blitz"] {
+    background: linear-gradient(180deg, #a855f7, #7e22ce);
+    border-color: rgba(216, 180, 254, 0.45);
+  }
+
+  .seg-btn.active[data-mode="zen"] {
+    background: linear-gradient(180deg, #14b8a6, #0d9488);
+    border-color: rgba(94, 234, 212, 0.45);
+  }
+
   .seg-btn.active[data-diff="easy"] {
     background: linear-gradient(180deg, #10b981, #059669);
     border-color: rgba(110, 231, 183, 0.45);
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
   }
 
   .seg-btn.active[data-diff="medium"] {
     background: linear-gradient(180deg, #f59e0b, #d97706);
     border-color: rgba(253, 230, 138, 0.45);
-    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.38);
   }
 
   .seg-btn.active[data-diff="hard"] {
     background: linear-gradient(180deg, #f43f5e, #e11d48);
     border-color: rgba(253, 164, 175, 0.45);
-    box-shadow: 0 4px 12px rgba(244, 63, 94, 0.38);
   }
 
   /* ---------- Primary & Secondary Buttons ---------- */
   .btn-primary {
     width: 100%;
-    padding: 14px 20px;
+    padding: 13px 18px;
     border-radius: 14px;
     border: none;
     background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 65%, #d97706 100%);
     color: #1e1b0e;
     font-family: inherit;
-    font-size: 1.05rem;
+    font-size: 1.02rem;
     font-weight: 900;
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -464,27 +534,45 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    min-height: 48px;
+    min-height: 46px;
   }
 
-  .btn-primary:hover {
-    filter: brightness(1.06);
+  .btn-primary:hover { filter: brightness(1.06); }
+  .btn-primary:active { transform: translateY(4px); box-shadow: 0 1px 0 #92400e; }
+
+  .btn-revive {
+    width: 100%;
+    padding: 11px 16px;
+    border-radius: 13px;
+    border: 1.5px solid rgba(253, 164, 175, 0.65);
+    background: linear-gradient(180deg, #f43f5e, #be123c);
+    color: #fff;
+    font-family: inherit;
+    font-size: 0.92rem;
+    font-weight: 900;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(244, 63, 94, 0.38);
+    margin-bottom: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 44px;
   }
 
-  .btn-primary:active {
-    transform: translateY(4px);
-    box-shadow: 0 1px 0 #92400e, 0 4px 10px rgba(245, 158, 11, 0.25);
-  }
+  .btn-revive:hover { filter: brightness(1.08); }
 
   .btn-secondary {
     flex: 1;
-    padding: 11px 14px;
+    padding: 10px 12px;
     border-radius: 12px;
     border: 1px solid var(--border-strong);
     background: rgba(255, 255, 255, 0.08);
     color: var(--text);
     font-family: inherit;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     font-weight: 700;
     cursor: pointer;
     transition: background 0.15s ease, transform 0.1s ease;
@@ -492,16 +580,11 @@
     align-items: center;
     justify-content: center;
     gap: 6px;
-    min-height: 44px;
+    min-height: 42px;
   }
 
-  .btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.15);
-  }
-
-  .btn-secondary:active {
-    transform: scale(0.97);
-  }
+  .btn-secondary:hover { background: rgba(255, 255, 255, 0.16); }
+  .btn-secondary:active { transform: scale(0.97); }
 
   .btn-danger {
     border-color: rgba(244, 63, 94, 0.45);
@@ -509,24 +592,23 @@
     color: #fecdd3;
   }
 
-  .btn-danger:hover {
-    background: rgba(244, 63, 94, 0.28);
-  }
+  .btn-danger:hover { background: rgba(244, 63, 94, 0.28); }
 
   .dock-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    margin-top: 12px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 7px;
+    margin-top: 10px;
   }
 
   .dock-btn {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 3px;
-    padding: 9px 4px;
+    gap: 2px;
+    padding: 8px 4px;
     border-radius: 12px;
     border: 1px solid var(--border);
     background: rgba(255, 255, 255, 0.06);
@@ -536,35 +618,32 @@
     font-weight: 700;
     cursor: pointer;
     transition: background 0.15s ease, transform 0.1s ease, border-color 0.15s ease;
-    min-height: 54px;
+    min-height: 50px;
   }
 
-  .dock-btn span.ico {
-    font-size: 1.2rem;
-    line-height: 1;
-  }
+  .dock-btn span.ico { font-size: 1.15rem; line-height: 1; }
+  .dock-btn:hover { background: rgba(255, 255, 255, 0.14); border-color: var(--border-strong); }
+  .dock-btn:active { transform: scale(0.95); }
 
-  .dock-btn:hover {
-    background: rgba(255, 255, 255, 0.14);
-    border-color: var(--border-strong);
-  }
-
-  .dock-btn:active {
-    transform: scale(0.95);
+  .notif-dot {
+    position: absolute;
+    top: 5px;
+    right: 7px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #f43f5e;
+    box-shadow: 0 0 8px #f43f5e;
   }
 
   .hint-line {
-    margin-top: 10px;
-    font-size: 0.74rem;
+    margin-top: 9px;
+    font-size: 0.72rem;
     color: var(--text-muted);
     font-weight: 500;
   }
 
-  .btn-row {
-    display: flex;
-    gap: 10px;
-    margin-top: 14px;
-  }
+  .btn-row { display: flex; gap: 8px; margin-top: 12px; }
 
   /* ---------- Game Over Card ---------- */
   .medal-stage {
@@ -575,19 +654,19 @@
     background: rgba(255, 255, 255, 0.06);
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
-    padding: 14px;
-    margin: 12px 0;
+    padding: 12px 14px;
+    margin: 10px 0;
     text-align: left;
   }
 
   .medal-orb {
-    width: 64px;
-    height: 64px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2.1rem;
+    font-size: 2rem;
     background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.25), rgba(15, 23, 42, 0.55));
     border: 2px solid rgba(255, 255, 255, 0.22);
     flex-shrink: 0;
@@ -598,13 +677,13 @@
     display: inline-block;
     background: linear-gradient(90deg, #f59e0b, #ef4444);
     color: #fff;
-    font-size: 0.68rem;
+    font-size: 0.65rem;
     font-weight: 800;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    padding: 2px 8px;
+    padding: 2px 7px;
     border-radius: 999px;
-    margin-left: 6px;
+    margin-left: 5px;
     vertical-align: middle;
   }
 
@@ -612,19 +691,19 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 8px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
 
   .metric-box {
     background: rgba(0, 0, 0, 0.28);
     border: 1px solid var(--border);
     border-radius: 12px;
-    padding: 10px 12px;
+    padding: 9px 11px;
     text-align: left;
   }
 
   .metric-box .m-label {
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.06em;
@@ -632,7 +711,7 @@
   }
 
   .metric-box .m-val {
-    font-size: 1.45rem;
+    font-size: 1.35rem;
     font-weight: 900;
     color: #ffffff;
     margin-top: 2px;
@@ -643,17 +722,17 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 14px;
-    padding-bottom: 10px;
+    margin-bottom: 12px;
+    padding-bottom: 9px;
     border-bottom: 1px solid var(--border);
   }
 
   .modal-head h2 {
-    font-size: 1.25rem;
+    font-size: 1.18rem;
     font-weight: 800;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 7px;
   }
 
   .close-x {
@@ -663,26 +742,24 @@
     border: 1px solid var(--border);
     background: rgba(255, 255, 255, 0.06);
     color: var(--text);
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  .close-x:hover {
-    background: rgba(255, 255, 255, 0.16);
-  }
+  .close-x:hover { background: rgba(255, 255, 255, 0.16); }
 
-  /* ---------- Skins & Themes Grid ---------- */
+  /* ---------- Hangar (Skins, Upgrades, World) ---------- */
   .section-sub {
-    font-size: 0.74rem;
+    font-size: 0.72rem;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--text-muted);
     text-align: left;
-    margin: 12px 0 8px;
+    margin: 12px 0 7px;
   }
 
   .skins-grid {
@@ -695,44 +772,32 @@
     background: rgba(255, 255, 255, 0.05);
     border: 1.5px solid var(--border);
     border-radius: 14px;
-    padding: 10px;
+    padding: 9px;
     text-align: center;
     cursor: pointer;
     transition: all 0.15s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
   }
 
-  .skin-card:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: var(--border-strong);
-  }
-
-  .skin-card.equipped {
-    border-color: #fbbf24;
-    background: rgba(245, 158, 11, 0.14);
-    box-shadow: 0 0 0 1px rgba(251, 191, 36, 0.35);
-  }
+  .skin-card:hover { background: rgba(255, 255, 255, 0.1); border-color: var(--border-strong); }
+  .skin-card.equipped { border-color: #fbbf24; background: rgba(245, 158, 11, 0.15); }
 
   .skin-swatch {
-    width: 48px;
-    height: 36px;
+    width: 46px;
+    height: 34px;
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  .skin-name {
-    font-size: 0.84rem;
-    font-weight: 800;
-    color: #fff;
-  }
+  .skin-name { font-size: 0.82rem; font-weight: 800; color: #fff; }
 
   .skin-status {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 700;
     padding: 3px 9px;
     border-radius: 999px;
@@ -740,10 +805,7 @@
     color: #e2e8f0;
   }
 
-  .skin-card.equipped .skin-status {
-    background: #fbbf24;
-    color: #1e1b0e;
-  }
+  .skin-card.equipped .skin-status { background: #fbbf24; color: #1e1b0e; }
 
   .themes-row {
     display: grid;
@@ -752,80 +814,151 @@
   }
 
   .theme-chip {
-    padding: 8px 6px;
+    padding: 8px 5px;
     border-radius: 10px;
     border: 1.5px solid var(--border);
     background: rgba(255, 255, 255, 0.05);
     color: #e2e8f0;
     font-family: inherit;
-    font-size: 0.75rem;
+    font-size: 0.74rem;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.15s ease;
   }
 
-  .theme-chip.active {
-    border-color: #38bdf8;
-    background: rgba(56, 189, 248, 0.18);
-    color: #fff;
+  .theme-chip.active { border-color: #38bdf8; background: rgba(56, 189, 248, 0.2); color: #fff; }
+
+  /* ---------- Upgrades List ---------- */
+  .upg-list { display: flex; flex-direction: column; gap: 8px; text-align: left; }
+
+  .upg-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 13px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
   }
 
-  /* ---------- Stats Table ---------- */
-  .stats-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.78rem;
-    margin-top: 8px;
+  .upg-ico {
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
   }
 
+  .upg-info { flex: 1; min-width: 0; }
+  .upg-title { font-size: 0.84rem; font-weight: 800; color: #fff; }
+  .upg-desc { font-size: 0.7rem; color: var(--text-muted); margin-top: 1px; }
+
+  .upg-pips { display: flex; gap: 4px; margin-top: 5px; }
+  .upg-pip { width: 16px; height: 5px; border-radius: 999px; background: rgba(255, 255, 255, 0.16); }
+  .upg-pip.filled { background: #fbbf24; }
+
+  .upg-buy-btn {
+    padding: 7px 11px;
+    border-radius: 10px;
+    border: 1px solid rgba(251, 191, 36, 0.45);
+    background: rgba(245, 158, 11, 0.2);
+    color: #fde68a;
+    font-family: inherit;
+    font-size: 0.74rem;
+    font-weight: 800;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .upg-buy-btn:hover { background: rgba(245, 158, 11, 0.34); }
+  .upg-buy-btn.maxed { border-color: rgba(16, 185, 129, 0.45); background: rgba(16, 185, 129, 0.15); color: #6ee7b7; cursor: default; }
+
+  /* ---------- Daily Missions ---------- */
+  .streak-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(244, 63, 94, 0.18));
+    border: 1px solid rgba(251, 191, 36, 0.4);
+    border-radius: 14px;
+    padding: 11px 13px;
+    margin-bottom: 12px;
+    text-align: left;
+  }
+
+  .mission-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 11px 12px;
+    margin-bottom: 8px;
+    text-align: left;
+  }
+
+  .mission-card.ready { border-color: rgba(251, 191, 36, 0.65); background: rgba(245, 158, 11, 0.12); }
+  .mission-card.claimed { border-color: rgba(16, 185, 129, 0.4); background: rgba(16, 185, 129, 0.08); }
+
+  .m-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .m-bar { height: 6px; background: rgba(255, 255, 255, 0.12); border-radius: 999px; overflow: hidden; margin-top: 7px; }
+  .m-bar-fill { height: 100%; background: linear-gradient(90deg, #38bdf8, #fbbf24); border-radius: 999px; }
+
+  /* ---------- Stats Table & Matrix ---------- */
+  .matrix-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+    margin-bottom: 10px;
+    font-size: 0.72rem;
+  }
+
+  .matrix-cell {
+    background: rgba(0, 0, 0, 0.26);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    padding: 6px 4px;
+    text-align: center;
+  }
+
+  .matrix-cell strong { display: block; font-size: 0.96rem; color: #fff; }
+  .matrix-cell span { color: var(--text-muted); font-size: 0.64rem; text-transform: uppercase; font-weight: 700; }
+
+  .stats-table { width: 100%; border-collapse: collapse; font-size: 0.76rem; margin-top: 6px; }
   .stats-table th {
     text-align: left;
-    padding: 7px 6px;
+    padding: 7px 5px;
     color: var(--text-muted);
-    font-size: 0.68rem;
+    font-size: 0.66rem;
     text-transform: uppercase;
     letter-spacing: 0.06em;
     border-bottom: 1px solid var(--border);
   }
+  .stats-table td { text-align: left; padding: 7px 5px; border-bottom: 1px solid rgba(255, 255, 255, 0.06); font-weight: 600; }
+  .stats-table tr:last-child td { border-bottom: none; }
 
-  .stats-table td {
-    text-align: left;
-    padding: 8px 6px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    font-weight: 600;
-  }
-
-  .stats-table tr:last-child td {
-    border-bottom: none;
-  }
-
-  /* ---------- Achievements List ---------- */
-  .ach-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    text-align: left;
-  }
+  /* ---------- Achievements & Guide ---------- */
+  .ach-list { display: flex; flex-direction: column; gap: 7px; text-align: left; }
 
   .ach-item {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 10px;
+    padding: 9px 10px;
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid var(--border);
   }
 
-  .ach-item.unlocked {
-    background: rgba(16, 185, 129, 0.12);
-    border-color: rgba(16, 185, 129, 0.4);
-  }
+  .ach-item.unlocked { background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.4); }
 
   .ach-ico {
-    font-size: 1.5rem;
-    width: 38px;
-    height: 38px;
+    font-size: 1.4rem;
+    width: 36px;
+    height: 36px;
     border-radius: 10px;
     background: rgba(0, 0, 0, 0.28);
     display: flex;
@@ -834,35 +967,18 @@
     flex-shrink: 0;
   }
 
-  .ach-info {
-    flex: 1;
-    min-width: 0;
-  }
+  .ach-info { flex: 1; min-width: 0; }
+  .ach-title { font-size: 0.82rem; font-weight: 800; color: #fff; }
+  .ach-desc { font-size: 0.7rem; color: var(--text-muted); }
+  .ach-reward { font-size: 0.72rem; font-weight: 800; color: #fde68a; white-space: nowrap; }
 
-  .ach-title {
-    font-size: 0.84rem;
-    font-weight: 800;
-    color: #fff;
-  }
-
-  .ach-desc {
-    font-size: 0.72rem;
-    color: var(--text-muted);
-  }
-
-  .ach-reward {
-    font-size: 0.72rem;
-    font-weight: 800;
-    color: #fde68a;
-    white-space: nowrap;
-  }
-
-  /* ---------- Settings Toggles ---------- */
+  /* ---------- Settings Toggles, Sliders & Inputs ---------- */
   .setting-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 11px 12px;
+    gap: 10px;
+    padding: 10px 12px;
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--border);
@@ -870,21 +986,46 @@
     text-align: left;
   }
 
-  .setting-row .s-title {
-    font-size: 0.86rem;
-    font-weight: 700;
-    color: #fff;
+  .setting-col {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    margin-bottom: 8px;
+    text-align: left;
   }
 
-  .setting-row .s-sub {
-    font-size: 0.72rem;
-    color: var(--text-muted);
+  .setting-row .s-title, .setting-col .s-title { font-size: 0.84rem; font-weight: 700; color: #fff; }
+  .setting-row .s-sub, .setting-col .s-sub { font-size: 0.7rem; color: var(--text-muted); }
+
+  .text-input {
+    width: 100%;
+    padding: 8px 11px;
+    border-radius: 9px;
+    border: 1px solid var(--border-strong);
+    background: rgba(0, 0, 0, 0.35);
+    color: #fff;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 700;
+    outline: none;
+  }
+
+  .text-input:focus { border-color: #fbbf24; }
+
+  .range-slider {
+    width: 100%;
+    accent-color: #fbbf24;
+    cursor: pointer;
   }
 
   .switch {
     position: relative;
-    width: 46px;
-    height: 26px;
+    width: 44px;
+    height: 24px;
     border-radius: 999px;
     border: none;
     background: rgba(255, 255, 255, 0.2);
@@ -898,41 +1039,36 @@
     position: absolute;
     top: 3px;
     left: 3px;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
     background: #ffffff;
     transition: transform 0.18s ease;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
   }
 
-  .switch.on {
-    background: #10b981;
-  }
-
-  .switch.on::after {
-    transform: translateX(20px);
-  }
+  .switch.on { background: #10b981; }
+  .switch.on::after { transform: translateX(20px); }
 
   /* ---------- Toast Notification ---------- */
   #toastContainer {
     position: absolute;
-    top: calc(64px + var(--safe-top));
+    top: calc(62px + var(--safe-top));
     left: 50%;
     transform: translateX(-50%);
-    z-index: 60;
+    z-index: 70;
     display: flex;
     flex-direction: column;
     gap: 8px;
     pointer-events: none;
-    width: min(92vw, 340px);
+    width: min(92vw, 350px);
   }
 
   .toast {
     display: flex;
     align-items: center;
     gap: 10px;
-    background: rgba(15, 23, 42, 0.94);
+    background: rgba(15, 23, 42, 0.95);
     border: 1px solid rgba(251, 191, 36, 0.55);
     border-radius: 14px;
     padding: 10px 14px;
@@ -949,15 +1085,9 @@
   }
 
   @media (max-width: 420px) {
-    .dock-grid {
-      gap: 6px;
-    }
-    .card {
-      padding: 15px;
-    }
-    .game-title {
-      font-size: 2rem;
-    }
+    .dock-grid { gap: 6px; }
+    .card { padding: 14px; }
+    .game-title { font-size: 1.9rem; }
   }
 </style>
 <link href="manifest.json" rel="manifest"/><link href="favicon.ico" rel="icon" type="image/x-icon"/></head>
@@ -967,19 +1097,28 @@
 <!-- Top HUD -->
 <div id="hudTop">
 <div class="hud-left">
-<div class="pill pill-coin" id="hudCoins" title="Total Coins">🪙 <span id="coinCountEl">0</span></div>
-<div class="pill" id="hudBest" title="Best Score for Current Mode">🏆 <span id="hudBestEl">0</span></div>
+<div class="pill pill-coin" id="hudCoins" title="Total Coins"><svg aria-hidden="true" class="svg-ico" style="color:#fbbf24" viewbox="0 0 24 24"><circle cx="12" cy="12" fill="#fbbf24" r="9" stroke="#b45309" stroke-width="2"></circle><circle cx="12" cy="12" r="5" stroke="#fef3c7" stroke-width="1.6"></circle></svg> <span id="coinCountEl">0</span></div>
+<div class="pill" id="hudBest" title="Best Score for Current Mode"><svg aria-hidden="true" class="svg-ico" style="color:#fbbf24" viewbox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg> <span id="hudBestEl">0</span></div>
+<div class="pill pill-heart" id="hudHearts" title="Revive Hearts"><svg aria-hidden="true" class="svg-ico" style="color:#f43f5e" viewbox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" fill="#f43f5e" stroke="#f43f5e"></path></svg> <span id="heartCountEl">1</span></div>
+<div class="pill pill-fps hidden" id="hudFps">60 FPS</div>
 </div>
 <div class="hud-right">
-<button aria-label="Pause Game" class="icon-btn hidden" id="pauseBtn" title="Pause (P)">⏸️</button>
-<button aria-label="Toggle Sound" class="icon-btn" id="muteBtn" title="Mute / Unmute (M)">🔊</button>
-<button aria-label="Toggle Fullscreen" class="icon-btn" id="fullscreenBtn" title="Fullscreen">⛶</button>
+<button aria-label="Pause Game" class="icon-btn hidden" id="pauseBtn" title="Pause (P)"><svg aria-hidden="true" class="svg-ico" style="color:currentColor" viewbox="0 0 24 24"><rect fill="currentColor" height="16" rx="1" width="4" x="6" y="4"></rect><rect fill="currentColor" height="16" rx="1" width="4" x="14" y="4"></rect></svg></button>
+<button aria-label="Toggle Sound" class="icon-btn" id="muteBtn" title="Mute / Unmute (M)"><svg aria-hidden="true" class="svg-ico" style="color:currentColor" viewbox="0 0 24 24"><polygon fill="currentColor" points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg></button>
+<button aria-label="Toggle Fullscreen" class="icon-btn" id="fullscreenBtn" title="Fullscreen"><svg aria-hidden="true" class="svg-ico" style="color:currentColor" viewbox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3"></path><path d="M21 8V5a2 2 0 0 0-2-2h-3"></path><path d="M3 16v3a2 2 0 0 0 2 2h3"></path><path d="M16 21h3a2 2 0 0 0 2-2v-3"></path></svg></button>
 </div>
 </div>
-<!-- Active Power-Up Bars -->
+<!-- Active Power-Up & Combo Bars -->
 <div id="powerupHud"></div>
+<!-- Blitz Timer -->
+<div class="hidden" id="blitzHud"><svg aria-hidden="true" class="svg-ico" style="color:#c084fc" viewbox="0 0 24 24"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2.5 2"></path><path d="M9 2h6"></path></svg> <span id="blitzTimeEl">45.0</span>s</div>
 <!-- Live Score -->
 <div class="hidden" id="scoreDisplay">0</div>
+<!-- Optional On-Screen Mobile Flap Button -->
+<button aria-label="Flap" class="hidden" id="mobileFlapBtn">
+<span style="display:flex;"><svg aria-hidden="true" class="svg-ico" style="color:#1e1b0e" viewbox="0 0 24 24"><path d="M12 19V5"></path><polyline points="5 12 12 5 19 12"></polyline></svg></span>
+<span>Flap</span>
+</button>
 <!-- Get Ready Prompt -->
 <div class="hidden" id="getReadyPrompt">
 <div class="tap-badge">Tap or Press Space to Fly</div>
@@ -995,26 +1134,28 @@
 <div class="overlay start-overlay" id="startScreen">
 <div class="card">
 <h1 class="game-title">Flappy Muhib</h1>
-<div class="edition-tag">Definitive Edition</div>
+<div class="edition-tag">Definitive Edition • Pilot: <span id="pilotBadgeName">Muhib</span></div>
 <div class="dedication">
         Dedicated with love to my little brother
-        <strong>Muhib Ullah ❤️</strong>
+        <strong>Muhib Ullah <svg aria-hidden="true" class="svg-ico" style="color:#f43f5e" viewbox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" fill="#f43f5e" stroke="#f43f5e"></path></svg></strong>
 <small>Keep flying high, little bro!</small>
 </div>
 <div class="control-group">
 <div class="control-label">
 <span>Game Mode</span>
-<span id="modeDescLabel" style="color:#fde68a;">Coins &amp; Power-Ups</span>
+<span id="modeDescLabel" style="color:#fde68a;">Coins, Power-Ups &amp; Fever</span>
 </div>
-<div class="segmented" id="modeSelector">
-<button class="seg-btn active" data-mode="arcade">⚡ Arcade</button>
-<button class="seg-btn" data-mode="classic">🐦 Classic</button>
+<div class="segmented grid-2x2" id="modeSelector">
+<button class="seg-btn active" data-mode="arcade"><svg aria-hidden="true" class="svg-ico" style="color:#fde047" viewbox="0 0 24 24"><polygon fill="currentColor" points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg> Arcade</button>
+<button class="seg-btn" data-mode="classic"><svg aria-hidden="true" class="svg-ico" style="color:#38bdf8" viewbox="0 0 24 24"><path d="M16 7h.01"></path><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"></path><path d="m20 7 2 .5-2 .5"></path></svg> Classic</button>
+<button class="seg-btn" data-mode="blitz"><svg aria-hidden="true" class="svg-ico" style="color:#c084fc" viewbox="0 0 24 24"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2.5 2"></path><path d="M9 2h6"></path></svg> Blitz 45s</button>
+<button class="seg-btn" data-mode="zen"><svg aria-hidden="true" class="svg-ico" style="color:#5eead4" viewbox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path><path d="M12 8v8"></path><path d="M8 12h8"></path></svg> Zen Practice</button>
 </div>
 </div>
 <div class="control-group">
 <div class="control-label">
 <span>Difficulty</span>
-<span id="diffDescLabel" style="color:#fbbf24;">Balanced Pacing</span>
+<span id="diffDescLabel" style="color:#fbbf24;">Balanced Arcade Pacing</span>
 </div>
 <div class="segmented" id="diffSelector">
 <button class="seg-btn" data-diff="easy">Easy</button>
@@ -1022,39 +1163,48 @@
 <button class="seg-btn" data-diff="hard">Hard</button>
 </div>
 </div>
-<button class="btn-primary" id="startBtn">▶ Play Now</button>
+<button class="btn-primary" id="startBtn"><svg aria-hidden="true" class="svg-ico" style="color:currentColor" viewbox="0 0 24 24"><polygon fill="currentColor" points="6 4 20 12 6 20 6 4"></polygon></svg> Play Now</button>
 <div class="dock-grid">
 <button class="dock-btn" id="openHangarBtn">
-<span class="ico">🎨</span>
-<span>Hangar</span>
+<span class="ico"><svg aria-hidden="true" class="svg-ico" style="color:#f472b6" viewbox="0 0 24 24"><circle cx="13.5" cy="6.5" fill="currentColor" r="1.2"></circle><circle cx="17.5" cy="10.5" fill="currentColor" r="1.2"></circle><circle cx="8.5" cy="7.5" fill="currentColor" r="1.2"></circle><circle cx="6.5" cy="12.5" fill="currentColor" r="1.2"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.9 0 1.6-.7 1.6-1.6 0-.4-.2-.8-.4-1.1-.3-.3-.4-.7-.4-1.1 0-.9.7-1.6 1.6-1.6H16c3.3 0 6-2.7 6-6 0-5-4.5-8.6-10-8.6Z"></path></svg></span>
+<span>Shop &amp; Skins</span>
+</button>
+<button class="dock-btn" id="openMissionsBtn">
+<span class="notif-dot hidden" id="missionsDot"></span>
+<span class="ico"><svg aria-hidden="true" class="svg-ico" style="color:#fb7185" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="5"></circle><circle cx="12" cy="12" fill="currentColor" r="1.5"></circle></svg></span>
+<span>Daily</span>
 </button>
 <button class="dock-btn" id="openStatsBtn">
-<span class="ico">📊</span>
+<span class="ico"><svg aria-hidden="true" class="svg-ico" style="color:#38bdf8" viewbox="0 0 24 24"><line x1="18" x2="18" y1="20" y2="10"></line><line x1="12" x2="12" y1="20" y2="4"></line><line x1="6" x2="6" y1="20" y2="14"></line></svg></span>
 <span>Stats</span>
 </button>
 <button class="dock-btn" id="openAchBtn">
-<span class="ico">🏅</span>
+<span class="ico"><svg aria-hidden="true" class="svg-ico" style="color:#fbbf24" viewbox="0 0 24 24"><circle cx="12" cy="8" r="6"></circle><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path></svg></span>
 <span>Awards</span>
 </button>
+<button class="dock-btn" id="openGuideBtn">
+<span class="ico"><svg aria-hidden="true" class="svg-ico" style="color:#93c5fd" viewbox="0 0 24 24"><path d="M2 4h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 4h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></span>
+<span>Guide</span>
+</button>
 <button class="dock-btn" id="openSettingsBtn">
-<span class="ico">⚙️</span>
+<span class="ico"><svg aria-hidden="true" class="svg-ico" style="color:#cbd5e1" viewbox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></span>
 <span>Settings</span>
 </button>
 </div>
-<div class="hint-line">Space / Up / W or Tap anywhere to flap • P to pause</div>
+<div class="hint-line">Space / Up / W or Tap to flap • P to pause • M to mute</div>
 </div>
 </div>
 <!-- Game Over Screen -->
 <div class="overlay hidden" id="gameOverScreen">
 <div class="card">
-<h2 style="font-size:1.85rem;font-weight:900;color:#fbbf24;margin-bottom:2px;">Flight Over!</h2>
-<div id="goSubLabel" style="font-size:0.78rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">Arcade • Medium</div>
+<h2 id="goHeading" style="font-size:1.75rem;font-weight:900;color:#fbbf24;margin-bottom:2px;">Flight Over!</h2>
+<div id="goSubLabel" style="font-size:0.76rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">Arcade • Medium</div>
 <div class="medal-stage">
-<div class="medal-orb" id="goMedalIcon">🥚</div>
+<div class="medal-orb" id="goMedalIcon"><svg aria-hidden="true" class="svg-ico" style="color:#fbbf24" viewbox="0 0 24 24"><circle cx="12" cy="8" r="6"></circle><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path></svg></div>
 <div>
-<div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);font-weight:700;">Rank Earned</div>
-<div id="goMedalName" style="font-size:1.15rem;font-weight:900;color:#fff;">Beginner</div>
-<div id="goNextMedalHint" style="font-size:0.74rem;color:#cbd5e1;margin-top:2px;">Score 10 for Bronze Medal</div>
+<div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);font-weight:700;">Rank Earned</div>
+<div id="goMedalName" style="font-size:1.12rem;font-weight:900;color:#fff;">Beginner</div>
+<div id="goNextMedalHint" style="font-size:0.73rem;color:#cbd5e1;margin-top:2px;">Score 10 for Bronze Medal</div>
 </div>
 </div>
 <div class="metrics-grid">
@@ -1075,10 +1225,12 @@
 <div class="m-val" id="goCloseCalls" style="color:#38bdf8;">0</div>
 </div>
 </div>
-<button class="btn-primary" id="restartBtn">🔁 Play Again</button>
+<button class="btn-revive hidden" id="reviveBtn"><svg aria-hidden="true" class="svg-ico" style="color:#f43f5e" viewbox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" fill="#f43f5e" stroke="#f43f5e"></path></svg> Second Chance Revive (<span id="reviveLeftEl">1</span> Left)</button>
+<button class="btn-primary" id="restartBtn"><svg aria-hidden="true" class="svg-ico" style="color:currentColor" viewbox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg> Play Again</button>
 <div class="btn-row">
-<button class="btn-secondary" id="goHangarBtn">🎨 Hangar</button>
-<button class="btn-secondary" id="homeBtn">🏠 Home</button>
+<button class="btn-secondary" id="shareScoreBtn"><svg aria-hidden="true" class="svg-ico" style="color:currentColor" viewbox="0 0 24 24"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"></line><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"></line></svg> Share</button>
+<button class="btn-secondary" id="goHangarBtn"><svg aria-hidden="true" class="svg-ico" style="color:#f472b6" viewbox="0 0 24 24"><circle cx="13.5" cy="6.5" fill="currentColor" r="1.2"></circle><circle cx="17.5" cy="10.5" fill="currentColor" r="1.2"></circle><circle cx="8.5" cy="7.5" fill="currentColor" r="1.2"></circle><circle cx="6.5" cy="12.5" fill="currentColor" r="1.2"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.9 0 1.6-.7 1.6-1.6 0-.4-.2-.8-.4-1.1-.3-.3-.4-.7-.4-1.1 0-.9.7-1.6 1.6-1.6H16c3.3 0 6-2.7 6-6 0-5-4.5-8.6-10-8.6Z"></path></svg> Hangar</button>
+<button class="btn-secondary" id="homeBtn"><svg aria-hidden="true" class="svg-ico" style="color:currentColor" viewbox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> Home</button>
 </div>
 <div class="hint-line">Press Space or R to fly again</div>
 </div>
@@ -1086,28 +1238,71 @@
 <!-- Pause Screen -->
 <div class="overlay hidden" id="pauseScreen">
 <div class="card" style="max-width:340px;">
-<h2 style="font-size:1.8rem;font-weight:900;margin-bottom:4px;">Paused</h2>
-<p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:16px;">Take a breather — resume starts with a 3-second countdown.</p>
-<button class="btn-primary" id="resumeBtn">▶ Resume</button>
+<h2 style="font-size:1.75rem;font-weight:900;margin-bottom:4px;">Paused</h2>
+<p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:14px;">Resuming triggers a 3-second countdown so you're ready.</p>
+<button class="btn-primary" id="resumeBtn"><svg aria-hidden="true" class="svg-ico" style="color:currentColor" viewbox="0 0 24 24"><polygon fill="currentColor" points="6 4 20 12 6 20 6 4"></polygon></svg> Resume</button>
 <div class="btn-row">
-<button class="btn-secondary" id="pauseRestartBtn">🔁 Restart</button>
-<button class="btn-secondary" id="pauseHomeBtn">🏠 Home</button>
+<button class="btn-secondary" id="pauseRestartBtn"><svg aria-hidden="true" class="svg-ico" style="color:currentColor" viewbox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg> Restart</button>
+<button class="btn-secondary" id="pauseHomeBtn"><svg aria-hidden="true" class="svg-ico" style="color:currentColor" viewbox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> Home</button>
 </div>
 </div>
 </div>
-<!-- Hangar (Skins & Themes) Modal -->
+<!-- Hangar / Shop (Skins, Upgrades, World) Modal -->
 <div class="overlay hidden" id="hangarScreen">
 <div class="card">
 <div class="modal-head">
-<h2>🎨 Bird Hangar</h2>
+<h2><svg aria-hidden="true" class="svg-ico" style="color:#f472b6" viewbox="0 0 24 24"><circle cx="13.5" cy="6.5" fill="currentColor" r="1.2"></circle><circle cx="17.5" cy="10.5" fill="currentColor" r="1.2"></circle><circle cx="8.5" cy="7.5" fill="currentColor" r="1.2"></circle><circle cx="6.5" cy="12.5" fill="currentColor" r="1.2"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.9 0 1.6-.7 1.6-1.6 0-.4-.2-.8-.4-1.1-.3-.3-.4-.7-.4-1.1 0-.9.7-1.6 1.6-1.6H16c3.3 0 6-2.7 6-6 0-5-4.5-8.6-10-8.6Z"></path></svg> Hangar &amp; Shop</h2>
+<div style="display:flex;align-items:center;gap:8px;">
+<span class="pill pill-coin" style="padding:4px 10px;font-size:0.78rem;"><svg aria-hidden="true" class="svg-ico" style="color:#fbbf24" viewbox="0 0 24 24"><circle cx="12" cy="12" fill="#fbbf24" r="9" stroke="#b45309" stroke-width="2"></circle><circle cx="12" cy="12" r="5" stroke="#fef3c7" stroke-width="1.6"></circle></svg> <span id="hangarCoinsEl">0</span></span>
 <button aria-label="Close" class="close-x" data-close="hangarScreen">✕</button>
 </div>
-<div class="section-sub">Choose Bird Skin (Coins: <span id="hangarCoinsEl" style="color:#fde68a;">0</span>)</div>
+</div>
+<div class="segmented" id="hangarTabs" style="margin-bottom:10px;">
+<button class="seg-btn active" data-htab="skins"><svg aria-hidden="true" class="svg-ico" style="color:#38bdf8" viewbox="0 0 24 24"><path d="M16 7h.01"></path><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"></path><path d="m20 7 2 .5-2 .5"></path></svg> Skins</button>
+<button class="seg-btn" data-htab="upgrades"><svg aria-hidden="true" class="svg-ico" style="color:#fde047" viewbox="0 0 24 24"><polygon fill="currentColor" points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg> Upgrades</button>
+<button class="seg-btn" data-htab="world"><svg aria-hidden="true" class="svg-ico" style="color:#38bdf8" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M2 12h20"></path><path d="M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18"></path></svg> World</button>
+</div>
+<!-- Skins & Trails Panel -->
+<div id="htabSkins">
+<div class="section-sub">Bird Skins</div>
 <div class="skins-grid" id="skinsGrid"></div>
+<div class="section-sub">Wing Trail Style</div>
+<div class="themes-row" id="trailsRow"></div>
+</div>
+<!-- Upgrades Panel -->
+<div class="hidden" id="htabUpgrades">
+<div class="section-sub">Permanent Power-Up &amp; Survival Upgrades</div>
+<div class="upg-list" id="upgradesList"></div>
+</div>
+<!-- World Panel -->
+<div class="hidden" id="htabWorld">
 <div class="section-sub">Sky Environment</div>
 <div class="themes-row" id="themesRow"></div>
+<div class="section-sub">Dynamic Weather</div>
+<div class="themes-row" id="weatherRow"></div>
+</div>
 <div class="btn-row">
 <button class="btn-secondary" data-close="hangarScreen">Done</button>
+</div>
+</div>
+</div>
+<!-- Daily Missions Modal -->
+<div class="overlay hidden" id="missionsScreen">
+<div class="card">
+<div class="modal-head">
+<h2><svg aria-hidden="true" class="svg-ico" style="color:#fb7185" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="5"></circle><circle cx="12" cy="12" fill="currentColor" r="1.5"></circle></svg> Daily Missions</h2>
+<button aria-label="Close" class="close-x" data-close="missionsScreen">✕</button>
+</div>
+<div class="streak-banner">
+<div>
+<div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;color:#fde68a;font-weight:800;"><svg aria-hidden="true" class="svg-ico" style="color:#f97316" viewbox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" fill="#f97316" stroke="#fde047"></path></svg> Login Streak: <span id="streakDaysEl">1</span> Day(s)</div>
+<div id="streakSubEl" style="font-size:0.84rem;font-weight:700;color:#fff;margin-top:2px;">Daily gift ready to claim!</div>
+</div>
+<button class="upg-buy-btn" id="claimDailyGiftBtn">Claim +20</button>
+</div>
+<div id="missionsList"></div>
+<div class="btn-row">
+<button class="btn-secondary" data-close="missionsScreen">Back</button>
 </div>
 </div>
 </div>
@@ -1115,7 +1310,7 @@
 <div class="overlay hidden" id="statsScreen">
 <div class="card">
 <div class="modal-head">
-<h2>📊 Flight Stats</h2>
+<h2><svg aria-hidden="true" class="svg-ico" style="color:#38bdf8" viewbox="0 0 24 24"><line x1="18" x2="18" y1="20" y2="10"></line><line x1="12" x2="12" y1="20" y2="4"></line><line x1="6" x2="6" y1="20" y2="14"></line></svg> Flight Analytics</h2>
 <button aria-label="Close" class="close-x" data-close="statsScreen">✕</button>
 </div>
 <div class="metrics-grid">
@@ -1128,15 +1323,18 @@
 <div class="m-val" id="stBest">0</div>
 </div>
 <div class="metric-box">
-<div class="m-label">Average Score</div>
-<div class="m-val" id="stAvg">0.0</div>
+<div class="m-label">Avg Score / Dist</div>
+<div class="m-val" id="stAvg" style="font-size:1.1rem;">0.0 • 0m</div>
 </div>
 <div class="metric-box">
 <div class="m-label">Total Coins</div>
 <div class="m-val" id="stCoins" style="color:#fde68a;">0</div>
 </div>
 </div>
-<div class="segmented" id="statsFilter" style="margin-bottom:8px;">
+<div class="section-sub">Best Score by Mode</div>
+<div class="matrix-grid" id="modeBestMatrix"></div>
+<div class="section-sub">Recent Top Flights</div>
+<div class="segmented" id="statsFilter" style="margin-bottom:6px;">
 <button class="seg-btn active" data-filter="all">All</button>
 <button class="seg-btn" data-filter="easy">Easy</button>
 <button class="seg-btn" data-filter="medium">Med</button>
@@ -1155,7 +1353,7 @@
 </table>
 <div class="btn-row">
 <button class="btn-secondary" data-close="statsScreen">Back</button>
-<button class="btn-secondary btn-danger" id="clearStatsBtn">🗑️ Reset History</button>
+<button class="btn-secondary btn-danger" id="clearStatsBtn"><svg aria-hidden="true" class="svg-ico" style="color:currentColor" viewbox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg> Reset History</button>
 </div>
 </div>
 </div>
@@ -1163,7 +1361,7 @@
 <div class="overlay hidden" id="achScreen">
 <div class="card">
 <div class="modal-head">
-<h2>🏅 Achievements <span id="achProgressLabel" style="font-size:0.82rem;color:#fde68a;font-weight:700;">0/10</span></h2>
+<h2><svg aria-hidden="true" class="svg-ico" style="color:#fbbf24" viewbox="0 0 24 24"><circle cx="12" cy="8" r="6"></circle><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path></svg> Achievements <span id="achProgressLabel" style="font-size:0.8rem;color:#fde68a;font-weight:700;">0/12</span></h2>
 <button aria-label="Close" class="close-x" data-close="achScreen">✕</button>
 </div>
 <div class="ach-list" id="achList"></div>
@@ -1172,12 +1370,65 @@
 </div>
 </div>
 </div>
+<!-- Field Guide / How to Play Modal -->
+<div class="overlay hidden" id="guideScreen">
+<div class="card">
+<div class="modal-head">
+<h2><svg aria-hidden="true" class="svg-ico" style="color:#93c5fd" viewbox="0 0 24 24"><path d="M2 4h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 4h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg> Pilot's Field Guide</h2>
+<button aria-label="Close" class="close-x" data-close="guideScreen">✕</button>
+</div>
+<div class="ach-list">
+<div class="ach-item">
+<div class="ach-ico"><svg aria-hidden="true" class="svg-ico" style="color:#a78bfa" viewbox="0 0 24 24"><line x1="6" x2="10" y1="12" y2="12"></line><line x1="8" x2="8" y1="10" y2="14"></line><circle cx="15" cy="13" fill="currentColor" r="1"></circle><circle cx="18" cy="11" fill="currentColor" r="1"></circle><rect height="12" rx="4" width="20" x="2" y="6"></rect></svg></div>
+<div class="ach-info">
+<div class="ach-title">Controls</div>
+<div class="ach-desc">Tap screen, Left-Click, Space, Up Arrow, or W to flap. Press P / Esc to pause, M to mute, R to quick-restart.</div>
+</div>
+</div>
+<div class="ach-item">
+<div class="ach-ico"><svg aria-hidden="true" class="svg-ico" style="color:#f97316" viewbox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" fill="#f97316" stroke="#fde047"></path></svg></div>
+<div class="ach-info">
+<div class="ach-title">Combo &amp; Fever Mode</div>
+<div class="ach-desc">Chain 5 coins or Close Calls (passing within 12px of a pipe) to trigger 7s of 2× Score Fever Mode!</div>
+</div>
+</div>
+<div class="ach-item">
+<div class="ach-ico"><svg aria-hidden="true" class="svg-ico" style="color:#38bdf8" viewbox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="rgba(56,189,248,0.22)"></path></svg></div>
+<div class="ach-info">
+<div class="ach-title">Power-Ups (Arcade &amp; Blitz)</div>
+<div class="ach-desc">Shield absorbs 1 crash • Slow-Mo slows time • Magnet pulls coins • 2× doubles points • Tiny shrinks hitbox • Ruby Gem gives +5 coins.</div>
+</div>
+</div>
+<div class="ach-item">
+<div class="ach-ico"><svg aria-hidden="true" class="svg-ico" style="color:#f43f5e" viewbox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" fill="#f43f5e" stroke="#f43f5e"></path></svg></div>
+<div class="ach-info">
+<div class="ach-title">Second Chance Revive</div>
+<div class="ach-desc">Use a Revive Heart on Game Over to clear nearby pipes and continue your run once per flight.</div>
+</div>
+</div>
+<div class="ach-item">
+<div class="ach-ico"><svg aria-hidden="true" class="svg-ico" style="color:#5eead4" viewbox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path><path d="M12 8v8"></path><path d="M8 12h8"></path></svg></div>
+<div class="ach-info">
+<div class="ach-title">Zen Practice Mode</div>
+<div class="ach-desc">Softly bounces off pipes and ground instead of ending the flight — ideal for learning timing stress-free.</div>
+</div>
+</div>
+</div>
+<div class="btn-row">
+<button class="btn-secondary" data-close="guideScreen">Got It!</button>
+</div>
+</div>
+</div>
 <!-- Settings Modal -->
 <div class="overlay hidden" id="settingsScreen">
 <div class="card">
 <div class="modal-head">
-<h2>⚙️ Settings</h2>
+<h2><svg aria-hidden="true" class="svg-ico" style="color:#cbd5e1" viewbox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg> Settings &amp; Profile</h2>
 <button aria-label="Close" class="close-x" data-close="settingsScreen">✕</button>
+</div>
+<div class="setting-col">
+<div class="s-title">Pilot Callsign</div>
+<input class="text-input" id="pilotNameInput" maxlength="16" placeholder="Muhib" type="text"/>
 </div>
 <div class="setting-row">
 <div>
@@ -1186,12 +1437,12 @@
 </div>
 <button aria-checked="true" class="switch on" id="toggleSfx" role="switch"></button>
 </div>
-<div class="setting-row">
-<div>
-<div class="s-title">Arcade Synth Music</div>
-<div class="s-sub">Soft procedural chiptune groove</div>
+<div class="setting-col">
+<div style="display:flex;justify-content:space-between;align-items:center;">
+<span class="s-title">SFX Volume</span>
+<span class="s-sub" id="sfxVolLabel">80%</span>
 </div>
-<button aria-checked="false" class="switch" id="toggleMusic" role="switch"></button>
+<input class="range-slider" id="sfxVolSlider" max="100" min="0" type="range" value="80"/>
 </div>
 <div class="setting-row">
 <div>
@@ -1207,6 +1458,39 @@
 </div>
 <button aria-checked="true" class="switch on" id="toggleTrails" role="switch"></button>
 </div>
+<div class="setting-row">
+<div>
+<div class="s-title">On-Screen Thumb Flap Button</div>
+<div class="s-sub">Ergonomic button for mobile play</div>
+</div>
+<button aria-checked="false" class="switch" id="toggleMobileBtn" role="switch"></button>
+</div>
+<div class="setting-row">
+<div>
+<div class="s-title">Haptic Vibration (Mobile)</div>
+<div class="s-sub">Subtle tactile pulse on flap &amp; crash</div>
+</div>
+<button aria-checked="true" class="switch on" id="toggleHaptics" role="switch"></button>
+</div>
+<div class="setting-row">
+<div>
+<div class="s-title">Hitbox Visualizer &amp; FPS</div>
+<div class="s-sub">Pro training overlay</div>
+</div>
+<button aria-checked="false" class="switch" id="toggleProHud" role="switch"></button>
+</div>
+<div class="setting-col">
+<div class="s-title">Cloudless Save Backup</div>
+<div class="s-sub">Export or import your profile code across devices</div>
+<div class="btn-row" style="margin-top:4px;">
+<button class="btn-secondary" id="exportSaveBtn"><svg aria-hidden="true" class="svg-ico" style="color:currentColor" viewbox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" x2="12" y1="3" y2="15"></line></svg> Copy Save</button>
+<button class="btn-secondary" id="importSaveBtn"><svg aria-hidden="true" class="svg-ico" style="color:currentColor" viewbox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg> Load Save</button>
+</div>
+<div class="hidden" id="importBox" style="margin-top:6px;">
+<input class="text-input" id="importSaveInput" placeholder="Paste exported JSON save code..." type="text"/>
+<button class="btn-secondary" id="confirmImportBtn" style="width:100%;margin-top:6px;">Apply Save Data</button>
+</div>
+</div>
 <div class="btn-row">
 <button class="btn-secondary" data-close="settingsScreen">Save &amp; Close</button>
 </div>
@@ -1216,54 +1500,185 @@
 <script>
 (() => {
   'use strict';
+  // =========================================================
+  // 0. UNIVERSAL VECTOR SVG ICON LIBRARY (ZERO BROKEN EMOJIS)
+  // =========================================================
+  function makeSvg(inner, color = 'currentColor') {
+    return `<svg class="svg-ico" viewBox="0 0 24 24" style="color:${color}" aria-hidden="true">${inner}</svg>`;
+  }
+
+  const UI_ICONS = {
+    coin: makeSvg('<circle cx="12" cy="12" r="9" fill="#fbbf24" stroke="#b45309" stroke-width="2"/><circle cx="12" cy="12" r="5" stroke="#fef3c7" stroke-width="1.6"/>', '#fbbf24'),
+    vol: makeSvg('<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>'),
+    mute: makeSvg('<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>'),
+    fsIn: makeSvg('<path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/>'),
+    fsOut: makeSvg('<path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/><path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/>'),
+    shield: makeSvg('<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="rgba(56,189,248,0.22)"/>', '#38bdf8'),
+    slowmo: makeSvg('<path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/>', '#c084fc'),
+    magnet: makeSvg('<path d="m6 15-4-4 6.75-6.77a7.79 7.79 0 0 1 11 11L13 22l-4-4 6.39-6.36a2.14 2.14 0 0 0-3-3L6 15"/>', '#fb7185'),
+    gem: makeSvg('<polygon points="12 2 22 9 12 22 2 9 12 2" fill="rgba(244,63,94,0.25)"/>', '#f43f5e'),
+    heart: makeSvg('<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" fill="#f43f5e" stroke="#f43f5e"/>', '#f43f5e'),
+    flame: makeSvg('<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" fill="#f97316" stroke="#fde047"/>', '#f97316'),
+    bolt: makeSvg('<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="currentColor"/>', '#fde047'),
+    sparkle: makeSvg('<path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z" fill="currentColor"/>', '#fde047'),
+    tiny: makeSvg('<path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/>', '#34d399'),
+    lock: makeSvg('<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>', '#94a3b8'),
+    award: makeSvg('<circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>', '#fbbf24'),
+    crown: makeSvg('<path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14" fill="rgba(251,191,36,0.28)"/>', '#fbbf24'),
+    star: makeSvg('<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="currentColor"/>', '#fbbf24'),
+    check: makeSvg('<polyline points="20 6 9 17 4 12"/>', '#10b981'),
+    warn: makeSvg('<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>', '#fbbf24'),
+    trash: makeSvg('<polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>', '#fecdd3'),
+    target: makeSvg('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/>', '#fb7185'),
+    gift: makeSvg('<polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>', '#fbbf24'),
+    copy: makeSvg('<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>', '#38bdf8'),
+    timer: makeSvg('<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2"/><path d="M9 2h6"/>', '#c084fc'),
+    bird: makeSvg('<path d="M16 7h.01"/><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/><path d="m20 7 2 .5-2 .5"/>', '#38bdf8'),
+    palette: makeSvg('<circle cx="13.5" cy="6.5" r="1.2" fill="currentColor"/><circle cx="17.5" cy="10.5" r="1.2" fill="currentColor"/><circle cx="8.5" cy="7.5" r="1.2" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.9 0 1.6-.7 1.6-1.6 0-.4-.2-.8-.4-1.1-.3-.3-.4-.7-.4-1.1 0-.9.7-1.6 1.6-1.6H16c3.3 0 6-2.7 6-6 0-5-4.5-8.6-10-8.6Z"/>', '#f472b6')
+  };
+
+  function renderSkinSvg(skin) {
+    const crownSvg = skin.crown ? '<polygon points="13,5 15,1 18,4 21,0 24,4 27,1 29,5" fill="#fbbf24" stroke="#78350f" stroke-width="1.2"/>' : '';
+    const eyeSvg = skin.visor
+      ? '<rect x="24" y="10" width="9" height="5" rx="2" fill="#22d3ee" stroke="#0f172a" stroke-width="1.2"/>'
+      : '<circle cx="27" cy="12" r="3.4" fill="#fff" stroke="#0f172a" stroke-width="1.2"/><circle cx="28.2" cy="12" r="1.5" fill="#0f172a"/>';
+    return `<svg viewBox="0 0 42 30" aria-hidden="true">${crownSvg}<polygon points="8,14 2,10 4,15 2,20 8,17" fill="${skin.wing}"/><ellipse cx="20" cy="15" rx="13" ry="10" fill="${skin.body}" stroke="#0f172a" stroke-width="1.8"/><ellipse cx="22" cy="19" rx="8" ry="4.5" fill="${skin.belly}"/><ellipse cx="17" cy="17" rx="7" ry="4.2" fill="${skin.wing}" stroke="#0f172a" stroke-width="1.4"/><polygon points="31,13 39,16 31,19" fill="${skin.beak}" stroke="#0f172a" stroke-width="1.4"/>${eyeSvg}</svg>`;
+  }
+
+  function renderMedalSvg(medal) {
+    if (medal.name === 'Legend') return makeSvg('<path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14" fill="rgba(244,114,182,0.3)"/>', medal.color);
+    if (medal.name === 'Platinum') return makeSvg('<polygon points="12 2 22 9 12 22 2 9 12 2" fill="rgba(56,189,248,0.28)"/>', medal.color);
+    return makeSvg(`<circle cx="12" cy="9" r="6" fill="${medal.color}" stroke="#0f172a" stroke-width="1.6"/><path d="M15 14l2 8-5-3-5 3 2-8" stroke="${medal.color}"/>`, medal.color);
+  }
+
 
   // =========================================================
-  // 1. SAFE STORAGE & PERSISTENT PROFILE
+  // 1. SAFE STORAGE, PROFILE & DAILY MISSIONS ENGINE
   // =========================================================
-  const STORAGE_KEY = 'flappyMuhibDefinitive_v2';
+  const STORAGE_KEY = 'flappyMuhibDefinitive_v3';
+
+  function getTodayKey() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  }
 
   const DEFAULT_PROFILE = {
-    coins: 0,
-    totalCoinsEarned: 0,
+    pilotName: 'Muhib',
+    coins: 20,
+    totalCoinsEarned: 20,
+    reviveHearts: 1,
     totalFlights: 0,
     totalScore: 0,
+    totalDistanceM: 0,
     totalCloseCalls: 0,
+    totalPowerups: 0,
     bestScores: {
       arcade: { easy: 0, medium: 0, hard: 0 },
-      classic: { easy: 0, medium: 0, hard: 0 }
+      classic: { easy: 0, medium: 0, hard: 0 },
+      blitz: { easy: 0, medium: 0, hard: 0 },
+      zen: { easy: 0, medium: 0, hard: 0 }
     },
-    history: [], // { date, mode, diff, score, icon }
+    history: [],
     unlockedSkins: ['muhib_gold'],
     selectedSkin: 'muhib_gold',
+    unlockedTrails: ['feather'],
+    selectedTrail: 'feather',
     selectedTheme: 'auto',
+    selectedWeather: 'auto',
+    upgrades: {
+      shield: 0,
+      slowmo: 0,
+      magnet: 0,
+      luck: 0
+    },
     unlockedAchievements: [],
+    daily: {
+      date: '',
+      streak: 1,
+      giftClaimed: false,
+      missions: [] // { id, title, target, progress, reward, claimed }
+    },
     settings: {
       sfx: true,
-      music: false,
+      sfxVol: 80,
       shake: true,
-      trails: true
+      trails: true,
+      mobileBtn: false,
+      haptics: true,
+      proHud: false
     }
   };
 
+  function structuredCloneSafe(obj) {
+    return JSON.parse(JSON.stringify(obj));
+  }
+
+  const MISSION_POOL = [
+    { id: 'score_12', title: 'Score 12 in a single flight', type: 'runScore', target: 12, reward: 20 },
+    { id: 'coins_10', title: 'Collect 10 coins today', type: 'coins', target: 10, reward: 20 },
+    { id: 'flights_3', title: 'Complete 3 flights today', type: 'flights', target: 3, reward: 15 },
+    { id: 'close_2', title: 'Land 2 Close Calls today', type: 'closeCalls', target: 2, reward: 25 },
+    { id: 'pu_3', title: 'Collect 3 Power-Ups today', type: 'powerups', target: 3, reward: 25 },
+    { id: 'fever_1', title: 'Trigger Fever Mode once', type: 'fever', target: 1, reward: 30 }
+  ];
+
+  function ensureDailyMissions(prof) {
+    const today = getTodayKey();
+    if (prof.daily.date !== today) {
+      // Check consecutive day streak
+      if (prof.daily.date) {
+        const prev = new Date(prof.daily.date + 'T00:00:00');
+        const curr = new Date(today + 'T00:00:00');
+        const diffDays = Math.round((curr - prev) / 86400000);
+        prof.daily.streak = diffDays === 1 ? prof.daily.streak + 1 : 1;
+      } else {
+        prof.daily.streak = 1;
+      }
+      prof.daily.date = today;
+      prof.daily.giftClaimed = false;
+      // Deterministically pick 3 missions based on date hash
+      const seed = today.split('').reduce((a, ch) => a + ch.charCodeAt(0), 0);
+      const picked = [];
+      for (let i = 0; i < 3; i++) {
+        const m = MISSION_POOL[(seed + i * 2) % MISSION_POOL.length];
+        picked.push({ ...m, progress: 0, claimed: false });
+      }
+      prof.daily.missions = picked;
+    }
+  }
+
   function loadProfile() {
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return structuredCloneSafe(DEFAULT_PROFILE);
-      const parsed = JSON.parse(raw);
-      return {
+      const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('flappyMuhibDefinitive_v2');
+      if (!raw) {
+        const fresh = structuredCloneSafe(DEFAULT_PROFILE);
+        ensureDailyMissions(fresh);
+        return fresh;
+      }
+      const p = JSON.parse(raw);
+      const merged = {
         ...structuredCloneSafe(DEFAULT_PROFILE),
-        ...parsed,
+        ...p,
         bestScores: {
-          arcade: { ...DEFAULT_PROFILE.bestScores.arcade, ...(parsed.bestScores?.arcade || {}) },
-          classic: { ...DEFAULT_PROFILE.bestScores.classic, ...(parsed.bestScores?.classic || {}) }
+          arcade: { ...DEFAULT_PROFILE.bestScores.arcade, ...(p.bestScores?.arcade || {}) },
+          classic: { ...DEFAULT_PROFILE.bestScores.classic, ...(p.bestScores?.classic || {}) },
+          blitz: { ...DEFAULT_PROFILE.bestScores.blitz, ...(p.bestScores?.blitz || {}) },
+          zen: { ...DEFAULT_PROFILE.bestScores.zen, ...(p.bestScores?.zen || {}) }
         },
-        settings: { ...DEFAULT_PROFILE.settings, ...(parsed.settings || {}) },
-        unlockedSkins: Array.isArray(parsed.unlockedSkins) && parsed.unlockedSkins.length ? parsed.unlockedSkins : ['muhib_gold'],
-        unlockedAchievements: Array.isArray(parsed.unlockedAchievements) ? parsed.unlockedAchievements : [],
-        history: Array.isArray(parsed.history) ? parsed.history : []
+        upgrades: { ...DEFAULT_PROFILE.upgrades, ...(p.upgrades || {}) },
+        settings: { ...DEFAULT_PROFILE.settings, ...(p.settings || {}) },
+        daily: { ...DEFAULT_PROFILE.daily, ...(p.daily || {}) },
+        unlockedSkins: Array.isArray(p.unlockedSkins) && p.unlockedSkins.length ? p.unlockedSkins : ['muhib_gold'],
+        unlockedTrails: Array.isArray(p.unlockedTrails) && p.unlockedTrails.length ? p.unlockedTrails : ['feather'],
+        unlockedAchievements: Array.isArray(p.unlockedAchievements) ? p.unlockedAchievements : [],
+        history: Array.isArray(p.history) ? p.history : []
       };
+      ensureDailyMissions(merged);
+      return merged;
     } catch {
-      return structuredCloneSafe(DEFAULT_PROFILE);
+      const fresh = structuredCloneSafe(DEFAULT_PROFILE);
+      ensureDailyMissions(fresh);
+      return fresh;
     }
   }
 
@@ -1271,155 +1686,70 @@
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
     } catch {
-      // Ignore storage quota or sandbox restrictions
+      // Ignore restricted storage
     }
-  }
-
-  function structuredCloneSafe(obj) {
-    return JSON.parse(JSON.stringify(obj));
   }
 
   let profile = loadProfile();
 
   // =========================================================
-  // 2. GAME CATALOGS (DIFFICULTIES, MEDALS, SKINS, THEMES, ACHIEVEMENTS)
+  // 2. GAME CATALOGS
   // =========================================================
+  const MODES = {
+    arcade: { label: 'Arcade', desc: 'Coins, Power-Ups & Fever' },
+    classic: { label: 'Classic', desc: 'Pure Authentic Skill' },
+    blitz: { label: 'Blitz 45s', desc: 'Race the Clock (+1.5s/pipe)' },
+    zen: { label: 'Zen', desc: 'No-Death Practice Bounce' }
+  };
+
   const DIFFICULTIES = {
-    easy: {
-      label: 'Easy',
-      desc: 'Relaxed & Forgiving',
-      gap: 162,
-      speed: 148,
-      gravity: 960,
-      jump: 345,
-      pipeSpacing: 245,
-      coinMult: 1
-    },
-    medium: {
-      label: 'Medium',
-      desc: 'Balanced Arcade Pacing',
-      gap: 136,
-      speed: 185,
-      gravity: 1180,
-      jump: 385,
-      pipeSpacing: 220,
-      coinMult: 1
-    },
-    hard: {
-      label: 'Hard',
-      desc: 'Fast, Tight & 2× Coins',
-      gap: 112,
-      speed: 228,
-      gravity: 1420,
-      jump: 425,
-      pipeSpacing: 205,
-      coinMult: 2
-    }
+    easy: { label: 'Easy', desc: 'Relaxed & Forgiving', gap: 162, speed: 148, gravity: 960, jump: 345, pipeSpacing: 245, coinMult: 1 },
+    medium: { label: 'Medium', desc: 'Balanced Arcade Pacing', gap: 136, speed: 185, gravity: 1180, jump: 385, pipeSpacing: 220, coinMult: 1 },
+    hard: { label: 'Hard', desc: 'Fast, Tight & 2× Coins', gap: 112, speed: 228, gravity: 1420, jump: 425, pipeSpacing: 205, coinMult: 2 }
   };
 
   const MEDALS = [
-    { score: 150, name: 'Legend', icon: '👑', color: '#f472b6' },
-    { score: 100, name: 'Platinum', icon: '💎', color: '#38bdf8' },
-    { score: 50, name: 'Gold', icon: '🥇', color: '#fbbf24' },
-    { score: 25, name: 'Silver', icon: '🥈', color: '#cbd5e1' },
-    { score: 10, name: 'Bronze', icon: '🥉', color: '#d97706' },
-    { score: 0, name: 'Beginner', icon: '🥚', color: '#94a3b8' }
+    { score: 150, name: 'Legend', icon: 'LGD', color: '#f472b6' },
+    { score: 100, name: 'Platinum', icon: 'PLT', color: '#38bdf8' },
+    { score: 50, name: 'Gold', icon: 'GLD', color: '#fbbf24' },
+    { score: 25, name: 'Silver', icon: 'SLV', color: '#cbd5e1' },
+    { score: 10, name: 'Bronze', icon: 'BRZ', color: '#d97706' },
+    { score: 0, name: 'Beginner', icon: 'BEG', color: '#94a3b8' }
   ];
 
-  function getMedal(sc) {
-    return MEDALS.find(m => sc >= m.score) || MEDALS[MEDALS.length - 1];
-  }
-
-  function getNextMedal(sc) {
-    const rev = [...MEDALS].reverse();
-    return rev.find(m => m.score > sc) || null;
-  }
+  function getMedal(sc) { return MEDALS.find(m => sc >= m.score) || MEDALS[MEDALS.length - 1]; }
+  function getNextMedal(sc) { return [...MEDALS].reverse().find(m => m.score > sc) || null; }
 
   const SKINS = [
-    {
-      id: 'muhib_gold',
-      name: 'Muhib Gold',
-      cost: 0,
-      body: '#fbbf24',
-      belly: '#fef3c7',
-      wing: '#f59e0b',
-      beak: '#ef4444',
-      crest: '#ef4444',
-      trail: '#fde68a',
-      crown: false,
-      visor: false
-    },
-    {
-      id: 'sky_jay',
-      name: 'Sky Jay',
-      cost: 15,
-      body: '#38bdf8',
-      belly: '#e0f2fe',
-      wing: '#0284c7',
-      beak: '#f97316',
-      crest: '#0ea5e9',
-      trail: '#7dd3fc',
-      crown: false,
-      visor: false
-    },
-    {
-      id: 'crimson_phoenix',
-      name: 'Phoenix',
-      cost: 40,
-      body: '#ef4444',
-      belly: '#fed7aa',
-      wing: '#b91c1c',
-      beak: '#facc15',
-      crest: '#f97316',
-      trail: '#fb923c',
-      crown: false,
-      visor: false
-    },
-    {
-      id: 'emerald_parrot',
-      name: 'Emerald',
-      cost: 75,
-      body: '#10b981',
-      belly: '#d1fae5',
-      wing: '#047857',
-      beak: '#fbbf24',
-      crest: '#34d399',
-      trail: '#6ee7b7',
-      crown: false,
-      visor: false
-    },
-    {
-      id: 'cyber_wing',
-      name: 'Cyber Wing',
-      cost: 120,
-      body: '#1e293b',
-      belly: '#334155',
-      wing: '#06b6d4',
-      beak: '#22d3ee',
-      crest: '#a855f7',
-      trail: '#22d3ee',
-      crown: false,
-      visor: true
-    },
-    {
-      id: 'royal_muhib',
-      name: 'Royal Crown',
-      cost: 200,
-      body: '#f8fafc',
-      belly: '#fef9c3',
-      wing: '#fbbf24',
-      beak: '#f59e0b',
-      crest: '#fbbf24',
-      trail: '#fef08a',
-      crown: true,
-      visor: false
-    }
+    { id: 'muhib_gold', name: 'Muhib Gold', cost: 0, body: '#fbbf24', belly: '#fef3c7', wing: '#f59e0b', beak: '#ef4444', crest: '#ef4444', trail: '#fde68a', crown: false, visor: false, icon: 'gold' },
+    { id: 'sky_jay', name: 'Sky Jay', cost: 15, body: '#38bdf8', belly: '#e0f2fe', wing: '#0284c7', beak: '#f97316', crest: '#0ea5e9', trail: '#7dd3fc', crown: false, visor: false, icon: 'jay' },
+    { id: 'crimson_phoenix', name: 'Phoenix', cost: 40, body: '#ef4444', belly: '#fed7aa', wing: '#b91c1c', beak: '#facc15', crest: '#f97316', trail: '#fb923c', crown: false, visor: false, icon: 'phoenix' },
+    { id: 'emerald_parrot', name: 'Emerald', cost: 75, body: '#10b981', belly: '#d1fae5', wing: '#047857', beak: '#fbbf24', crest: '#34d399', trail: '#6ee7b7', crown: false, visor: false, icon: 'emerald' },
+    { id: 'cyber_wing', name: 'Cyber Wing', cost: 120, body: '#1e293b', belly: '#334155', wing: '#06b6d4', beak: '#22d3ee', crest: '#a855f7', trail: '#22d3ee', crown: false, visor: true, icon: 'cyber' },
+    { id: 'galaxy_owl', name: 'Galaxy Owl', cost: 160, body: '#6366f1', belly: '#e0e7ff', wing: '#4338ca', beak: '#f472b6', crest: '#a855f7', trail: '#c084fc', crown: false, visor: false, icon: 'owl' },
+    { id: 'dragon_wing', name: 'Dragon', cost: 185, body: '#059669', belly: '#fef08a', wing: '#dc2626', beak: '#f59e0b', crest: '#ef4444', trail: '#f97316', crown: false, visor: false, icon: 'dragon' },
+    { id: 'royal_muhib', name: 'Royal Crown', cost: 220, body: '#f8fafc', belly: '#fef9c3', wing: '#fbbf24', beak: '#f59e0b', crest: '#fbbf24', trail: '#fef08a', crown: true, visor: false, icon: 'royal' }
+  ];
+
+  const TRAILS = [
+    { id: 'feather', name: 'Classic', cost: 0 },
+    { id: 'rainbow', name: 'Rainbow', cost: 30 },
+    { id: 'starlight', name: 'Stars', cost: 45 },
+    { id: 'embers', name: 'Embers', cost: 60 },
+    { id: 'neon', name: 'Neon', cost: 80 }
+  ];
+
+  const UPGRADES = [
+    { key: 'shield', icon: UI_ICONS.shield, title: 'Shield Mastery', desc: '+10% starting Shield chance & longer guard', max: 4, baseCost: 25 },
+    { key: 'slowmo', icon: UI_ICONS.slowmo, title: 'Chrono Feather', desc: '+1.2s Slow-Mo duration per level', max: 4, baseCost: 25 },
+    { key: 'magnet', icon: UI_ICONS.magnet, title: 'Super Magnet', desc: '+1.5s Magnet duration & wider pull', max: 4, baseCost: 25 },
+    { key: 'luck', icon: UI_ICONS.gem, title: 'Lucky Treasure', desc: 'More Ruby Gems (+5 coins) & 2× Score orbs', max: 4, baseCost: 35 }
   ];
 
   const THEMES = {
-    auto: { name: '🔄 Auto Cycle' },
+    auto: { name: 'Auto Cycle' },
     day: {
-      name: '☀️ Sunny',
+      name: 'Sunny',
       skyTop: '#2563eb', skyMid: '#38bdf8', skyBot: '#bae6fd',
       sunColor: '#fef08a', hillFar: '#60a5fa', hillNear: '#3b82f6',
       city: '#1e3a5f', cityWin: 'rgba(255,255,255,0.2)',
@@ -1428,7 +1758,7 @@
       groundTop: '#22c55e', groundDirt: '#d6c385', groundStripe: '#16a34a'
     },
     sunset: {
-      name: '🌅 Sunset',
+      name: 'Sunset',
       skyTop: '#4c1d95', skyMid: '#db2777', skyBot: '#fdba74',
       sunColor: '#fde047', hillFar: '#7e22ce', hillNear: '#581c87',
       city: '#2e1065', cityWin: 'rgba(253, 224, 71, 0.55)',
@@ -1437,7 +1767,7 @@
       groundTop: '#eab308', groundDirt: '#b45309', groundStripe: '#ca8a04'
     },
     night: {
-      name: '🌙 Night',
+      name: 'Night',
       skyTop: '#020617', skyMid: '#0f172a', skyBot: '#1e293b',
       sunColor: '#e2e8f0', hillFar: '#1e293b', hillNear: '#0f172a',
       city: '#090d1a', cityWin: 'rgba(250, 204, 21, 0.72)',
@@ -1446,7 +1776,7 @@
       groundTop: '#0d9488', groundDirt: '#1e293b', groundStripe: '#115e59'
     },
     cyber: {
-      name: '🌌 Neon',
+      name: 'Neon',
       skyTop: '#090518', skyMid: '#1e1042', skyBot: '#4c1d95',
       sunColor: '#f43f5e', hillFar: '#3b0764', hillNear: '#1e1b4b',
       city: '#0f0724', cityWin: 'rgba(34, 211, 238, 0.78)',
@@ -1456,28 +1786,37 @@
     }
   };
 
+  const WEATHERS = {
+    auto: 'Auto',
+    clear: 'Clear',
+    petals: 'Petals',
+    rain: 'Rain',
+    snow: 'Snow',
+    fireflies: 'Fireflies'
+  };
+
   const CYCLE_ORDER = ['day', 'sunset', 'night', 'cyber'];
 
   const ACHIEVEMENTS = [
-    { id: 'first_flight', icon: '🐣', title: 'First Flight', desc: 'Complete your first flight', reward: 10, check: () => profile.totalFlights >= 1 },
-    { id: 'score_10', icon: '🥉', title: 'Bronze Aviator', desc: 'Reach a score of 10 in any mode', reward: 15, check: (run) => run.score >= 10 },
-    { id: 'score_25', icon: '🥈', title: 'Silver Wing', desc: 'Reach a score of 25 in any mode', reward: 25, check: (run) => run.score >= 25 },
-    { id: 'score_50', icon: '🥇', title: 'Golden Legend', desc: 'Reach a score of 50 in any mode', reward: 50, check: (run) => run.score >= 50 },
-    { id: 'hard_10', icon: '🔥', title: 'Ace Pilot', desc: 'Score 10+ on Hard difficulty', reward: 35, check: (run) => run.diff === 'hard' && run.score >= 10 },
-    { id: 'classic_15', icon: '🐦', title: 'Purist', desc: 'Score 15+ in Classic Mode', reward: 25, check: (run) => run.mode === 'classic' && run.score >= 15 },
-    { id: 'close_call_3', icon: '⚡', title: 'Daredevil', desc: 'Get 3 Close Calls in a single run', reward: 20, check: (run) => run.closeCalls >= 3 },
-    { id: 'coins_50', icon: '🪙', title: 'Treasure Hunter', desc: 'Collect 50 total coins', reward: 25, check: () => profile.totalCoinsEarned >= 50 },
-    { id: 'skins_3', icon: '🎨', title: 'Style Icon', desc: 'Unlock 3 different bird skins', reward: 30, check: () => profile.unlockedSkins.length >= 3 },
-    { id: 'flights_15', icon: '🛫', title: 'Frequent Flyer', desc: 'Play 15 total flights', reward: 25, check: () => profile.totalFlights >= 15 }
+    { id: 'first_flight', icon: UI_ICONS.bird, title: 'First Flight', desc: 'Complete your first flight', reward: 10, check: () => profile.totalFlights >= 1 },
+    { id: 'score_10', icon: UI_ICONS.award, title: 'Bronze Aviator', desc: 'Reach a score of 10 in any mode', reward: 15, check: (r) => r.score >= 10 },
+    { id: 'score_25', icon: UI_ICONS.award, title: 'Silver Wing', desc: 'Reach a score of 25 in any mode', reward: 25, check: (r) => r.score >= 25 },
+    { id: 'score_50', icon: UI_ICONS.crown, title: 'Golden Legend', desc: 'Reach a score of 50 in any mode', reward: 50, check: (r) => r.score >= 50 },
+    { id: 'hard_10', icon: UI_ICONS.flame, title: 'Ace Pilot', desc: 'Score 10+ on Hard difficulty', reward: 35, check: (r) => r.diff === 'hard' && r.score >= 10 },
+    { id: 'classic_15', icon: UI_ICONS.bird, title: 'Purist', desc: 'Score 15+ in Classic Mode', reward: 25, check: (r) => r.mode === 'classic' && r.score >= 15 },
+    { id: 'blitz_20', icon: UI_ICONS.timer, title: 'Speed Demon', desc: 'Score 20+ in Blitz Mode', reward: 30, check: (r) => r.mode === 'blitz' && r.score >= 20 },
+    { id: 'fever_trigger', icon: UI_ICONS.sparkle, title: 'Fever Pitch', desc: 'Trigger Fever Mode in a flight', reward: 25, check: (r) => r.feverTriggered },
+    { id: 'close_call_3', icon: UI_ICONS.bolt, title: 'Daredevil', desc: 'Get 3 Close Calls in a single run', reward: 20, check: (r) => r.closeCalls >= 3 },
+    { id: 'coins_50', icon: UI_ICONS.coin, title: 'Treasure Hunter', desc: 'Collect 50 total coins', reward: 25, check: () => profile.totalCoinsEarned >= 50 },
+    { id: 'skins_3', icon: UI_ICONS.palette, title: 'Style Icon', desc: 'Unlock 3 different bird skins', reward: 30, check: () => profile.unlockedSkins.length >= 3 },
+    { id: 'flights_15', icon: UI_ICONS.star, title: 'Frequent Flyer', desc: 'Play 15 total flights', reward: 25, check: () => profile.totalFlights >= 15 }
   ];
 
   // =========================================================
-  // 3. PROCEDURAL WEB AUDIO ENGINE (ZERO EXTERNAL FILES)
+  // 3. PROCEDURAL WEB AUDIO ENGINE WITH VOLUME CONTROLS
   // =========================================================
   const AudioEngine = (() => {
     let actx = null;
-    let musicTimer = null;
-    let musicStep = 0;
 
     function ensureContext() {
       if (!actx) {
@@ -1490,18 +1829,17 @@
       return actx;
     }
 
-    function playTone(freq, endFreq, dur, type = 'sine', vol = 0.14, delay = 0) {
-      if (!profile.settings.sfx) return;
+    function playTone(freq, endFreq, dur, type = 'sine', baseVol = 0.14, delay = 0) {
+      if (!profile.settings.sfx || profile.settings.sfxVol <= 0) return;
       const c = ensureContext();
       if (!c) return;
+      const vol = baseVol * (profile.settings.sfxVol / 100);
       const t = c.currentTime + delay;
       const osc = c.createOscillator();
       const gain = c.createGain();
       osc.type = type;
       osc.frequency.setValueAtTime(freq, t);
-      if (endFreq !== freq) {
-        osc.frequency.exponentialRampToValueAtTime(Math.max(20, endFreq), t + dur);
-      }
+      if (endFreq !== freq) osc.frequency.exponentialRampToValueAtTime(Math.max(20, endFreq), t + dur);
       gain.gain.setValueAtTime(0.001, t);
       gain.gain.linearRampToValueAtTime(vol, t + 0.012);
       gain.gain.exponentialRampToValueAtTime(0.001, t + dur);
@@ -1512,78 +1850,29 @@
     }
 
     const sfx = {
-      flap() {
-        playTone(260, 520, 0.09, 'triangle', 0.14);
-        playTone(170, 310, 0.07, 'sine', 0.08, 0.01);
-      },
-      score() {
-        playTone(587.33, 587.33, 0.08, 'triangle', 0.13, 0);
-        playTone(880, 880, 0.14, 'triangle', 0.15, 0.07);
-      },
-      coin() {
-        playTone(987.77, 987.77, 0.06, 'sine', 0.13, 0);
-        playTone(1318.5, 1318.5, 0.15, 'sine', 0.14, 0.055);
-      },
-      powerup() {
-        playTone(440, 660, 0.08, 'triangle', 0.13, 0);
-        playTone(660, 880, 0.08, 'triangle', 0.13, 0.07);
-        playTone(880, 1174, 0.15, 'sine', 0.15, 0.14);
-      },
-      shieldBreak() {
-        playTone(520, 160, 0.18, 'sawtooth', 0.12, 0);
-        playTone(320, 90, 0.22, 'triangle', 0.14, 0.04);
-      },
-      milestone() {
-        [523.25, 659.25, 783.99, 1046.5].forEach((n, idx) => {
-          playTone(n, n, 0.14, 'triangle', 0.13, idx * 0.065);
-        });
-      },
-      hit() {
-        playTone(150, 42, 0.18, 'sawtooth', 0.18, 0);
-        playTone(90, 32, 0.22, 'square', 0.12, 0.02);
-      },
-      die() {
-        playTone(340, 110, 0.28, 'triangle', 0.13, 0);
-      },
-      click() {
-        playTone(620, 460, 0.045, 'sine', 0.09, 0);
-      },
-      beep(high = false) {
-        playTone(high ? 880 : 520, high ? 880 : 520, 0.09, 'sine', 0.12, 0);
-      }
+      flap() { playTone(260, 520, 0.09, 'triangle', 0.16); playTone(170, 310, 0.07, 'sine', 0.09, 0.01); },
+      score() { playTone(587.33, 587.33, 0.08, 'triangle', 0.15, 0); playTone(880, 880, 0.14, 'triangle', 0.17, 0.07); },
+      coin() { playTone(987.77, 987.77, 0.06, 'sine', 0.15, 0); playTone(1318.5, 1318.5, 0.15, 'sine', 0.16, 0.055); },
+      gem() { [880, 1174.6, 1567.98].forEach((n, i) => playTone(n, n, 0.12, 'sine', 0.15, i * 0.05)); },
+      powerup() { playTone(440, 660, 0.08, 'triangle', 0.15, 0); playTone(660, 880, 0.08, 'triangle', 0.15, 0.07); playTone(880, 1174, 0.15, 'sine', 0.16, 0.14); },
+      fever() { [523.25, 659.25, 783.99, 1046.5, 1318.5].forEach((n, i) => playTone(n, n, 0.16, 'triangle', 0.16, i * 0.055)); },
+      shieldBreak() { playTone(520, 160, 0.18, 'sawtooth', 0.14, 0); playTone(320, 90, 0.22, 'triangle', 0.16, 0.04); },
+      milestone() { [523.25, 659.25, 783.99, 1046.5].forEach((n, i) => playTone(n, n, 0.14, 'triangle', 0.15, i * 0.065)); },
+      hit() { playTone(150, 42, 0.18, 'sawtooth', 0.2, 0); playTone(90, 32, 0.22, 'square', 0.14, 0.02); },
+      bounce() { playTone(220, 390, 0.1, 'sine', 0.14, 0); },
+      die() { playTone(340, 110, 0.28, 'triangle', 0.15, 0); },
+      click() { playTone(620, 460, 0.045, 'sine', 0.11, 0); },
+      beep(high = false) { playTone(high ? 880 : 520, high ? 880 : 520, 0.09, 'sine', 0.14, 0); }
     };
 
-    const MELODY = [261.63, 329.63, 392.0, 523.25, 392.0, 329.63, 293.66, 349.23, 440.0, 349.23, 329.63, 392.0];
-
-    function syncMusic() {
-      if (musicTimer) {
-        clearInterval(musicTimer);
-        musicTimer = null;
-      }
-      if (!profile.settings.music) return;
-      musicTimer = setInterval(() => {
-        if (!profile.settings.music || document.hidden) return;
-        const c = ensureContext();
-        if (!c || c.state !== 'running') return;
-        const freq = MELODY[musicStep % MELODY.length];
-        musicStep++;
-        const t = c.currentTime;
-        const osc = c.createOscillator();
-        const gain = c.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq, t);
-        gain.gain.setValueAtTime(0.001, t);
-        gain.gain.linearRampToValueAtTime(0.035, t + 0.02);
-        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.28);
-        osc.connect(gain);
-        gain.connect(c.destination);
-        osc.start(t);
-        osc.stop(t + 0.3);
-      }, 310);
-    }
-
-    return { ensureContext, sfx, syncMusic };
+    return { ensureContext, sfx };
   })();
+
+  function triggerHaptic(pattern) {
+    if (profile.settings.haptics && typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') {
+      try { navigator.vibrate(pattern); } catch {}
+    }
+  }
 
   // =========================================================
   // 4. DOM REFERENCES
@@ -1593,28 +1882,38 @@
 
   const coinCountEl = document.getElementById('coinCountEl');
   const hudBestEl = document.getElementById('hudBestEl');
+  const heartCountEl = document.getElementById('heartCountEl');
+  const hudFps = document.getElementById('hudFps');
   const pauseBtn = document.getElementById('pauseBtn');
   const muteBtn = document.getElementById('muteBtn');
   const fullscreenBtn = document.getElementById('fullscreenBtn');
   const scoreDisplay = document.getElementById('scoreDisplay');
+  const mobileFlapBtn = document.getElementById('mobileFlapBtn');
   const getReadyPrompt = document.getElementById('getReadyPrompt');
   const readyModeLabel = document.getElementById('readyModeLabel');
   const powerupHud = document.getElementById('powerupHud');
+  const blitzHud = document.getElementById('blitzHud');
+  const blitzTimeEl = document.getElementById('blitzTimeEl');
   const countdownOverlay = document.getElementById('countdownOverlay');
   const countdownNum = document.getElementById('countdownNum');
   const toastContainer = document.getElementById('toastContainer');
+  const pilotBadgeName = document.getElementById('pilotBadgeName');
+  const missionsDot = document.getElementById('missionsDot');
 
   const startScreen = document.getElementById('startScreen');
   const gameOverScreen = document.getElementById('gameOverScreen');
   const pauseScreen = document.getElementById('pauseScreen');
   const hangarScreen = document.getElementById('hangarScreen');
+  const missionsScreen = document.getElementById('missionsScreen');
   const statsScreen = document.getElementById('statsScreen');
   const achScreen = document.getElementById('achScreen');
+  const guideScreen = document.getElementById('guideScreen');
   const settingsScreen = document.getElementById('settingsScreen');
 
   const modeDescLabel = document.getElementById('modeDescLabel');
   const diffDescLabel = document.getElementById('diffDescLabel');
 
+  const goHeading = document.getElementById('goHeading');
   const goSubLabel = document.getElementById('goSubLabel');
   const goMedalIcon = document.getElementById('goMedalIcon');
   const goMedalName = document.getElementById('goMedalName');
@@ -1624,28 +1923,46 @@
   const goCoins = document.getElementById('goCoins');
   const goCloseCalls = document.getElementById('goCloseCalls');
   const newBestPill = document.getElementById('newBestPill');
+  const reviveBtn = document.getElementById('reviveBtn');
+  const reviveLeftEl = document.getElementById('reviveLeftEl');
 
   const skinsGrid = document.getElementById('skinsGrid');
+  const trailsRow = document.getElementById('trailsRow');
+  const upgradesList = document.getElementById('upgradesList');
   const themesRow = document.getElementById('themesRow');
+  const weatherRow = document.getElementById('weatherRow');
   const hangarCoinsEl = document.getElementById('hangarCoinsEl');
+
+  const streakDaysEl = document.getElementById('streakDaysEl');
+  const streakSubEl = document.getElementById('streakSubEl');
+  const claimDailyGiftBtn = document.getElementById('claimDailyGiftBtn');
+  const missionsList = document.getElementById('missionsList');
 
   const stFlights = document.getElementById('stFlights');
   const stBest = document.getElementById('stBest');
   const stAvg = document.getElementById('stAvg');
   const stCoins = document.getElementById('stCoins');
+  const modeBestMatrix = document.getElementById('modeBestMatrix');
   const statsTableBody = document.getElementById('statsTableBody');
   const clearStatsBtn = document.getElementById('clearStatsBtn');
 
   const achList = document.getElementById('achList');
   const achProgressLabel = document.getElementById('achProgressLabel');
 
+  const pilotNameInput = document.getElementById('pilotNameInput');
   const toggleSfx = document.getElementById('toggleSfx');
-  const toggleMusic = document.getElementById('toggleMusic');
+  const sfxVolSlider = document.getElementById('sfxVolSlider');
+  const sfxVolLabel = document.getElementById('sfxVolLabel');
   const toggleShake = document.getElementById('toggleShake');
   const toggleTrails = document.getElementById('toggleTrails');
+  const toggleMobileBtn = document.getElementById('toggleMobileBtn');
+  const toggleHaptics = document.getElementById('toggleHaptics');
+  const toggleProHud = document.getElementById('toggleProHud');
+  const importBox = document.getElementById('importBox');
+  const importSaveInput = document.getElementById('importSaveInput');
 
   // =========================================================
-  // 5. RESPONSIVE HIGH-DPI CANVAS & WORLD COORDINATES
+  // 5. RESPONSIVE HIGH-DPI CANVAS
   // =========================================================
   const WORLD_H = 640;
   const GROUND_H = 104;
@@ -1676,23 +1993,25 @@
   // =========================================================
   // 6. GAME STATE & ENTITIES
   // =========================================================
-  const STATE = {
-    MENU: 0,
-    GET_READY: 1,
-    PLAYING: 2,
-    PAUSED: 3,
-    COUNTDOWN: 4,
-    GAME_OVER: 5
-  };
+  const STATE = { MENU: 0, GET_READY: 1, PLAYING: 2, PAUSED: 3, COUNTDOWN: 4, GAME_OVER: 5 };
 
   let state = STATE.MENU;
-  let currentMode = 'arcade'; // 'arcade' | 'classic'
-  let currentDiff = 'medium'; // 'easy' | 'medium' | 'hard'
+  let currentMode = 'arcade';
+  let currentDiff = 'medium';
   let statsFilterDiff = 'all';
 
   let score = 0;
   let runCoins = 0;
   let runCloseCalls = 0;
+  let runPowerups = 0;
+  let runDistancePx = 0;
+  let runRevived = false;
+  let runFeverTriggered = false;
+  let blitzTimeLeft = 45.0;
+
+  let comboCount = 0;
+  let feverTimer = 0;
+
   let elapsed = 0;
   let distSincePipe = 0;
   let shakeTime = 0;
@@ -1704,17 +2023,23 @@
   let clearConfirmArmed = false;
   let clearConfirmTimer = null;
 
-  // Power-up timers (seconds remaining)
+  // FPS counter
+  let fpsAccum = 0;
+  let fpsFrames = 0;
+
   const powerups = {
     shield: false,
     slowmo: 0,
-    magnet: 0
+    magnet: 0,
+    doubleScore: 0,
+    tiny: 0
   };
 
   const bird = {
     x: 110,
     y: PLAY_H * 0.45,
     vy: 0,
+    baseR: 13,
     r: 13,
     rot: 0,
     wingPhase: 0,
@@ -1725,11 +2050,10 @@
   };
 
   let pipes = [];
-  let items = []; // coins & powerups
+  let items = [];
   let particles = [];
   let popups = [];
-
-  // Parallax scenery
+  let weatherDrops = [];
   let clouds = [];
   let stars = [];
   let buildings = [];
@@ -1739,47 +2063,65 @@
 
   function initScenery() {
     stars = [];
-    for (let i = 0; i < 42; i++) {
-      stars.push({
-        x: Math.random() * WORLD_W,
-        y: Math.random() * (PLAY_H * 0.65),
-        r: 0.9 + Math.random() * 1.5,
-        phase: Math.random() * Math.PI * 2
-      });
+    for (let i = 0; i < 44; i++) {
+      stars.push({ x: Math.random() * WORLD_W, y: Math.random() * (PLAY_H * 0.65), r: 0.9 + Math.random() * 1.5, phase: Math.random() * 6.28 });
     }
     clouds = [];
     const cloudCount = Math.max(4, Math.ceil(WORLD_W / 140));
     for (let i = 0; i < cloudCount; i++) {
-      clouds.push({
-        x: (i / cloudCount) * (WORLD_W + 120),
-        y: 50 + Math.random() * 170,
-        scale: 0.7 + Math.random() * 0.65,
-        speed: 10 + Math.random() * 14
-      });
+      clouds.push({ x: (i / cloudCount) * (WORLD_W + 120), y: 50 + Math.random() * 170, scale: 0.7 + Math.random() * 0.65, speed: 10 + Math.random() * 14 });
     }
     buildings = [];
     let bx = 0;
     while (bx < WORLD_W + 260) {
       const bw = 28 + Math.floor(Math.random() * 34);
       const bh = 45 + Math.floor(Math.random() * 88);
-      buildings.push({ x: bx, w: bw, h: bh, seed: Math.random() });
+      buildings.push({ x: bx, w: bw, h: bh });
       bx += bw + 4;
+    }
+    weatherDrops = [];
+    for (let i = 0; i < 36; i++) {
+      weatherDrops.push({
+        x: Math.random() * WORLD_W,
+        y: Math.random() * PLAY_H,
+        vx: -25 - Math.random() * 45,
+        vy: 60 + Math.random() * 120,
+        size: 2 + Math.random() * 3.5,
+        phase: Math.random() * 6.28
+      });
     }
   }
 
   // =========================================================
-  // 7. HELPERS: THEME, PARTICLES, POPUPS, TOASTS
+  // 7. HELPERS: THEME, WEATHER, PARTICLES, POPUPS, TOASTS
   // =========================================================
-  function getActiveTheme() {
-    if (profile.settings && profile.selectedTheme !== 'auto' && THEMES[profile.selectedTheme]) {
-      return THEMES[profile.selectedTheme];
-    }
-    const idx = Math.floor(score / 10) % CYCLE_ORDER.length;
-    return THEMES[CYCLE_ORDER[idx]];
+  function getActiveThemeKey() {
+    if (profile.selectedTheme !== 'auto' && THEMES[profile.selectedTheme]) return profile.selectedTheme;
+    return CYCLE_ORDER[Math.floor(score / 10) % CYCLE_ORDER.length];
+  }
+
+  function getActiveTheme() { return THEMES[getActiveThemeKey()]; }
+
+  function getActiveWeather() {
+    if (profile.selectedWeather !== 'auto') return profile.selectedWeather;
+    const tk = getActiveThemeKey();
+    if (tk === 'night') return 'fireflies';
+    if (tk === 'sunset') return 'petals';
+    if (tk === 'cyber') return 'rain';
+    return 'clear';
   }
 
   function getActiveSkin() {
     return SKINS.find(s => s.id === profile.selectedSkin) || SKINS[0];
+  }
+
+  function getTrailColor(skin) {
+    const tr = profile.selectedTrail;
+    if (tr === 'rainbow') return `hsl(${Math.floor((elapsed * 220) % 360)}, 92%, 65%)`;
+    if (tr === 'starlight') return '#fef08a';
+    if (tr === 'embers') return Math.random() < 0.5 ? '#f97316' : '#ef4444';
+    if (tr === 'neon') return Math.random() < 0.5 ? '#22d3ee' : '#e879f9';
+    return skin.trail;
   }
 
   function spawnParticles(x, y, color, count, speed = 130, size = 4) {
@@ -1805,7 +2147,7 @@
   function showToast(icon, title, sub = '') {
     const el = document.createElement('div');
     el.className = 'toast';
-    el.innerHTML = `<span style="font-size:1.35rem;">${icon}</span><div><div>${title}</div>${sub ? `<div style="font-size:0.72rem;color:#fde68a;">${sub}</div>` : ''}</div>`;
+    el.innerHTML = `<span style="font-size:1.3rem;">${icon}</span><div><div>${title}</div>${sub ? `<div style="font-size:0.7rem;color:#fde68a;">${sub}</div>` : ''}</div>`;
     toastContainer.appendChild(el);
     setTimeout(() => {
       el.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
@@ -1821,18 +2163,31 @@
     shakeTime = dur;
   }
 
+  function incrementMissionProgress(type, amount = 1, isMax = false) {
+    let changed = false;
+    profile.daily.missions.forEach(m => {
+      if (m.type === type && !m.claimed) {
+        const next = isMax ? Math.max(m.progress, amount) : m.progress + amount;
+        if (next !== m.progress) {
+          m.progress = Math.min(m.target, next);
+          changed = true;
+        }
+      }
+    });
+    if (changed) updateMissionsDot();
+  }
+
+  function updateMissionsDot() {
+    const hasClaimable = !profile.daily.giftClaimed || profile.daily.missions.some(m => m.progress >= m.target && !m.claimed);
+    missionsDot.classList.toggle('hidden', !hasClaimable);
+  }
+
   // =========================================================
   // 8. CORE GAME FLOW & PHYSICS
   // =========================================================
   function clearTimers() {
-    if (gameOverPopupTimer) {
-      clearTimeout(gameOverPopupTimer);
-      gameOverPopupTimer = null;
-    }
-    if (countdownInterval) {
-      clearInterval(countdownInterval);
-      countdownInterval = null;
-    }
+    if (gameOverPopupTimer) { clearTimeout(gameOverPopupTimer); gameOverPopupTimer = null; }
+    if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
     countdownOverlay.classList.add('hidden');
   }
 
@@ -1845,33 +2200,55 @@
     score = 0;
     runCoins = 0;
     runCloseCalls = 0;
+    runPowerups = 0;
+    runDistancePx = 0;
+    runRevived = false;
+    runFeverTriggered = false;
+    blitzTimeLeft = 45.0;
+    comboCount = 0;
+    feverTimer = 0;
     distSincePipe = 0;
     shakeTime = 0;
     flashAlpha = 0;
+
     powerups.shield = false;
     powerups.slowmo = 0;
     powerups.magnet = 0;
+    powerups.doubleScore = 0;
+    powerups.tiny = 0;
+
+    // Shield Mastery starting shield chance in Arcade/Blitz
+    if ((currentMode === 'arcade' || currentMode === 'blitz') && profile.upgrades.shield > 0) {
+      if (Math.random() < profile.upgrades.shield * 0.1) {
+        powerups.shield = true;
+      }
+    }
 
     bird.x = Math.round(Math.min(WORLD_W * 0.27, 190));
     bird.y = PLAY_H * 0.46;
     bird.vy = 0;
+    bird.r = bird.baseR;
     bird.rot = 0;
     bird.invuln = 0;
     bird.dead = false;
 
     scoreDisplay.textContent = '0';
+    scoreDisplay.classList.remove('fever');
+    blitzHud.classList.toggle('hidden', currentMode !== 'blitz');
+    blitzHud.classList.remove('urgent');
+    blitzTimeEl.textContent = blitzTimeLeft.toFixed(1);
     updatePowerupHud();
   }
 
   function enterGetReady() {
     AudioEngine.ensureContext();
-    AudioEngine.syncMusic();
     resetWorldForRun();
     state = STATE.GET_READY;
     hideAllModals();
     scoreDisplay.classList.remove('hidden');
     pauseBtn.classList.add('hidden');
-    readyModeLabel.textContent = `${currentMode === 'arcade' ? 'Arcade' : 'Classic'} • ${DIFFICULTIES[currentDiff].label}`;
+    mobileFlapBtn.classList.toggle('hidden', !profile.settings.mobileBtn);
+    readyModeLabel.textContent = `${MODES[currentMode].label} • ${DIFFICULTIES[currentDiff].label}`;
     getReadyPrompt.classList.remove('hidden');
     updateHudStats();
   }
@@ -1881,6 +2258,9 @@
     state = STATE.PLAYING;
     getReadyPrompt.classList.add('hidden');
     pauseBtn.classList.remove('hidden');
+    if (powerups.shield) {
+      spawnPopup(bird.x, bird.y - 28, 'BONUS SHIELD!', '#38bdf8', 14);
+    }
     flapBird();
   }
 
@@ -1889,10 +2269,28 @@
     bird.vy = -diff.jump;
     bird.wingPhase = 0;
     AudioEngine.sfx.flap();
+    triggerHaptic(10);
     if (profile.settings.trails) {
       const skin = getActiveSkin();
-      spawnParticles(bird.x - 14, bird.y + 4, skin.trail, 5, 65, 3.2);
+      spawnParticles(bird.x - 14, bird.y + 4, getTrailColor(skin), 5, 65, 3.2);
     }
+  }
+
+  function addCombo(amount = 1) {
+    if (currentMode !== 'arcade' && currentMode !== 'blitz') return;
+    if (feverTimer > 0) return;
+    comboCount = Math.min(5, comboCount + amount);
+    if (comboCount >= 5) {
+      comboCount = 0;
+      feverTimer = 7.0;
+      runFeverTriggered = true;
+      incrementMissionProgress('fever', 1);
+      AudioEngine.sfx.fever();
+      scoreDisplay.classList.add('fever');
+      spawnParticles(bird.x, bird.y, '#fde047', 24, 190, 4.5);
+      spawnPopup(WORLD_W / 2, 130, 'FEVER MODE 2×!', '#fde047', 19);
+    }
+    updatePowerupHud();
   }
 
   function spawnPipePair() {
@@ -1902,7 +2300,7 @@
     const maxTop = PLAY_H - diff.gap - 64;
     const gapTop = minTop + Math.random() * Math.max(20, maxTop - minTop);
 
-    const canMove = currentMode === 'arcade' && score >= 12 && Math.random() < Math.min(0.45, 0.15 + (score - 12) * 0.012);
+    const canMove = (currentMode === 'arcade' || currentMode === 'blitz') && score >= 12 && Math.random() < Math.min(0.45, 0.15 + (score - 12) * 0.012);
     const pipe = {
       x: WORLD_W + 24,
       w: pipeW,
@@ -1916,20 +2314,28 @@
     };
     pipes.push(pipe);
 
-    // Arcade collectibles
-    if (currentMode === 'arcade') {
+    if (currentMode === 'arcade' || currentMode === 'blitz') {
       const centerX = pipe.x + pipeW / 2;
       const centerY = gapTop + diff.gap / 2 + (Math.random() - 0.5) * (diff.gap * 0.36);
-
+      const luckBonus = profile.upgrades.luck * 0.03;
       const roll = Math.random();
-      if (roll < 0.55) {
+
+      if (currentMode === 'blitz' && roll < 0.22) {
+        items.push({ type: 'clock', x: centerX, y: centerY, r: 13, taken: false, phase: 0 });
+      } else if (roll < 0.08 + luckBonus) {
+        items.push({ type: 'gem', x: centerX, y: centerY, r: 12, taken: false, phase: Math.random() * 6 });
+      } else if (roll < 0.52) {
         items.push({ type: 'coin', x: centerX, y: centerY, r: 11, taken: false, phase: Math.random() * 6 });
-      } else if (roll < 0.64 && !powerups.shield) {
+      } else if (roll < 0.60 && !powerups.shield) {
         items.push({ type: 'shield', x: centerX, y: centerY, r: 13, taken: false, phase: 0 });
-      } else if (roll < 0.71) {
+      } else if (roll < 0.66) {
         items.push({ type: 'slowmo', x: centerX, y: centerY, r: 13, taken: false, phase: 1.5 });
-      } else if (roll < 0.78) {
+      } else if (roll < 0.72) {
         items.push({ type: 'magnet', x: centerX, y: centerY, r: 13, taken: false, phase: 3.1 });
+      } else if (roll < 0.77 + luckBonus * 0.6) {
+        items.push({ type: 'double', x: centerX, y: centerY, r: 13, taken: false, phase: 2.0 });
+      } else if (roll < 0.82) {
+        items.push({ type: 'tiny', x: centerX, y: centerY, r: 13, taken: false, phase: 4.2 });
       }
     }
   }
@@ -1942,14 +2348,24 @@
     return (dx * dx + dy * dy) < (cr * cr);
   }
 
-  function handlePipeHit() {
+  function handlePipeHit(hitTop) {
     if (bird.invuln > 0) return;
+
+    // Zen practice mode: gentle bounce instead of death!
+    if (currentMode === 'zen') {
+      bird.invuln = 0.7;
+      bird.vy = hitTop ? 160 : -260;
+      AudioEngine.sfx.bounce();
+      spawnPopup(bird.x, bird.y - 24, 'ZEN BOUNCE', '#5eead4', 13);
+      return;
+    }
 
     if (powerups.shield) {
       powerups.shield = false;
-      bird.invuln = 1.15;
+      bird.invuln = 1.15 + profile.upgrades.shield * 0.2;
       bird.vy = -210;
       AudioEngine.sfx.shieldBreak();
+      triggerHaptic([25, 30, 25]);
       triggerShake(6, 0.2);
       spawnParticles(bird.x, bird.y, '#38bdf8', 18, 175, 4.5);
       spawnPopup(bird.x, bird.y - 26, 'SHIELD SAVED!', '#38bdf8', 15);
@@ -1957,65 +2373,68 @@
       return;
     }
 
-    triggerGameOver();
+    triggerGameOver('Flight Over!');
   }
 
-  function triggerGameOver() {
+  function triggerGameOver(heading = 'Flight Over!') {
     if (state !== STATE.PLAYING) return;
     state = STATE.GAME_OVER;
     bird.dead = true;
     pauseBtn.classList.add('hidden');
     scoreDisplay.classList.add('hidden');
+    mobileFlapBtn.classList.add('hidden');
 
     AudioEngine.sfx.hit();
+    triggerHaptic([40, 30, 60]);
     triggerShake(10, 0.3);
     if (profile.settings.shake) flashAlpha = 0.65;
     const skin = getActiveSkin();
     spawnParticles(bird.x, bird.y, skin.body, 22, 200, 4.8);
     spawnParticles(bird.x, bird.y, '#ffffff', 10, 140, 3.2);
 
-    // Persist stats
     const prevBest = profile.bestScores[currentMode][currentDiff] || 0;
     const isNewBest = score > prevBest && score > 0;
-    if (isNewBest) {
-      profile.bestScores[currentMode][currentDiff] = score;
-    }
+    if (isNewBest) profile.bestScores[currentMode][currentDiff] = score;
+
+    const distMeters = Math.round(runDistancePx / 28);
     profile.totalFlights += 1;
     profile.totalScore += score;
+    profile.totalDistanceM += distMeters;
     profile.totalCloseCalls += runCloseCalls;
+    profile.totalPowerups += runPowerups;
     profile.coins += runCoins;
     profile.totalCoinsEarned += runCoins;
 
+    // Daily mission progress
+    incrementMissionProgress('flights', 1);
+    incrementMissionProgress('runScore', score, true);
+    incrementMissionProgress('coins', runCoins);
+    incrementMissionProgress('closeCalls', runCloseCalls);
+    incrementMissionProgress('powerups', runPowerups);
+
     const medal = getMedal(score);
     const shortDate = new Date().toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
-    profile.history.push({
-      date: shortDate,
-      mode: currentMode,
-      diff: currentDiff,
-      score,
-      icon: medal.icon
-    });
+    profile.history.push({ date: shortDate, mode: currentMode, diff: currentDiff, score, icon: medal.icon });
     profile.history.sort((a, b) => b.score - a.score);
     profile.history = profile.history.slice(0, 20);
 
-    checkAchievements({ score, diff: currentDiff, mode: currentMode, closeCalls: runCloseCalls });
+    checkAchievements({ score, diff: currentDiff, mode: currentMode, closeCalls: runCloseCalls, feverTriggered: runFeverTriggered });
     saveProfile();
     updateHudStats();
+    updateMissionsDot();
 
     gameOverLockUntil = performance.now() + 550;
 
-    // Delayed Game Over card so player sees the impact nicely
     gameOverPopupTimer = setTimeout(() => {
       AudioEngine.sfx.die();
-      goSubLabel.textContent = `${currentMode === 'arcade' ? 'Arcade' : 'Classic'} • ${DIFFICULTIES[currentDiff].label}`;
-      goMedalIcon.textContent = medal.icon;
+      goHeading.textContent = heading;
+      goSubLabel.textContent = `${MODES[currentMode].label} • ${DIFFICULTIES[currentDiff].label} • ${distMeters}m`;
+      goMedalIcon.innerHTML = renderMedalSvg(medal);
       goMedalName.textContent = medal.name;
       goMedalName.style.color = medal.color;
 
       const nextM = getNextMedal(score);
-      goNextMedalHint.textContent = nextM
-        ? `Score ${nextM.score} for ${nextM.icon} ${nextM.name} Medal`
-        : 'Maximum Rank Achieved!';
+      goNextMedalHint.textContent = nextM ? `Score ${nextM.score} for ${nextM.name} Medal` : 'Maximum Rank Achieved!';
 
       goScore.textContent = String(score);
       goBest.textContent = String(profile.bestScores[currentMode][currentDiff]);
@@ -2023,8 +2442,59 @@
       goCloseCalls.textContent = String(runCloseCalls);
       newBestPill.classList.toggle('hidden', !isNewBest);
 
+      // Second Chance Revive available once per run in Arcade or Blitz (not when time expired)
+      const canRevive = !runRevived && profile.reviveHearts > 0 && (currentMode === 'arcade' || (currentMode === 'blitz' && blitzTimeLeft > 0));
+      reviveBtn.classList.toggle('hidden', !canRevive);
+      reviveLeftEl.textContent = String(profile.reviveHearts);
+
       gameOverScreen.classList.remove('hidden');
-    }, 460);
+    }, 450);
+  }
+
+  function useReviveHeart() {
+    if (runRevived || profile.reviveHearts <= 0) return;
+    profile.reviveHearts -= 1;
+    runRevived = true;
+    saveProfile();
+    updateHudStats();
+
+    clearTimers();
+    gameOverScreen.classList.add('hidden');
+    scoreDisplay.classList.remove('hidden');
+    pauseBtn.classList.remove('hidden');
+    mobileFlapBtn.classList.toggle('hidden', !profile.settings.mobileBtn);
+
+    // Clear nearby pipes & place bird safely
+    pipes = pipes.filter(p => p.x > bird.x + 150 || p.x + p.w < bird.x - 80);
+    bird.dead = false;
+    bird.y = PLAY_H * 0.45;
+    bird.vy = -120;
+    bird.rot = 0;
+    bird.invuln = 1.8;
+
+    AudioEngine.sfx.powerup();
+    spawnParticles(bird.x, bird.y, '#f43f5e', 20, 180, 4.5);
+    spawnPopup(bird.x, bird.y - 30, 'REVIVED!', '#fda4af', 17);
+
+    // 3-2-1 countdown before resuming physics
+    state = STATE.COUNTDOWN;
+    let count = 3;
+    countdownNum.textContent = String(count);
+    countdownOverlay.classList.remove('hidden');
+    AudioEngine.sfx.beep(false);
+    countdownInterval = setInterval(() => {
+      count--;
+      if (count > 0) {
+        countdownNum.textContent = String(count);
+        AudioEngine.sfx.beep(false);
+      } else {
+        clearInterval(countdownInterval);
+        countdownInterval = null;
+        countdownOverlay.classList.add('hidden');
+        AudioEngine.sfx.beep(true);
+        state = STATE.PLAYING;
+      }
+    }, 650);
   }
 
   function checkAchievements(run) {
@@ -2036,12 +2506,10 @@
         profile.coins += ach.reward;
         profile.totalCoinsEarned += ach.reward;
         unlockedAny = true;
-        showToast(ach.icon, `Achievement: ${ach.title}`, `+${ach.reward} 🪙 Bonus`);
+        showToast(ach.icon, `Achievement: ${ach.title}`, `+${ach.reward} Coins Bonus`);
       }
     }
-    if (unlockedAny) {
-      AudioEngine.sfx.milestone();
-    }
+    if (unlockedAny) AudioEngine.sfx.milestone();
   }
 
   function pauseGame() {
@@ -2071,7 +2539,7 @@
         AudioEngine.sfx.beep(true);
         state = STATE.PLAYING;
       }
-    }, 750);
+    }, 700);
   }
 
   function goHome() {
@@ -2081,7 +2549,9 @@
     hideAllModals();
     scoreDisplay.classList.add('hidden');
     pauseBtn.classList.add('hidden');
+    mobileFlapBtn.classList.add('hidden');
     getReadyPrompt.classList.add('hidden');
+    blitzHud.classList.add('hidden');
     startScreen.classList.remove('hidden');
     updateHudStats();
   }
@@ -2089,17 +2559,49 @@
   function update(dt) {
     elapsed += dt;
 
+    // FPS tracker
+    fpsAccum += dt;
+    fpsFrames += 1;
+    if (fpsAccum >= 0.5) {
+      if (profile.settings.proHud) {
+        hudFps.textContent = `${Math.round(fpsFrames / fpsAccum)} FPS`;
+      }
+      fpsAccum = 0;
+      fpsFrames = 0;
+    }
+
     if (shakeTime > 0) shakeTime = Math.max(0, shakeTime - dt);
     if (flashAlpha > 0) flashAlpha = Math.max(0, flashAlpha - dt * 2.4);
 
-    // Update particles & popups even in game over for smooth juice
+    // Update weather
+    const weather = getActiveWeather();
+    if (weather !== 'clear') {
+      for (const w of weatherDrops) {
+        w.phase += dt * 3;
+        if (weather === 'rain') {
+          w.x -= 95 * dt;
+          w.y += 420 * dt;
+        } else if (weather === 'snow') {
+          w.x += (Math.sin(w.phase) * 20 - 18) * dt;
+          w.y += 55 * dt;
+        } else if (weather === 'petals') {
+          w.x += (Math.sin(w.phase) * 35 - 42) * dt;
+          w.y += 65 * dt;
+        } else if (weather === 'fireflies') {
+          w.x += Math.cos(w.phase * 0.7) * 20 * dt;
+          w.y += Math.sin(w.phase * 0.9) * 18 * dt;
+        }
+        if (w.y > PLAY_H + 10) { w.y = -10; w.x = Math.random() * (WORLD_W + 80); }
+        if (w.x < -20) { w.x = WORLD_W + 20; }
+        if (w.x > WORLD_W + 40) { w.x = -10; }
+      }
+    }
+
+    // Particles & Popups
     for (let i = particles.length - 1; i >= 0; i--) {
       const p = particles[i];
       p.life -= dt;
-      if (p.life <= 0) {
-        particles.splice(i, 1);
-        continue;
-      }
+      if (p.life <= 0) { particles.splice(i, 1); continue; }
       p.vy += 320 * dt;
       p.x += p.vx * dt;
       p.y += p.vy * dt;
@@ -2108,10 +2610,7 @@
     for (let i = popups.length - 1; i >= 0; i--) {
       const pop = popups[i];
       pop.life -= dt;
-      if (pop.life <= 0) {
-        popups.splice(i, 1);
-        continue;
-      }
+      if (pop.life <= 0) { popups.splice(i, 1); continue; }
       pop.y -= 42 * dt;
     }
 
@@ -2121,13 +2620,9 @@
     const slowFactor = powerups.slowmo > 0 ? 0.62 : 1;
     const speed = diff.speed * slowFactor;
 
-    // Clouds drift gently in all active states
     for (const c of clouds) {
       c.x -= c.speed * (state === STATE.PLAYING ? slowFactor : 0.6) * dt;
-      if (c.x < -120) {
-        c.x = WORLD_W + 90;
-        c.y = 45 + Math.random() * 175;
-      }
+      if (c.x < -120) { c.x = WORLD_W + 90; c.y = 45 + Math.random() * 175; }
     }
 
     if (state === STATE.MENU || state === STATE.GET_READY) {
@@ -2137,7 +2632,6 @@
       bird.wingPhase += dt * 11;
       bird.y = PLAY_H * 0.46 + Math.sin(elapsed * 4.2) * 9;
       bird.rot = Math.sin(elapsed * 4.2) * 0.06;
-
       bird.blinkTimer -= dt;
       if (bird.blinkTimer <= 0) {
         bird.isBlinking = !bird.isBlinking;
@@ -2147,15 +2641,11 @@
     }
 
     if (state === STATE.GAME_OVER) {
-      // Bird falls cleanly to ground after impact
       if (bird.y + bird.r < PLAY_H) {
         bird.vy += 1250 * dt;
         bird.y += bird.vy * dt;
         bird.rot = Math.min(Math.PI / 2, bird.rot + 5.5 * dt);
-        if (bird.y + bird.r >= PLAY_H) {
-          bird.y = PLAY_H - bird.r;
-          bird.vy = 0;
-        }
+        if (bird.y + bird.r >= PLAY_H) { bird.y = PLAY_H - bird.r; bird.vy = 0; }
       }
       return;
     }
@@ -2163,19 +2653,32 @@
     // --- STATE.PLAYING ---
     if (bird.invuln > 0) bird.invuln = Math.max(0, bird.invuln - dt);
 
-    // Update power-up durations
+    // Blitz countdown
+    if (currentMode === 'blitz') {
+      blitzTimeLeft = Math.max(0, blitzTimeLeft - dt);
+      blitzTimeEl.textContent = blitzTimeLeft.toFixed(1);
+      blitzHud.classList.toggle('urgent', blitzTimeLeft <= 8);
+      if (blitzTimeLeft <= 0) {
+        triggerGameOver('Time Up!');
+        return;
+      }
+    }
+
+    // Power-up & Fever timers
     let puChanged = false;
-    if (powerups.slowmo > 0) {
-      powerups.slowmo = Math.max(0, powerups.slowmo - dt);
+    if (feverTimer > 0) {
+      feverTimer = Math.max(0, feverTimer - dt);
+      if (feverTimer === 0) scoreDisplay.classList.remove('fever');
       puChanged = true;
     }
-    if (powerups.magnet > 0) {
-      powerups.magnet = Math.max(0, powerups.magnet - dt);
-      puChanged = true;
-    }
+    if (powerups.slowmo > 0) { powerups.slowmo = Math.max(0, powerups.slowmo - dt); puChanged = true; }
+    if (powerups.magnet > 0) { powerups.magnet = Math.max(0, powerups.magnet - dt); puChanged = true; }
+    if (powerups.doubleScore > 0) { powerups.doubleScore = Math.max(0, powerups.doubleScore - dt); puChanged = true; }
+    if (powerups.tiny > 0) { powerups.tiny = Math.max(0, powerups.tiny - dt); puChanged = true; }
+    bird.r = powerups.tiny > 0 ? 8.5 : bird.baseR;
     if (puChanged) updatePowerupHud();
 
-    // Parallax scrolling
+    runDistancePx += speed * dt;
     groundOffset = (groundOffset + speed * dt) % 48;
     farHillOffset = (farHillOffset + speed * 0.14 * dt) % 240;
     cityOffset = (cityOffset + speed * 0.25 * dt) % (WORLD_W + 260);
@@ -2186,36 +2689,30 @@
     bird.y += bird.vy * dt;
     bird.wingPhase += dt * (bird.vy < 0 ? 22 : 10);
 
-    // Smooth angular pitch
-    const targetRot = bird.vy < 140
-      ? -0.44
-      : Math.min(Math.PI * 0.46, ((bird.vy - 140) / 420) * (Math.PI * 0.46));
+    const targetRot = bird.vy < 140 ? -0.44 : Math.min(Math.PI * 0.46, ((bird.vy - 140) / 420) * (Math.PI * 0.46));
     bird.rot += (targetRot - bird.rot) * Math.min(1, dt * 12);
 
-    // Ceiling clamp
-    if (bird.y - bird.r < 0) {
-      bird.y = bird.r;
-      if (bird.vy < 0) bird.vy = 0;
-    }
+    if (bird.y - bird.r < 0) { bird.y = bird.r; if (bird.vy < 0) bird.vy = 0; }
 
-    // Ground collision
     if (bird.y + bird.r >= PLAY_H) {
       bird.y = PLAY_H - bird.r;
-      triggerGameOver();
-      return;
+      if (currentMode === 'zen') {
+        bird.vy = -diff.jump * 0.85;
+        AudioEngine.sfx.bounce();
+      } else {
+        triggerGameOver('Flight Over!');
+        return;
+      }
     }
 
-    // Pipe spawning (distance-based, completely frame-rate independent)
+    // Distance-based pipe spawning
     distSincePipe += speed * dt;
-    if (pipes.length === 0 && distSincePipe >= 110) {
-      spawnPipePair();
-      distSincePipe = 0;
-    } else if (distSincePipe >= diff.pipeSpacing) {
+    if ((pipes.length === 0 && distSincePipe >= 110) || distSincePipe >= diff.pipeSpacing) {
       spawnPipePair();
       distSincePipe = 0;
     }
 
-    // Update pipes & check collisions
+    // Pipes update & collision
     for (let i = pipes.length - 1; i >= 0; i--) {
       const p = pipes[i];
       p.x -= speed * dt;
@@ -2225,39 +2722,42 @@
         p.gapTop = Math.max(46, Math.min(PLAY_H - p.gap - 54, p.baseTop + Math.sin(p.movePhase) * p.moveAmp));
       }
 
-      // Collision check (top & bottom pipe bodies + caps)
       const hitTop = circleIntersectsRect(bird.x, bird.y, bird.r, p.x - 3, -40, p.w + 6, p.gapTop + 40);
       const hitBot = circleIntersectsRect(bird.x, bird.y, bird.r, p.x - 3, p.gapTop + p.gap, p.w + 6, PLAY_H - (p.gapTop + p.gap) + 20);
 
       if (hitTop || hitBot) {
-        handlePipeHit();
+        handlePipeHit(hitTop);
         if (state !== STATE.PLAYING) return;
       }
 
-      // Scoring
       if (!p.passed && p.x + p.w * 0.5 < bird.x) {
         p.passed = true;
-        score += 1;
+        const pts = (feverTimer > 0 || powerups.doubleScore > 0) ? 2 : 1;
+        score += pts;
         scoreDisplay.textContent = String(score);
         scoreDisplay.classList.add('pop');
         setTimeout(() => scoreDisplay.classList.remove('pop'), 120);
 
-        // Close call check (within 11px of pipe lip)
+        if (currentMode === 'blitz') {
+          blitzTimeLeft = Math.min(60, blitzTimeLeft + 1.5);
+        }
+
         const distTop = (bird.y - bird.r) - p.gapTop;
         const distBot = (p.gapTop + p.gap) - (bird.y + bird.r);
         const minClear = Math.min(distTop, distBot);
         if (minClear >= 0 && minClear <= 12) {
           runCloseCalls += 1;
-          if (currentMode === 'arcade') {
+          addCombo(2);
+          if (currentMode === 'arcade' || currentMode === 'blitz') {
             const bonus = diff.coinMult;
             runCoins += bonus;
-            spawnPopup(bird.x, bird.y - 30, `CLOSE CALL! +${bonus}🪙`, '#38bdf8', 14);
+            spawnPopup(bird.x, bird.y - 30, `CLOSE CALL! +${bonus}`, '#38bdf8', 14);
           } else {
             spawnPopup(bird.x, bird.y - 30, 'CLOSE CALL!', '#38bdf8', 14);
           }
           spawnParticles(bird.x, bird.y, '#38bdf8', 10, 120, 3);
         } else {
-          spawnPopup(bird.x + 12, bird.y - 24, '+1', '#ffffff', 15);
+          spawnPopup(bird.x + 12, bird.y - 24, `+${pts}`, pts > 1 ? '#fde047' : '#ffffff', 15);
         }
 
         if (score % 10 === 0) {
@@ -2269,62 +2769,92 @@
         }
       }
 
-      if (p.x + p.w < -40) {
-        pipes.splice(i, 1);
-      }
+      if (p.x + p.w < -40) pipes.splice(i, 1);
     }
 
-    // Update collectibles
+    // Collectibles update
+    const magActive = powerups.magnet > 0 || feverTimer > 0;
+    const magRadius = 175 + profile.upgrades.magnet * 28;
+
     for (let i = items.length - 1; i >= 0; i--) {
       const it = items[i];
       it.x -= speed * dt;
       it.phase += dt * 4.5;
 
-      // Magnet pull on coins
-      if (it.type === 'coin' && powerups.magnet > 0) {
+      if ((it.type === 'coin' || it.type === 'gem') && magActive) {
         const dx = bird.x - it.x;
         const dy = bird.y - it.y;
         const d = Math.hypot(dx, dy);
-        if (d < 175 && d > 1) {
-          it.x += (dx / d) * 340 * dt;
-          it.y += (dy / d) * 340 * dt;
+        if (d < magRadius && d > 1) {
+          it.x += (dx / d) * 360 * dt;
+          it.y += (dy / d) * 360 * dt;
         }
       }
 
       const d = Math.hypot(bird.x - it.x, bird.y - it.y);
-      if (d < bird.r + it.r + 3) {
+      if (d < bird.r + it.r + 4) {
         it.taken = true;
         if (it.type === 'coin') {
           const val = diff.coinMult;
           runCoins += val;
+          addCombo(1);
           AudioEngine.sfx.coin();
           spawnParticles(it.x, it.y, '#fbbf24', 10, 120, 3.2);
-          spawnPopup(it.x, it.y - 12, `+${val} 🪙`, '#fde68a', 14);
+          spawnPopup(it.x, it.y - 12, `+${val} COIN`, '#fde68a', 14);
           coinCountEl.textContent = String(profile.coins + runCoins);
+        } else if (it.type === 'gem') {
+          const val = 5 * diff.coinMult;
+          runCoins += val;
+          addCombo(2);
+          AudioEngine.sfx.gem();
+          spawnParticles(it.x, it.y, '#f43f5e', 16, 160, 3.8);
+          spawnPopup(it.x, it.y - 14, `GEM +${val}`, '#fda4af', 15);
+          coinCountEl.textContent = String(profile.coins + runCoins);
+        } else if (it.type === 'clock') {
+          blitzTimeLeft = Math.min(60, blitzTimeLeft + 3.5);
+          runPowerups += 1;
+          AudioEngine.sfx.powerup();
+          spawnParticles(it.x, it.y, '#38bdf8', 14, 150, 3.6);
+          spawnPopup(it.x, it.y - 16, '+3.5s TIME!', '#7dd3fc', 15);
         } else if (it.type === 'shield') {
           powerups.shield = true;
+          runPowerups += 1;
           AudioEngine.sfx.powerup();
           spawnParticles(it.x, it.y, '#38bdf8', 14, 150, 3.6);
           spawnPopup(it.x, it.y - 16, 'SHIELD ON!', '#38bdf8', 15);
           updatePowerupHud();
         } else if (it.type === 'slowmo') {
-          powerups.slowmo = 6.0;
+          powerups.slowmo = 6.0 + profile.upgrades.slowmo * 1.2;
+          runPowerups += 1;
           AudioEngine.sfx.powerup();
           spawnParticles(it.x, it.y, '#a855f7', 14, 150, 3.6);
           spawnPopup(it.x, it.y - 16, 'SLOW-MO!', '#c084fc', 15);
           updatePowerupHud();
         } else if (it.type === 'magnet') {
-          powerups.magnet = 8.0;
+          powerups.magnet = 8.0 + profile.upgrades.magnet * 1.5;
+          runPowerups += 1;
           AudioEngine.sfx.powerup();
           spawnParticles(it.x, it.y, '#f43f5e', 14, 150, 3.6);
           spawnPopup(it.x, it.y - 16, 'COIN MAGNET!', '#fda4af', 15);
           updatePowerupHud();
+        } else if (it.type === 'double') {
+          powerups.doubleScore = 8.0;
+          runPowerups += 1;
+          AudioEngine.sfx.powerup();
+          spawnParticles(it.x, it.y, '#fde047', 14, 150, 3.6);
+          spawnPopup(it.x, it.y - 16, '2× SCORE!', '#fde047', 15);
+          updatePowerupHud();
+        } else if (it.type === 'tiny') {
+          powerups.tiny = 7.5;
+          runPowerups += 1;
+          AudioEngine.sfx.powerup();
+          spawnParticles(it.x, it.y, '#34d399', 14, 150, 3.6);
+          spawnPopup(it.x, it.y - 16, 'TINY BIRD!', '#6ee7b7', 15);
+          updatePowerupHud();
         }
       }
 
-      if (it.taken || it.x < -40) {
-        items.splice(i, 1);
-      }
+      if (it.taken || it.x < -40) items.splice(i, 1);
     }
   }
 
@@ -2340,7 +2870,6 @@
     ctx.save();
     ctx.scale(DPR * scaleX, DPR * scaleY);
 
-    // Camera shake
     if (shakeTime > 0) {
       const sx = (Math.random() - 0.5) * 2 * shakeMag * (shakeTime / 0.3);
       const sy = (Math.random() - 0.5) * 2 * shakeMag * (shakeTime / 0.3);
@@ -2349,7 +2878,7 @@
 
     const theme = getActiveTheme();
 
-    // 1. Sky Gradient
+    // 1. Sky
     const skyGrad = ctx.createLinearGradient(0, 0, 0, PLAY_H);
     skyGrad.addColorStop(0, theme.skyTop);
     skyGrad.addColorStop(0.55, theme.skyMid);
@@ -2378,7 +2907,6 @@
     ctx.beginPath();
     ctx.arc(orbX, orbY, 68, 0, Math.PI * 2);
     ctx.fill();
-
     ctx.fillStyle = theme.sunColor;
     ctx.beginPath();
     ctx.arc(orbX, orbY, 24, 0, Math.PI * 2);
@@ -2410,7 +2938,7 @@
     ctx.closePath();
     ctx.fill();
 
-    // 6. City Skyline Parallax
+    // 6. City Skyline
     const span = WORLD_W + 260;
     for (const b of buildings) {
       let x = b.x - cityOffset;
@@ -2419,38 +2947,70 @@
       const by = PLAY_H - b.h;
       ctx.fillStyle = theme.city;
       ctx.fillRect(x, by, b.w, b.h);
-
-      // Tiny lit windows
       ctx.fillStyle = theme.cityWin;
       for (let wy = by + 8; wy < PLAY_H - 12; wy += 12) {
         for (let wx = x + 5; wx < x + b.w - 7; wx += 9) {
-          if (((wx * 7 + wy * 13) % 5) !== 0) {
-            ctx.fillRect(wx, wy, 4, 6);
-          }
+          if (((wx * 7 + wy * 13) % 5) !== 0) ctx.fillRect(wx, wy, 4, 6);
         }
       }
     }
 
-    // 7. Pipes
+    // 7. Weather Layer
+    const weather = getActiveWeather();
+    if (weather !== 'clear') {
+      ctx.save();
+      for (const w of weatherDrops) {
+        if (weather === 'rain') {
+          ctx.strokeStyle = 'rgba(186, 230, 253, 0.45)';
+          ctx.lineWidth = 1.4;
+          ctx.beginPath();
+          ctx.moveTo(w.x, w.y);
+          ctx.lineTo(w.x - 4, w.y + 13);
+          ctx.stroke();
+        } else if (weather === 'snow') {
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+          ctx.beginPath();
+          ctx.arc(w.x, w.y, w.size * 0.7, 0, Math.PI * 2);
+          ctx.fill();
+        } else if (weather === 'petals') {
+          ctx.fillStyle = 'rgba(251, 182, 206, 0.85)';
+          ctx.beginPath();
+          ctx.ellipse(w.x, w.y, w.size * 1.1, w.size * 0.55, w.phase, 0, Math.PI * 2);
+          ctx.fill();
+        } else if (weather === 'fireflies') {
+          const a = 0.35 + 0.65 * Math.abs(Math.sin(w.phase));
+          ctx.fillStyle = `rgba(253, 224, 71, ${a.toFixed(2)})`;
+          ctx.beginPath();
+          ctx.arc(w.x, w.y, w.size * 0.65, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      ctx.restore();
+    }
+
+    // 8. Pipes
     for (const p of pipes) {
       drawPipe(p.x, 0, p.w, p.gapTop, true, theme);
       drawPipe(p.x, p.gapTop + p.gap, p.w, PLAY_H - (p.gapTop + p.gap), false, theme);
+      if (profile.settings.proHud || currentMode === 'zen') {
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.35)';
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.gapTop + p.gap / 2);
+        ctx.lineTo(p.x + p.w, p.gapTop + p.gap / 2);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
     }
 
-    // 8. Collectibles (Coins & Power-Ups)
-    for (const it of items) {
-      drawItem(it);
-    }
+    // 9. Collectibles
+    for (const it of items) drawItem(it);
 
-    // 9. Scrolling Ground
+    // 10. Ground
     ctx.fillStyle = theme.groundDirt;
     ctx.fillRect(0, PLAY_H, WORLD_W, GROUND_H);
-
-    // Grass strip
     ctx.fillStyle = theme.groundTop;
     ctx.fillRect(0, PLAY_H, WORLD_W, 20);
-
-    // Diagonal scrolling stripes on grass
     ctx.fillStyle = theme.groundStripe;
     for (let gx = -48; gx < WORLD_W + 48; gx += 24) {
       const sx = gx - (groundOffset % 24);
@@ -2462,16 +3022,14 @@
       ctx.closePath();
       ctx.fill();
     }
-
-    // Ground top border line
     ctx.fillStyle = 'rgba(0,0,0,0.32)';
     ctx.fillRect(0, PLAY_H, WORLD_W, 3);
     ctx.fillRect(0, PLAY_H + 20, WORLD_W, 2);
 
-    // 10. Bird
+    // 11. Bird
     drawBird();
 
-    // 11. Particles
+    // 12. Particles
     for (const p of particles) {
       ctx.globalAlpha = Math.max(0, p.life / p.maxLife);
       ctx.fillStyle = p.color;
@@ -2481,11 +3039,10 @@
     }
     ctx.globalAlpha = 1;
 
-    // 12. Floating Score / Callout Popups
+    // 13. Popups
     ctx.textAlign = 'center';
     for (const pop of popups) {
-      const alpha = Math.min(1, pop.life / (pop.maxLife * 0.55));
-      ctx.globalAlpha = alpha;
+      ctx.globalAlpha = Math.min(1, pop.life / (pop.maxLife * 0.55));
       ctx.font = `900 ${pop.size}px Inter, sans-serif`;
       ctx.lineWidth = 3.5;
       ctx.strokeStyle = 'rgba(15, 23, 42, 0.85)';
@@ -2495,7 +3052,7 @@
     }
     ctx.globalAlpha = 1;
 
-    // 13. Impact Flash
+    // 14. Flash
     if (flashAlpha > 0) {
       ctx.fillStyle = `rgba(255, 255, 255, ${flashAlpha.toFixed(2)})`;
       ctx.fillRect(0, 0, WORLD_W, WORLD_H);
@@ -2508,38 +3065,27 @@
     if (h <= 0) return;
     const capH = 26;
     const capOver = 4;
-
-    // Pipe body gradient
     const grad = ctx.createLinearGradient(x, 0, x + w, 0);
     grad.addColorStop(0, theme.pipeDark);
     grad.addColorStop(0.25, theme.pipeLight);
     grad.addColorStop(0.55, theme.pipeMain);
     grad.addColorStop(1, theme.pipeDark);
-
     ctx.fillStyle = grad;
     ctx.strokeStyle = theme.pipeOutline;
     ctx.lineWidth = 2.5;
-
     ctx.fillRect(x, y, w, h);
     ctx.strokeRect(x, y, w, h);
-
-    // Pipe lip/cap
     const capY = isTop ? (y + h - capH) : y;
-    ctx.fillStyle = grad;
     ctx.fillRect(x - capOver, capY, w + capOver * 2, capH);
     ctx.strokeRect(x - capOver, capY, w + capOver * 2, capH);
-
-    // Specular highlight stripe
     ctx.fillStyle = 'rgba(255,255,255,0.22)';
     ctx.fillRect(x + 8, y, 6, h);
   }
 
   function drawItem(it) {
     const bob = Math.sin(it.phase) * 4;
-    const iy = it.y + bob;
-
     ctx.save();
-    ctx.translate(it.x, iy);
+    ctx.translate(it.x, it.y + bob);
 
     if (it.type === 'coin') {
       const spinW = Math.max(0.32, Math.abs(Math.cos(it.phase * 0.9)));
@@ -2551,32 +3097,58 @@
       ctx.arc(0, 0, it.r, 0, Math.PI * 2);
       ctx.fill();
       ctx.stroke();
-
       ctx.fillStyle = '#fef3c7';
       ctx.beginPath();
       ctx.arc(-2, -2, it.r * 0.48, 0, Math.PI * 2);
       ctx.fill();
+    } else if (it.type === 'gem') {
+      ctx.fillStyle = '#f43f5e';
+      ctx.strokeStyle = '#fecdd3';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(0, -13);
+      ctx.lineTo(11, -2);
+      ctx.lineTo(0, 13);
+      ctx.lineTo(-11, -2);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
     } else {
       const map = {
-        shield: { bg: '#0284c7', ring: '#7dd3fc', ico: '🛡️' },
-        slowmo: { bg: '#7e22ce', ring: '#d8b4fe', ico: '⏳' },
-        magnet: { bg: '#e11d48', ring: '#fda4af', ico: '🧲' }
+        shield: { bg: '#0284c7', ring: '#7dd3fc', lbl: 'S' },
+        slowmo: { bg: '#7e22ce', ring: '#d8b4fe', lbl: 'SL' },
+        magnet: { bg: '#e11d48', ring: '#fda4af', lbl: 'M' },
+        double: { bg: '#ca8a04', ring: '#fef08a', lbl: '2×' },
+        tiny: { bg: '#059669', ring: '#6ee7b7', lbl: 'XS' },
+        clock: { bg: '#0369a1', ring: '#bae6fd', lbl: '+3s' }
       }[it.type];
-
       ctx.fillStyle = map.bg;
       ctx.strokeStyle = map.ring;
-      ctx.lineWidth = 2.5;
+      ctx.lineWidth = 2.4;
       ctx.beginPath();
       ctx.arc(0, 0, it.r + 2, 0, Math.PI * 2);
       ctx.fill();
       ctx.stroke();
-
-      ctx.font = '14px sans-serif';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(map.ico, 0, 1);
+      ctx.fillStyle = '#ffffff';
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 1.8;
+      if (it.type === 'shield') {
+        ctx.beginPath();
+        ctx.moveTo(0, -7); ctx.lineTo(6, -4); ctx.lineTo(5, 3); ctx.lineTo(0, 8); ctx.lineTo(-5, 3); ctx.lineTo(-6, -4);
+        ctx.closePath();
+        ctx.stroke();
+      } else if (it.type === 'magnet') {
+        ctx.beginPath();
+        ctx.arc(0, -1, 5, Math.PI, 0, false);
+        ctx.lineTo(5, 6); ctx.moveTo(-5, -1); ctx.lineTo(-5, 6);
+        ctx.stroke();
+      } else {
+        ctx.font = '900 10px Inter, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(map.lbl, 0, 0.5);
+      }
     }
-
     ctx.restore();
   }
 
@@ -2585,12 +3157,22 @@
     ctx.save();
     ctx.translate(bird.x, bird.y);
 
-    // Blink during invulnerability
-    if (bird.invuln > 0 && Math.floor(bird.invuln * 16) % 2 === 0) {
-      ctx.globalAlpha = 0.45;
+    if (bird.invuln > 0 && Math.floor(bird.invuln * 16) % 2 === 0) ctx.globalAlpha = 0.45;
+
+    // Fever Aura
+    if (feverTimer > 0) {
+      ctx.save();
+      ctx.strokeStyle = '#fde047';
+      ctx.fillStyle = 'rgba(253, 224, 71, 0.22)';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.arc(0, 0, 26 + Math.sin(elapsed * 14) * 2.5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+      ctx.restore();
     }
 
-    // Active Shield Aura
+    // Shield Aura
     if (powerups.shield) {
       ctx.save();
       ctx.strokeStyle = '#38bdf8';
@@ -2603,16 +3185,14 @@
       ctx.restore();
     }
 
+    const tinyScale = powerups.tiny > 0 ? 0.68 : 1;
+    ctx.scale(tinyScale, tinyScale);
     ctx.rotate(bird.rot);
 
-    // Tail feathers
+    // Tail
     ctx.fillStyle = skin.wing;
     ctx.beginPath();
-    ctx.moveTo(-14, -2);
-    ctx.lineTo(-24, -7);
-    ctx.lineTo(-21, 0);
-    ctx.lineTo(-24, 6);
-    ctx.lineTo(-14, 4);
+    ctx.moveTo(-14, -2); ctx.lineTo(-24, -7); ctx.lineTo(-21, 0); ctx.lineTo(-24, 6); ctx.lineTo(-14, 4);
     ctx.closePath();
     ctx.fill();
 
@@ -2623,7 +3203,7 @@
     ctx.arc(3, -12, 4, 0, Math.PI * 2);
     ctx.fill();
 
-    // Main Body
+    // Body
     ctx.fillStyle = skin.body;
     ctx.strokeStyle = '#0f172a';
     ctx.lineWidth = 2.4;
@@ -2632,13 +3212,13 @@
     ctx.fill();
     ctx.stroke();
 
-    // Belly highlight
+    // Belly
     ctx.fillStyle = skin.belly;
     ctx.beginPath();
     ctx.ellipse(2, 5, 11, 7, 0, 0, Math.PI * 2);
     ctx.fill();
 
-    // Animated Wing
+    // Wing
     const wingY = Math.sin(bird.wingPhase) * 4.5;
     ctx.fillStyle = skin.wing;
     ctx.strokeStyle = '#0f172a';
@@ -2651,14 +3231,12 @@
     // Beak
     ctx.fillStyle = skin.beak;
     ctx.beginPath();
-    ctx.moveTo(14, -3);
-    ctx.lineTo(24, 1.5);
-    ctx.lineTo(14, 6);
+    ctx.moveTo(14, -3); ctx.lineTo(24, 1.5); ctx.lineTo(14, 6);
     ctx.closePath();
     ctx.fill();
     ctx.stroke();
 
-    // Eye / Cyber Visor
+    // Eye / Visor
     if (skin.visor) {
       ctx.fillStyle = '#22d3ee';
       ctx.strokeStyle = '#0f172a';
@@ -2688,78 +3266,92 @@
       ctx.arc(8, -4.5, 5.2, 0, Math.PI * 2);
       ctx.fill();
       ctx.stroke();
-
       ctx.fillStyle = '#0f172a';
       ctx.beginPath();
       ctx.arc(9.8, -4.5, 2.3, 0, Math.PI * 2);
       ctx.fill();
-
       ctx.fillStyle = '#ffffff';
       ctx.beginPath();
       ctx.arc(10.6, -5.6, 0.9, 0, Math.PI * 2);
       ctx.fill();
     }
 
-    // Royal Crown
     if (skin.crown) {
       ctx.fillStyle = '#fbbf24';
       ctx.strokeStyle = '#78350f';
       ctx.lineWidth = 1.5;
       ctx.beginPath();
-      ctx.moveTo(-7, -14);
-      ctx.lineTo(-9, -23);
-      ctx.lineTo(-3, -18);
-      ctx.lineTo(0, -25);
-      ctx.lineTo(3, -18);
-      ctx.lineTo(9, -23);
-      ctx.lineTo(7, -14);
+      ctx.moveTo(-7, -14); ctx.lineTo(-9, -23); ctx.lineTo(-3, -18); ctx.lineTo(0, -25); ctx.lineTo(3, -18); ctx.lineTo(9, -23); ctx.lineTo(7, -14);
       ctx.closePath();
       ctx.fill();
       ctx.stroke();
     }
 
     ctx.restore();
+
+    // Hitbox visualizer (Pro HUD)
+    if (profile.settings.proHud) {
+      ctx.save();
+      ctx.strokeStyle = '#f43f5e';
+      ctx.lineWidth = 1.6;
+      ctx.beginPath();
+      ctx.arc(bird.x, bird.y, bird.r, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+    }
   }
 
   // =========================================================
   // 10. UI RENDERERS & MODAL MANAGEMENT
   // =========================================================
-  const ALL_MODALS = [startScreen, gameOverScreen, pauseScreen, hangarScreen, statsScreen, achScreen, settingsScreen];
+  const ALL_MODALS = [startScreen, gameOverScreen, pauseScreen, hangarScreen, missionsScreen, statsScreen, achScreen, guideScreen, settingsScreen];
 
-  function hideAllModals() {
-    ALL_MODALS.forEach(m => m.classList.add('hidden'));
-  }
-
-  function isAnyModalOpen() {
-    return ALL_MODALS.some(m => !m.classList.contains('hidden'));
-  }
+  function hideAllModals() { ALL_MODALS.forEach(m => m.classList.add('hidden')); }
+  function isAnyModalOpen() { return ALL_MODALS.some(m => !m.classList.contains('hidden')); }
 
   function updateHudStats() {
     coinCountEl.textContent = String(profile.coins);
     hudBestEl.textContent = String(profile.bestScores[currentMode][currentDiff] || 0);
-    muteBtn.textContent = profile.settings.sfx ? '🔊' : '🔇';
+    heartCountEl.textContent = String(profile.reviveHearts);
+    pilotBadgeName.textContent = profile.pilotName || 'Muhib';
+    muteBtn.innerHTML = profile.settings.sfx ? UI_ICONS.vol : UI_ICONS.mute;
+    hudFps.classList.toggle('hidden', !profile.settings.proHud);
   }
 
   function updatePowerupHud() {
     const html = [];
+    if (feverTimer > 0) {
+      const pct = Math.min(100, (feverTimer / 7.0) * 100);
+      html.push(`<div class="pu-bar" style="border-color:#fde047;">${UI_ICONS.flame}<span>2×</span><div class="pu-track"><div class="pu-fill" style="width:${pct}%;background:#fde047;"></div></div></div>`);
+    } else if (comboCount > 0 && (currentMode === 'arcade' || currentMode === 'blitz')) {
+      const pct = (comboCount / 5) * 100;
+      html.push(`<div class="pu-bar">${UI_ICONS.bolt}<span>${comboCount}/5</span><div class="pu-track"><div class="pu-fill" style="width:${pct}%;background:#fbbf24;"></div></div></div>`);
+    }
     if (powerups.shield) {
-      html.push(`<div class="pu-bar"><span>🛡️</span><span style="color:#7dd3fc;">Shield Active</span></div>`);
+      html.push(`<div class="pu-bar">${UI_ICONS.shield}<span style="color:#7dd3fc;">Shield Active</span></div>`);
     }
     if (powerups.slowmo > 0) {
-      const pct = Math.min(100, (powerups.slowmo / 6.0) * 100);
-      html.push(`<div class="pu-bar"><span>⏳</span><div class="pu-track"><div class="pu-fill" style="width:${pct}%;background:#c084fc;"></div></div></div>`);
+      const maxD = 6.0 + profile.upgrades.slowmo * 1.2;
+      html.push(`<div class="pu-bar">${UI_ICONS.slowmo}<div class="pu-track"><div class="pu-fill" style="width:${Math.min(100, (powerups.slowmo / maxD) * 100)}%;background:#c084fc;"></div></div></div>`);
     }
     if (powerups.magnet > 0) {
-      const pct = Math.min(100, (powerups.magnet / 8.0) * 100);
-      html.push(`<div class="pu-bar"><span>🧲</span><div class="pu-track"><div class="pu-fill" style="width:${pct}%;background:#fb7185;"></div></div></div>`);
+      const maxD = 8.0 + profile.upgrades.magnet * 1.5;
+      html.push(`<div class="pu-bar">${UI_ICONS.magnet}<div class="pu-track"><div class="pu-fill" style="width:${Math.min(100, (powerups.magnet / maxD) * 100)}%;background:#fb7185;"></div></div></div>`);
+    }
+    if (powerups.doubleScore > 0) {
+      html.push(`<div class="pu-bar">${UI_ICONS.sparkle}<span>2×</span><div class="pu-track"><div class="pu-fill" style="width:${Math.min(100, (powerups.doubleScore / 8.0) * 100)}%;background:#fde047;"></div></div></div>`);
+    }
+    if (powerups.tiny > 0) {
+      html.push(`<div class="pu-bar">${UI_ICONS.tiny}<div class="pu-track"><div class="pu-fill" style="width:${Math.min(100, (powerups.tiny / 7.5) * 100)}%;background:#34d399;"></div></div></div>`);
     }
     powerupHud.innerHTML = html.join('');
   }
 
   function renderHangar() {
     hangarCoinsEl.textContent = String(profile.coins);
-    skinsGrid.innerHTML = '';
 
+    // 1. Skins
+    skinsGrid.innerHTML = '';
     SKINS.forEach(skin => {
       const unlocked = profile.unlockedSkins.includes(skin.id);
       const equipped = profile.selectedSkin === skin.id;
@@ -2767,11 +3359,11 @@
       card.type = 'button';
       card.className = `skin-card${equipped ? ' equipped' : ''}`;
       card.innerHTML = `
-        <div class="skin-swatch" style="background: radial-gradient(circle at 35% 35%, ${skin.belly}, ${skin.body}); border: 2px solid ${skin.wing};">
-          <span style="font-size:1.2rem;">${skin.crown ? '👑' : skin.visor ? '🤖' : '🐦'}</span>
+        <div class="skin-swatch" style="background: rgba(15,23,42,0.45); border: 1.5px solid ${skin.wing};">
+          ${renderSkinSvg(skin)}
         </div>
         <div class="skin-name">${skin.name}</div>
-        <div class="skin-status">${equipped ? 'Equipped' : unlocked ? 'Select' : `🪙 ${skin.cost}`}</div>
+        <div class="skin-status">${equipped ? 'Equipped' : unlocked ? 'Select' : `${UI_ICONS.coin} ${skin.cost}`}</div>
       `;
       card.addEventListener('click', () => {
         AudioEngine.ensureContext();
@@ -2785,19 +3377,120 @@
           profile.unlockedSkins.push(skin.id);
           profile.selectedSkin = skin.id;
           AudioEngine.sfx.milestone();
-          checkAchievements({ score: 0, diff: currentDiff, mode: currentMode, closeCalls: 0 });
+          checkAchievements({ score: 0, diff: currentDiff, mode: currentMode, closeCalls: 0, feverTriggered: false });
           saveProfile();
           updateHudStats();
           renderHangar();
-          showToast('🎉', `Unlocked ${skin.name}!`, 'Equipped automatically');
+          showToast(UI_ICONS.star, `Unlocked ${skin.name}!`, 'Equipped automatically');
         } else {
           AudioEngine.sfx.hit();
-          showToast('🪙', `Need ${skin.cost - profile.coins} more coins`, 'Play Arcade mode to collect coins!');
+          showToast(UI_ICONS.coin, `Need ${skin.cost - profile.coins} more coins`, 'Play Arcade or Daily Missions!');
         }
       });
       skinsGrid.appendChild(card);
     });
 
+    // 2. Trails
+    trailsRow.innerHTML = '';
+    TRAILS.forEach(tr => {
+      const unlocked = profile.unlockedTrails.includes(tr.id);
+      const active = profile.selectedTrail === tr.id;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = `theme-chip${active ? ' active' : ''}`;
+      btn.innerHTML = unlocked ? tr.name : `${tr.name} (${tr.cost})`;
+      btn.addEventListener('click', () => {
+        AudioEngine.ensureContext();
+        if (unlocked) {
+          profile.selectedTrail = tr.id;
+          AudioEngine.sfx.click();
+          saveProfile();
+          renderHangar();
+        } else if (profile.coins >= tr.cost) {
+          profile.coins -= tr.cost;
+          profile.unlockedTrails.push(tr.id);
+          profile.selectedTrail = tr.id;
+          AudioEngine.sfx.milestone();
+          saveProfile();
+          updateHudStats();
+          renderHangar();
+          showToast(UI_ICONS.sparkle, `Unlocked ${tr.name} Trail!`);
+        } else {
+          AudioEngine.sfx.hit();
+          showToast(UI_ICONS.coin, `Need ${tr.cost - profile.coins} more coins`);
+        }
+      });
+      trailsRow.appendChild(btn);
+    });
+
+    // 3. Upgrades + Revive Heart
+    upgradesList.innerHTML = '';
+    UPGRADES.forEach(u => {
+      const lvl = profile.upgrades[u.key] || 0;
+      const isMax = lvl >= u.max;
+      const cost = u.baseCost * (lvl + 1);
+      const pips = Array.from({ length: u.max }, (_, idx) => `<div class="upg-pip${idx < lvl ? ' filled' : ''}"></div>`).join('');
+      const row = document.createElement('div');
+      row.className = 'upg-item';
+      row.innerHTML = `
+        <div class="upg-ico">${u.icon}</div>
+        <div class="upg-info">
+          <div class="upg-title">${u.title} <span style="color:#fde68a;font-size:0.72rem;">Lv.${lvl}/${u.max}</span></div>
+          <div class="upg-desc">${u.desc}</div>
+          <div class="upg-pips">${pips}</div>
+        </div>
+        <button type="button" class="upg-buy-btn${isMax ? ' maxed' : ''}">${isMax ? 'MAXED' : `${UI_ICONS.coin} ${cost}`}</button>
+      `;
+      const buyBtn = row.querySelector('.upg-buy-btn');
+      if (!isMax) {
+        buyBtn.addEventListener('click', () => {
+          AudioEngine.ensureContext();
+          if (profile.coins >= cost) {
+            profile.coins -= cost;
+            profile.upgrades[u.key] = lvl + 1;
+            AudioEngine.sfx.milestone();
+            saveProfile();
+            updateHudStats();
+            renderHangar();
+            showToast(u.icon, `${u.title} Lv.${lvl + 1}!`);
+          } else {
+            AudioEngine.sfx.hit();
+            showToast(UI_ICONS.coin, `Need ${cost - profile.coins} more coins`);
+          }
+        });
+      }
+      upgradesList.appendChild(row);
+    });
+
+    // Buy Revive Heart item
+    const heartRow = document.createElement('div');
+    heartRow.className = 'upg-item';
+    heartRow.innerHTML = `
+      <div class="upg-ico">${UI_ICONS.heart}</div>
+      <div class="upg-info">
+        <div class="upg-title">Revive Heart <span style="color:#fda4af;font-size:0.72rem;">Owned: ${profile.reviveHearts}</span></div>
+        <div class="upg-desc">Continue your flight once after crashing</div>
+      </div>
+      <button type="button" class="upg-buy-btn">${UI_ICONS.coin} 35</button>
+    `;
+    heartRow.querySelector('.upg-buy-btn').addEventListener('click', () => {
+      AudioEngine.ensureContext();
+      if (profile.coins >= 35) {
+        profile.coins -= 35;
+        profile.reviveHearts += 1;
+        AudioEngine.sfx.powerup();
+        saveProfile();
+        updateHudStats();
+        renderHangar();
+        showToast(UI_ICONS.heart, '+1 Revive Heart Purchased!');
+      } else {
+        AudioEngine.sfx.hit();
+        showToast(UI_ICONS.coin, `Need ${35 - profile.coins} more coins`);
+      }
+    });
+    upgradesList.appendChild(heartRow);
+
+    // 4. Sky Themes
     themesRow.innerHTML = '';
     Object.entries(THEMES).forEach(([key, t]) => {
       const btn = document.createElement('button');
@@ -2813,28 +3506,100 @@
       });
       themesRow.appendChild(btn);
     });
+
+    // 5. Weather
+    weatherRow.innerHTML = '';
+    Object.entries(WEATHERS).forEach(([key, label]) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = `theme-chip${profile.selectedWeather === key ? ' active' : ''}`;
+      btn.textContent = label;
+      btn.addEventListener('click', () => {
+        AudioEngine.ensureContext();
+        AudioEngine.sfx.click();
+        profile.selectedWeather = key;
+        saveProfile();
+        renderHangar();
+      });
+      weatherRow.appendChild(btn);
+    });
+  }
+
+  function renderMissionsModal() {
+    ensureDailyMissions(profile);
+    const giftReward = Math.min(60, 15 + profile.daily.streak * 5);
+    streakDaysEl.textContent = String(profile.daily.streak);
+    if (profile.daily.giftClaimed) {
+      streakSubEl.textContent = 'Daily bonus claimed — come back tomorrow!';
+      claimDailyGiftBtn.textContent = '✓ Claimed';
+      claimDailyGiftBtn.classList.add('maxed');
+    } else {
+      streakSubEl.textContent = 'Tap to claim your daily login gift!';
+      claimDailyGiftBtn.innerHTML = `Claim +${giftReward} ${UI_ICONS.coin}`;
+      claimDailyGiftBtn.classList.remove('maxed');
+    }
+
+    missionsList.innerHTML = '';
+    profile.daily.missions.forEach((m, idx) => {
+      const done = m.progress >= m.target;
+      const card = document.createElement('div');
+      card.className = `mission-card${m.claimed ? ' claimed' : done ? ' ready' : ''}`;
+      const pct = Math.min(100, Math.round((m.progress / m.target) * 100));
+      card.innerHTML = `
+        <div class="m-top">
+          <div>
+            <div style="font-size:0.84rem;font-weight:800;color:#fff;">${m.title}</div>
+            <div style="font-size:0.7rem;color:var(--text-muted);margin-top:2px;">Progress: ${m.progress} / ${m.target}</div>
+          </div>
+          <button type="button" class="upg-buy-btn${m.claimed ? ' maxed' : ''}" ${(!done || m.claimed) ? 'disabled style="opacity:0.6;cursor:default;"' : ''}>
+            ${m.claimed ? '✓ Claimed' : done ? `Claim +${m.reward}` : `+${m.reward} Coins`}
+          </button>
+        </div>
+        <div class="m-bar"><div class="m-bar-fill" style="width:${pct}%;"></div></div>
+      `;
+      const btn = card.querySelector('button');
+      if (done && !m.claimed) {
+        btn.addEventListener('click', () => {
+          AudioEngine.ensureContext();
+          profile.daily.missions[idx].claimed = true;
+          profile.coins += m.reward;
+          profile.totalCoinsEarned += m.reward;
+          AudioEngine.sfx.milestone();
+          saveProfile();
+          updateHudStats();
+          updateMissionsDot();
+          renderMissionsModal();
+          showToast(UI_ICONS.target, `Mission Complete!`, `+${m.reward} Coins added`);
+        });
+      }
+      missionsList.appendChild(card);
+    });
   }
 
   function renderStatsModal() {
-    const allBests = [
-      profile.bestScores.arcade.easy, profile.bestScores.arcade.medium, profile.bestScores.arcade.hard,
-      profile.bestScores.classic.easy, profile.bestScores.classic.medium, profile.bestScores.classic.hard
-    ];
+    const modeKeys = ['arcade', 'classic', 'blitz', 'zen'];
+    const allBests = modeKeys.flatMap(mk => [profile.bestScores[mk].easy, profile.bestScores[mk].medium, profile.bestScores[mk].hard]);
     stFlights.textContent = String(profile.totalFlights);
     stBest.textContent = String(Math.max(0, ...allBests));
-    stAvg.textContent = profile.totalFlights > 0 ? (profile.totalScore / profile.totalFlights).toFixed(1) : '0.0';
+    const avg = profile.totalFlights > 0 ? (profile.totalScore / profile.totalFlights).toFixed(1) : '0.0';
+    stAvg.textContent = `${avg} • ${profile.totalDistanceM}m`;
     stCoins.textContent = String(profile.totalCoinsEarned);
 
-    const rows = profile.history.filter(h => statsFilterDiff === 'all' || h.diff === statsFilterDiff).slice(0, 10);
+    modeBestMatrix.innerHTML = modeKeys.map(mk => {
+      const bestM = Math.max(profile.bestScores[mk].easy, profile.bestScores[mk].medium, profile.bestScores[mk].hard);
+      return `<div class="matrix-cell"><strong>${bestM}</strong><span>${MODES[mk].label.split(' ')[0]}</span></div>`;
+    }).join('');
+
+    const rows = profile.history.filter(h => statsFilterDiff === 'all' || h.diff === statsFilterDiff).slice(0, 12);
     if (rows.length === 0) {
       statsTableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--text-muted);padding:16px;">No flights recorded yet!</td></tr>';
     } else {
       statsTableBody.innerHTML = rows.map(r => `
         <tr>
           <td>${r.date}</td>
-          <td>${r.mode === 'arcade' ? '⚡' : '🐦'} ${r.diff.toUpperCase()}</td>
+          <td>${r.mode.toUpperCase()} • ${r.diff.slice(0, 3).toUpperCase()}</td>
           <td style="font-weight:900;color:#fff;">${r.score}</td>
-          <td style="font-size:1.1rem;">${r.icon}</td>
+          <td style="font-size:1.05rem;">${r.icon}</td>
         </tr>
       `).join('');
     }
@@ -2846,27 +3611,48 @@
       const done = profile.unlockedAchievements.includes(a.id);
       return `
         <div class="ach-item${done ? ' unlocked' : ''}">
-          <div class="ach-ico">${done ? a.icon : '🔒'}</div>
+          <div class="ach-ico">${done ? a.icon : UI_ICONS.lock}</div>
           <div class="ach-info">
             <div class="ach-title">${a.title}</div>
             <div class="ach-desc">${a.desc}</div>
           </div>
-          <div class="ach-reward">${done ? '✓ Done' : `+${a.reward} 🪙`}</div>
+          <div class="ach-reward">${done ? '✓ Done' : `+${a.reward}`}</div>
         </div>
       `;
     }).join('');
   }
 
   function syncSettingsUI() {
-    const setSw = (el, val) => {
-      el.classList.toggle('on', !!val);
-      el.setAttribute('aria-checked', String(!!val));
-    };
+    const setSw = (el, val) => { el.classList.toggle('on', !!val); el.setAttribute('aria-checked', String(!!val)); };
+    pilotNameInput.value = profile.pilotName || 'Muhib';
     setSw(toggleSfx, profile.settings.sfx);
-    setSw(toggleMusic, profile.settings.music);
+    sfxVolSlider.value = String(profile.settings.sfxVol);
+    sfxVolLabel.textContent = `${profile.settings.sfxVol}%`;
     setSw(toggleShake, profile.settings.shake);
     setSw(toggleTrails, profile.settings.trails);
+    setSw(toggleMobileBtn, profile.settings.mobileBtn);
+    setSw(toggleHaptics, profile.settings.haptics);
+    setSw(toggleProHud, profile.settings.proHud);
     updateHudStats();
+  }
+
+  function copyTextSafe(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
+    }
+    fallbackCopy(text);
+    return Promise.resolve();
+  }
+
+  function fallbackCopy(text) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch {}
+    ta.remove();
   }
 
   // =========================================================
@@ -2874,11 +3660,8 @@
   // =========================================================
   function handlePlayInput() {
     AudioEngine.ensureContext();
-    if (state === STATE.GET_READY) {
-      startPlayingFromReady();
-    } else if (state === STATE.PLAYING) {
-      flapBird();
-    }
+    if (state === STATE.GET_READY) startPlayingFromReady();
+    else if (state === STATE.PLAYING) flapBird();
   }
 
   canvas.addEventListener('pointerdown', (e) => {
@@ -2887,7 +3670,15 @@
     handlePlayInput();
   });
 
+  mobileFlapBtn.addEventListener('pointerdown', (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    if (isAnyModalOpen()) return;
+    handlePlayInput();
+  });
+
   window.addEventListener('keydown', (e) => {
+    if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
     if (e.repeat) return;
 
     if (e.code === 'KeyM') {
@@ -2898,13 +3689,10 @@
     }
 
     if (e.code === 'Escape' || e.code === 'KeyP') {
-      if (state === STATE.PLAYING) {
-        pauseGame();
-      } else if (state === STATE.PAUSED) {
-        resumeGameWithCountdown();
-      } else if (!hangarScreen.classList.contains('hidden') || !statsScreen.classList.contains('hidden') || !achScreen.classList.contains('hidden') || !settingsScreen.classList.contains('hidden')) {
-        closeSubModal();
-      }
+      if (state === STATE.PLAYING) pauseGame();
+      else if (state === STATE.PAUSED) resumeGameWithCountdown();
+      else if (!startScreen.classList.contains('hidden')) return;
+      else if (isAnyModalOpen() && gameOverScreen.classList.contains('hidden')) closeSubModal();
       return;
     }
 
@@ -2925,19 +3713,10 @@
     }
   });
 
-  // Auto-pause on tab switch / blur
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden && state === STATE.PLAYING) {
-      pauseGame();
-    }
-  });
-  window.addEventListener('blur', () => {
-    if (state === STATE.PLAYING) {
-      pauseGame();
-    }
-  });
+  document.addEventListener('visibilitychange', () => { if (document.hidden && state === STATE.PLAYING) pauseGame(); });
+  window.addEventListener('blur', () => { if (state === STATE.PLAYING) pauseGame(); });
 
-  // Mode selector
+  // Mode & Difficulty selectors
   document.querySelectorAll('#modeSelector .seg-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       AudioEngine.ensureContext();
@@ -2945,12 +3724,11 @@
       document.querySelectorAll('#modeSelector .seg-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       currentMode = btn.dataset.mode;
-      modeDescLabel.textContent = currentMode === 'arcade' ? 'Coins & Power-Ups' : 'Pure Authentic Skill';
+      modeDescLabel.textContent = MODES[currentMode].desc;
       updateHudStats();
     });
   });
 
-  // Difficulty selector
   document.querySelectorAll('#diffSelector .seg-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       AudioEngine.ensureContext();
@@ -2963,42 +3741,38 @@
     });
   });
 
-  // Primary navigation buttons
-  document.getElementById('startBtn').addEventListener('click', () => {
-    AudioEngine.sfx.click();
-    enterGetReady();
+  // Hangar tabs
+  const htabPanels = {
+    skins: document.getElementById('htabSkins'),
+    upgrades: document.getElementById('htabUpgrades'),
+    world: document.getElementById('htabWorld')
+  };
+  document.querySelectorAll('#hangarTabs .seg-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      AudioEngine.sfx.click();
+      document.querySelectorAll('#hangarTabs .seg-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      Object.entries(htabPanels).forEach(([k, el]) => el.classList.toggle('hidden', k !== btn.dataset.htab));
+    });
   });
 
-  document.getElementById('restartBtn').addEventListener('click', () => {
+  // Navigation buttons
+  document.getElementById('startBtn').addEventListener('click', () => { AudioEngine.sfx.click(); enterGetReady(); });
+  document.getElementById('restartBtn').addEventListener('click', () => { AudioEngine.sfx.click(); enterGetReady(); });
+  document.getElementById('homeBtn').addEventListener('click', () => { AudioEngine.sfx.click(); goHome(); });
+  reviveBtn.addEventListener('click', () => { AudioEngine.sfx.click(); useReviveHeart(); });
+
+  document.getElementById('shareScoreBtn').addEventListener('click', () => {
     AudioEngine.sfx.click();
-    enterGetReady();
+    const medal = getMedal(score);
+    const summary = `Flappy Muhib (${MODES[currentMode].label} • ${DIFFICULTIES[currentDiff].label})\nPilot: ${profile.pilotName}\nScore: ${score} (${medal.name})\nBest: ${profile.bestScores[currentMode][currentDiff]} | Close Calls: ${runCloseCalls}`;
+    copyTextSafe(summary).then(() => showToast(UI_ICONS.copy, 'Score card copied!', 'Paste anywhere to share'));
   });
 
-  document.getElementById('homeBtn').addEventListener('click', () => {
-    AudioEngine.sfx.click();
-    goHome();
-  });
-
-  pauseBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    AudioEngine.sfx.click();
-    pauseGame();
-  });
-
-  document.getElementById('resumeBtn').addEventListener('click', () => {
-    AudioEngine.sfx.click();
-    resumeGameWithCountdown();
-  });
-
-  document.getElementById('pauseRestartBtn').addEventListener('click', () => {
-    AudioEngine.sfx.click();
-    enterGetReady();
-  });
-
-  document.getElementById('pauseHomeBtn').addEventListener('click', () => {
-    AudioEngine.sfx.click();
-    goHome();
-  });
+  pauseBtn.addEventListener('click', (e) => { e.stopPropagation(); AudioEngine.sfx.click(); pauseGame(); });
+  document.getElementById('resumeBtn').addEventListener('click', () => { AudioEngine.sfx.click(); resumeGameWithCountdown(); });
+  document.getElementById('pauseRestartBtn').addEventListener('click', () => { AudioEngine.sfx.click(); enterGetReady(); });
+  document.getElementById('pauseHomeBtn').addEventListener('click', () => { AudioEngine.sfx.click(); goHome(); });
 
   muteBtn.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -3009,9 +3783,7 @@
     syncSettingsUI();
   });
 
-  // Sub-modals return to whichever parent screen opened them
   let returnScreen = startScreen;
-
   function openSubModal(modalEl, fromEl) {
     AudioEngine.ensureContext();
     AudioEngine.sfx.click();
@@ -3019,43 +3791,38 @@
     hideAllModals();
     modalEl.classList.remove('hidden');
   }
-
   function closeSubModal() {
     AudioEngine.sfx.click();
     hideAllModals();
     if (returnScreen) returnScreen.classList.remove('hidden');
   }
 
-  document.getElementById('openHangarBtn').addEventListener('click', () => {
-    renderHangar();
-    openSubModal(hangarScreen, startScreen);
+  document.getElementById('openHangarBtn').addEventListener('click', () => { renderHangar(); openSubModal(hangarScreen, startScreen); });
+  document.getElementById('goHangarBtn').addEventListener('click', () => { renderHangar(); openSubModal(hangarScreen, gameOverScreen); });
+  document.getElementById('openMissionsBtn').addEventListener('click', () => { renderMissionsModal(); openSubModal(missionsScreen, startScreen); });
+  document.getElementById('openStatsBtn').addEventListener('click', () => { renderStatsModal(); openSubModal(statsScreen, startScreen); });
+  document.getElementById('openAchBtn').addEventListener('click', () => { renderAchievementsModal(); openSubModal(achScreen, startScreen); });
+  document.getElementById('openGuideBtn').addEventListener('click', () => { openSubModal(guideScreen, startScreen); });
+  document.getElementById('openSettingsBtn').addEventListener('click', () => { syncSettingsUI(); openSubModal(settingsScreen, startScreen); });
+  document.querySelectorAll('[data-close]').forEach(btn => btn.addEventListener('click', closeSubModal));
+
+  // Daily Login Gift Claim
+  claimDailyGiftBtn.addEventListener('click', () => {
+    if (profile.daily.giftClaimed) return;
+    AudioEngine.ensureContext();
+    const reward = Math.min(60, 15 + profile.daily.streak * 5);
+    profile.daily.giftClaimed = true;
+    profile.coins += reward;
+    profile.totalCoinsEarned += reward;
+    AudioEngine.sfx.milestone();
+    saveProfile();
+    updateHudStats();
+    updateMissionsDot();
+    renderMissionsModal();
+    showToast(UI_ICONS.gift, `Daily Streak Bonus!`, `+${reward} Coins added`);
   });
 
-  document.getElementById('goHangarBtn').addEventListener('click', () => {
-    renderHangar();
-    openSubModal(hangarScreen, gameOverScreen);
-  });
-
-  document.getElementById('openStatsBtn').addEventListener('click', () => {
-    renderStatsModal();
-    openSubModal(statsScreen, startScreen);
-  });
-
-  document.getElementById('openAchBtn').addEventListener('click', () => {
-    renderAchievementsModal();
-    openSubModal(achScreen, startScreen);
-  });
-
-  document.getElementById('openSettingsBtn').addEventListener('click', () => {
-    syncSettingsUI();
-    openSubModal(settingsScreen, startScreen);
-  });
-
-  document.querySelectorAll('[data-close]').forEach(btn => {
-    btn.addEventListener('click', closeSubModal);
-  });
-
-  // Stats filter tabs
+  // Stats filter & 2-step reset
   document.querySelectorAll('#statsFilter .seg-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       AudioEngine.sfx.click();
@@ -3066,32 +3833,41 @@
     });
   });
 
-  // Safe two-step clear stats (no blocking confirm())
   clearStatsBtn.addEventListener('click', () => {
     AudioEngine.sfx.click();
     if (!clearConfirmArmed) {
       clearConfirmArmed = true;
-      clearStatsBtn.textContent = '⚠️ Tap Again to Reset';
-      clearConfirmTimer = setTimeout(() => {
-        clearConfirmArmed = false;
-        clearStatsBtn.textContent = '🗑️ Reset History';
-      }, 3500);
+      clearStatsBtn.innerHTML = `${UI_ICONS.warn} Tap Again to Reset`;
+      clearConfirmTimer = setTimeout(() => { clearConfirmArmed = false; clearStatsBtn.innerHTML = `${UI_ICONS.trash} Reset History`; }, 3500);
       return;
     }
     clearTimeout(clearConfirmTimer);
     clearConfirmArmed = false;
-    clearStatsBtn.textContent = '🗑️ Reset History';
+    clearStatsBtn.innerHTML = `${UI_ICONS.trash} Reset History`;
     profile.history = [];
     profile.totalFlights = 0;
     profile.totalScore = 0;
+    profile.totalDistanceM = 0;
     profile.bestScores = structuredCloneSafe(DEFAULT_PROFILE.bestScores);
     saveProfile();
     updateHudStats();
     renderStatsModal();
-    showToast('🗑️', 'Flight history cleared', 'Your coins & skins were kept safe');
+    showToast(UI_ICONS.trash, 'Flight history cleared', 'Coins, upgrades & skins preserved');
   });
 
-  // Settings switches
+  // Settings listeners
+  pilotNameInput.addEventListener('input', () => {
+    profile.pilotName = pilotNameInput.value.trim().slice(0, 16) || 'Muhib';
+    saveProfile();
+    updateHudStats();
+  });
+
+  sfxVolSlider.addEventListener('input', () => {
+    profile.settings.sfxVol = Number(sfxVolSlider.value);
+    sfxVolLabel.textContent = `${profile.settings.sfxVol}%`;
+    saveProfile();
+  });
+
   function bindSwitch(el, key, onChange) {
     el.addEventListener('click', () => {
       AudioEngine.ensureContext();
@@ -3104,30 +3880,59 @@
   }
 
   bindSwitch(toggleSfx, 'sfx');
-  bindSwitch(toggleMusic, 'music', () => AudioEngine.syncMusic());
   bindSwitch(toggleShake, 'shake');
   bindSwitch(toggleTrails, 'trails');
+  bindSwitch(toggleMobileBtn, 'mobileBtn');
+  bindSwitch(toggleHaptics, 'haptics');
+  bindSwitch(toggleProHud, 'proHud');
 
-  // Fullscreen support
+  // Export / Import Save
+  document.getElementById('exportSaveBtn').addEventListener('click', () => {
+    AudioEngine.sfx.click();
+    copyTextSafe(JSON.stringify(profile)).then(() => showToast(UI_ICONS.copy, 'Save code copied!', 'Keep it safe to restore anytime'));
+  });
+
+  document.getElementById('importSaveBtn').addEventListener('click', () => {
+    AudioEngine.sfx.click();
+    importBox.classList.toggle('hidden');
+  });
+
+  document.getElementById('confirmImportBtn').addEventListener('click', () => {
+    AudioEngine.sfx.click();
+    try {
+      const parsed = JSON.parse(importSaveInput.value.trim());
+      if (!parsed || typeof parsed !== 'object' || !parsed.bestScores) throw new Error('Invalid');
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(parsed));
+      profile = loadProfile();
+      syncSettingsUI();
+      updateHudStats();
+      updateMissionsDot();
+      importBox.classList.add('hidden');
+      importSaveInput.value = '';
+      showToast(UI_ICONS.check, 'Save data restored!', `Welcome back, ${profile.pilotName}`);
+    } catch {
+      AudioEngine.sfx.hit();
+      showToast(UI_ICONS.warn, 'Invalid save code', 'Paste the exact JSON exported from Copy Save');
+    }
+  });
+
+  // Fullscreen
   if (!document.fullscreenEnabled && !document.webkitFullscreenEnabled) {
     fullscreenBtn.classList.add('hidden');
   } else {
     fullscreenBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       AudioEngine.sfx.click();
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen?.().catch(() => {});
-      } else {
-        document.exitFullscreen?.().catch(() => {});
-      }
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen?.().catch(() => {});
+      else document.exitFullscreen?.().catch(() => {});
     });
     document.addEventListener('fullscreenchange', () => {
-      fullscreenBtn.textContent = document.fullscreenElement ? '🗗' : '⛶';
+      fullscreenBtn.innerHTML = document.fullscreenElement ? UI_ICONS.fsOut : UI_ICONS.fsIn;
     });
   }
 
   // =========================================================
-  // 12. MAIN RAF LOOP (FIXED/CLAMPED DELTA-TIME)
+  // 12. MAIN DELTA-TIME LOOP
   // =========================================================
   let lastTime = 0;
   let rafId = null;
@@ -3136,7 +3941,6 @@
     if (!lastTime) lastTime = now;
     const dt = Math.min((now - lastTime) / 1000, 0.05);
     lastTime = now;
-
     update(dt);
     render();
     rafId = requestAnimationFrame(loop);
@@ -3147,6 +3951,7 @@
   window.onload = () => {
     syncSettingsUI();
     updateHudStats();
+    updateMissionsDot();
     resizeCanvas();
     if (rafId) cancelAnimationFrame(rafId);
     lastTime = 0;
