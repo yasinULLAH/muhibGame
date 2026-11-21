@@ -141,6 +141,17 @@
   }
 
   .icon-btn:active { transform: scale(0.93); }
+
+  /* ---------- Screen orientation toggle (PWA / APK) ---------- */
+  #rotateBtn .svg-ico { transition: transform 0.25s ease; }
+  #rotateBtn.landscape .svg-ico { transform: rotate(90deg); }
+  body.force-rotate #gameWrap {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(90deg);
+    transform-origin: center center;
+  }
   .svg-ico {
     width: 1em;
     height: 1em;
@@ -1375,6 +1386,7 @@
 <div class="hud-right">
 <button aria-label="Pause Game" class="icon-btn hidden" id="pauseBtn" title="Pause (P)"><svg aria-hidden="true" class="svg-ico" style="color:currentColor" viewbox="0 0 24 24"><rect fill="currentColor" height="16" rx="1" width="4" x="6" y="4"></rect><rect fill="currentColor" height="16" rx="1" width="4" x="14" y="4"></rect></svg></button>
 <button aria-label="Toggle Sound" class="icon-btn" id="muteBtn" title="Mute / Unmute (M)"><svg aria-hidden="true" class="svg-ico" style="color:currentColor" viewbox="0 0 24 24"><polygon fill="currentColor" points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg></button>
+<button aria-label="Rotate Screen" class="icon-btn hidden" id="rotateBtn" title="Switch to Landscape"><svg aria-hidden="true" class="svg-ico" style="color:currentColor" viewbox="0 0 24 24"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><rect height="12" rx="2" width="6" x="9" y="6"></rect></svg></button>
 <button aria-label="Toggle Fullscreen" class="icon-btn" id="fullscreenBtn" title="Fullscreen"><svg aria-hidden="true" class="svg-ico" style="color:currentColor" viewbox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3"></path><path d="M21 8V5a2 2 0 0 0-2-2h-3"></path><path d="M3 16v3a2 2 0 0 0 2 2h3"></path><path d="M16 21h3a2 2 0 0 0 2-2v-3"></path></svg></button>
 </div>
 </div>
@@ -2656,9 +2668,10 @@
 
   function resizeCanvas() {
     const wrap = document.getElementById('gameWrap');
-    const rect = wrap.getBoundingClientRect();
-    const cw = Math.max(280, rect.width);
-    const ch = Math.max(360, rect.height);
+    // clientWidth/Height ignore CSS transforms, so the forced-rotation
+    // fallback (landscape view on a portrait screen) still gets correct size.
+    const cw = Math.max(280, wrap.clientWidth || window.innerWidth);
+    const ch = Math.max(360, wrap.clientHeight || window.innerHeight);
     isMobilePerf = cw <= 820 || (window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
     DPR = Math.min(window.devicePixelRatio || 1, isMobilePerf ? 1.5 : 2.0);
 
@@ -5864,6 +5877,106 @@
     lastTime = 0;
     rafId = requestAnimationFrame(loop);
   };
+})();
+</script>
+<script>
+// Screen orientation toggle for installed PWA / Android WebView (APK).
+(() => {
+  'use strict';
+  const PREF_KEY = 'flappy_orientation_pref';
+  const rotateBtn = document.getElementById('rotateBtn');
+  if (!rotateBtn) return;
+
+  const isStandalone = !!(
+    (window.matchMedia && (window.matchMedia('(display-mode: standalone)').matches
+      || window.matchMedia('(display-mode: fullscreen)').matches
+      || window.matchMedia('(display-mode: minimal-ui)').matches))
+    || window.navigator.standalone === true
+  );
+  const isAndroidWebView = /;\s*wv\)/i.test(navigator.userAgent) || !!window.AndroidApp;
+  const canUseOrientationApi = !!(screen.orientation && typeof screen.orientation.lock === 'function');
+
+  // Only offer the control inside an installed app or the APK webview.
+  if (!(isStandalone || isAndroidWebView)) return;
+  rotateBtn.classList.remove('hidden');
+
+  const viewportIsLandscape = () => window.innerWidth > window.innerHeight;
+  let requested = null; // 'portrait' | 'landscape' | null
+
+  try {
+    const saved = localStorage.getItem(PREF_KEY);
+    if (saved === 'portrait' || saved === 'landscape') requested = saved;
+  } catch (e) {}
+
+  function updateButton() {
+    const landscape = requested === 'landscape';
+    rotateBtn.classList.toggle('landscape', landscape);
+    const label = landscape ? 'Switch to Portrait' : 'Switch to Landscape';
+    rotateBtn.title = label;
+    rotateBtn.setAttribute('aria-label', label);
+  }
+
+  // CSS fallback: rotate the whole game view when the platform refuses to.
+  function applyCssRotation(rotate) {
+    const wrap = document.getElementById('gameWrap');
+    if (!wrap) return;
+    if (rotate === document.body.classList.contains('force-rotate')) return;
+    if (rotate) {
+      document.body.classList.add('force-rotate');
+      wrap.style.width = window.innerHeight + 'px';
+      wrap.style.height = window.innerWidth + 'px';
+    } else {
+      document.body.classList.remove('force-rotate');
+      wrap.style.width = '';
+      wrap.style.height = '';
+    }
+    window.dispatchEvent(new Event('resize'));
+  }
+
+  function syncFallback() {
+    if (!requested) { applyCssRotation(false); return; }
+    applyCssRotation((requested === 'landscape') !== viewportIsLandscape());
+  }
+
+  function requestOrientation(mode) {
+    requested = mode;
+    updateButton();
+    try { localStorage.setItem(PREF_KEY, mode); } catch (e) {}
+
+    // APK: native activity orientation via the JavaScript bridge.
+    if (window.AndroidApp && typeof window.AndroidApp.setOrientation === 'function') {
+      try { window.AndroidApp.setOrientation(mode); } catch (e) {}
+    }
+    // PWA: screen orientation lock (works in installed/fullscreen mode).
+    if (canUseOrientationApi) {
+      try { screen.orientation.lock(mode).catch(() => {}); } catch (e) {}
+    }
+    // If the platform did not rotate us, use the CSS fallback.
+    setTimeout(syncFallback, 350);
+  }
+
+  rotateBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    requestOrientation(requested === 'landscape' ? 'portrait' : 'landscape');
+  });
+
+  window.addEventListener('resize', syncFallback);
+  window.addEventListener('orientationchange', () => setTimeout(syncFallback, 120));
+  if (screen.orientation && screen.orientation.addEventListener) {
+    screen.orientation.addEventListener('change', () => setTimeout(syncFallback, 120));
+  }
+
+  // Restore the player's saved preference on launch.
+  if (requested) {
+    updateButton();
+    if (window.AndroidApp && typeof window.AndroidApp.setOrientation === 'function') {
+      try { window.AndroidApp.setOrientation(requested); } catch (e) {}
+    }
+    if (canUseOrientationApi) {
+      try { screen.orientation.lock(requested).catch(() => {}); } catch (e) {}
+    }
+    setTimeout(syncFallback, 350);
+  }
 })();
 </script>
 <script src="./pwa-register.js" type="module"></script></body>

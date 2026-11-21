@@ -58,7 +58,7 @@ if (workbox) {
     },
     {
         "url": "build pwa make html app offline and installable yasin best working re-run this for updates best for html only.pyw",
-        "revision": "e1698fe9fc0ce823b2f9b55b33e6427a"
+        "revision": "b72d295aeff2c124fa4a8a550d38af78"
     },
     {
         "url": "flappy flopy bird game muhib.txt",
@@ -66,7 +66,7 @@ if (workbox) {
     },
     {
         "url": "index.html",
-        "revision": "c0c188f5f5d486af47e121a90f7a1cc5"
+        "revision": "8e9e71fefad4bb19d8af65dc04788923"
     },
     {
         "url": "LICENSE.md",
@@ -82,7 +82,7 @@ if (workbox) {
     },
     {
         "url": "manifest.json",
-        "revision": "735ee7fc98d0c170ce3d4db566111275"
+        "revision": "8372a57775a66b2698c6d76f89c27d83"
     },
     {
         "url": "offline.html",
@@ -102,7 +102,7 @@ if (workbox) {
     },
     {
         "url": "sw.js",
-        "revision": "ec3a95ac84c4232f29d74897c84c7d47"
+        "revision": "33627b56d7584009426efeb4b45881ea"
     },
     {
         "url": "audio/sfx_die.wav",

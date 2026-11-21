@@ -3,6 +3,7 @@ package com.yasinullah.flappymuhib;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.view.Window;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
 import android.view.WindowManager;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
@@ -31,12 +33,15 @@ public class MainActivity extends Activity {
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         );
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 
         hideSystemUI();
 
         webView = new WebView(this);
         setContentView(webView);
+
+        // Lets the web layer switch between portrait and landscape at runtime.
+        webView.addJavascriptInterface(new OrientationBridge(), "AndroidApp");
 
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -61,6 +66,28 @@ public class MainActivity extends Activity {
         });
 
         webView.loadUrl("https://appassets.androidplatform.net/assets/index.html");
+    }
+
+    /** JS bridge exposed as window.AndroidApp in the WebView. */
+    public class OrientationBridge {
+        @JavascriptInterface
+        public void setOrientation(String mode) {
+            runOnUiThread(() -> {
+                if ("landscape".equals(mode)) {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+                } else if ("portrait".equals(mode)) {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+                } else {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+                }
+            });
+        }
+
+        @JavascriptInterface
+        public String getOrientation() {
+            return getResources().getConfiguration().orientation
+                == Configuration.ORIENTATION_LANDSCAPE ? "landscape" : "portrait";
+        }
     }
 
     private void hideSystemUI() {
