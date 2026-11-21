@@ -93,8 +93,9 @@
     align-items: center;
     gap: 7px;
     flex-wrap: wrap;
-    pointer-events: auto;
   }
+  .hud-left { pointer-events: none; }
+  .hud-right { pointer-events: auto; }
 
   .pill {
     display: inline-flex;
@@ -157,6 +158,11 @@
   .pill .svg-ico { width: 15px; height: 15px; vertical-align: 0; }
   .medal-orb .svg-ico { width: 32px; height: 32px; vertical-align: 0; }
   .ach-ico .svg-ico, .upg-ico .svg-ico { width: 20px; height: 20px; vertical-align: 0; }
+  .preview-badge .svg-ico, .preview-action-btn .svg-ico { width: 14px; height: 14px; vertical-align: -0.15em; }
+  .skin-status .svg-ico, .upg-buy-btn .svg-ico { width: 13px; height: 13px; vertical-align: -0.15em; }
+  .pu-bar .svg-ico { width: 14px; height: 14px; vertical-align: 0; }
+  .toast .svg-ico { width: 22px; height: 22px; vertical-align: 0; }
+  .stats-table .svg-ico { width: 16px; height: 16px; vertical-align: -0.2em; }
   .skin-swatch svg { width: 34px; height: 26px; }
 
 
@@ -1510,7 +1516,7 @@
 <canvas id="hangarPreviewCanvas"></canvas>
 <div class="preview-overlay-top">
 <div class="preview-badge" id="previewTitleBadge">Live Preview</div>
-<div class="preview-badge" id="previewHintBadge" style="color:#fde68a;">Tap to Flap 🪽</div>
+<div class="preview-badge" id="previewHintBadge" style="color:#fde68a;"><svg aria-hidden="true" class="svg-ico" style="color:#fde68a" viewbox="0 0 24 24"><path d="M16 7h.01"></path><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"></path><path d="m20 7 2 .5-2 .5"></path></svg> Tap to Flap</div>
 </div>
 <div class="preview-overlay-bot">
 <div class="preview-meta" id="previewSubMeta">Skin • Trail • World</div>
@@ -1824,6 +1830,8 @@
       tailSvg = `<polygon points="9,14 2,10 5,15 0,18 6,19 9,17" fill="#fde047" stroke="#0f172a" stroke-width="1"/>`;
     } else if (skin.tailStyle === 'mecha') {
       tailSvg = `<rect x="2" y="12" width="7" height="6" rx="1" fill="#38bdf8" stroke="#0f172a" stroke-width="1"/><circle cx="2" cy="15" r="2.5" fill="#fde047"/>`;
+    } else if (skin.tailStyle === 'twin' || skin.tailStyle === 'dragon') {
+      tailSvg = `<polygon points="9,13 0,7 5,15 0,23 9,18" fill="${skin.crest || skin.wing}" stroke="#0f172a" stroke-width="1"/>`;
     }
     let patternSvg = '';
     if (skin.pattern === 'stripes' || skin.pattern === 'tiger') {
@@ -1832,8 +1840,10 @@
       patternSvg = `<circle cx="15" cy="11" r="1.1" fill="#fff"/><circle cx="21" cy="9" r="1.3" fill="#fde047"/><circle cx="13" cy="16" r="0.9" fill="#fff"/>`;
     } else if (skin.pattern === 'cyber') {
       patternSvg = `<path d="M11 14 H23 L25 11" fill="none" stroke="${skin.trail || '#22d3ee'}" stroke-width="1.1" opacity="0.85"/>`;
-    } else if (skin.pattern === 'royal' || skin.pattern === 'runes') {
+    } else if (skin.pattern === 'royal' || skin.pattern === 'runes' || skin.pattern === 'crystal') {
       patternSvg = `<polygon points="20,7 22,10 20,13 18,10" fill="${skin.trail || '#fde047'}" opacity="0.8"/>`;
+    } else if (skin.pattern === 'scales') {
+      patternSvg = `<path d="M13 11 Q15 14 17 11 M17 11 Q19 14 21 11 M15 14 Q17 17 19 14" fill="none" stroke="${skin.crest || '#0f172a'}" stroke-width="1.1" opacity="0.7"/>`;
     }
     let wingSvg = `<ellipse cx="17" cy="17" rx="7.5" ry="4.4" fill="${skin.wing}" stroke="#0f172a" stroke-width="1.4"/>`;
     if (skin.wingStyle === 'angel' || skin.wingStyle === 'feathered') {
@@ -1844,8 +1854,11 @@
       wingSvg = `<path d="M9 17 Q15 9 25 15 Q20 23 12 20 Z" fill="${skin.wing}" stroke="${skin.trail || '#fde047'}" stroke-width="1.4"/>`;
     } else if (skin.wingStyle === 'mecha') {
       wingSvg = `<polygon points="10,14 23,13 25,18 12,20" fill="${skin.wing}" stroke="#0f172a" stroke-width="1.3"/><line x1="13" y1="16" x2="22" y2="16" stroke="#22d3ee" stroke-width="1.3"/>`;
+    } else if (skin.wingStyle === 'crystal') {
+      wingSvg = `<polygon points="10,16 16,11 24,15 20,21 12,20" fill="${skin.wing}" stroke="#e0f2fe" stroke-width="1.3"/>`;
     }
     let accSvg = '';
+    if (skin.ears) accSvg += `<polygon points="14,7 12,1 18,5" fill="${skin.wing}" stroke="#0f172a" stroke-width="1"/><polygon points="22,6 25,1 26,7" fill="${skin.wing}" stroke="#0f172a" stroke-width="1"/>`;
     if (skin.halo) accSvg += '<ellipse cx="20" cy="3.2" rx="9" ry="2.4" fill="none" stroke="#fde047" stroke-width="1.8"/>';
     if (skin.horns) accSvg += '<path d="M15 8 Q10 1 14 1 Q17 4 18 7 M22 7 Q26 1 23 1 Q20 4 19 7" fill="#ef4444" stroke="#450a0a" stroke-width="0.9"/>';
     if (skin.ninja) accSvg += '<rect x="22" y="8.5" width="11.5" height="2.6" fill="#ef4444"/><polygon points="16,10 6,6 8,13" fill="#ef4444"/>';
@@ -2003,6 +2016,18 @@
         return fresh;
       }
       const p = JSON.parse(raw);
+      const skinIdMap = {
+        'god_muhib': 'champion_muhib',
+        'dragon_god_ryu': 'dragon_king_ryu',
+        'omega_cyber_god': 'omega_cyber_prime',
+        'emerald_deity': 'emerald_sovereign',
+        ' pirate_captain': 'pirate_captain',
+        'Bengal_tiger': 'bengal_tiger'
+      };
+      if (p.selectedSkin && skinIdMap[p.selectedSkin]) p.selectedSkin = skinIdMap[p.selectedSkin];
+      if (Array.isArray(p.unlockedSkins)) {
+        p.unlockedSkins = p.unlockedSkins.map(id => skinIdMap[id] || id);
+      }
       const merged = {
         ...structuredCloneSafe(DEFAULT_PROFILE),
         ...p,
@@ -2074,22 +2099,22 @@
     Legendary: '#fbbf24',
     Mythic: '#f43f5e',
     Celestial: '#22d3ee',
-    Divine: '#fde047'
+    Supreme: '#fde047'
   };
 
   const SKINS = [
-    // --- Original 28 Skins (preserved with upgraded rich visual details) ---
+    // --- Original 28 Skins ---
     { id: 'muhib_gold', name: 'Muhib Gold', rarity: 'Classic', cost: 0, body: '#fbbf24', belly: '#fef3c7', wing: '#f59e0b', beak: '#ef4444', crest: '#ef4444', trail: '#fde68a', wingStyle: 'feathered', perk: 'Signature Golden Wing' },
     { id: 'sky_jay', name: 'Sky Jay', rarity: 'Rare', cost: 15, body: '#38bdf8', belly: '#e0f2fe', wing: '#0284c7', beak: '#f97316', crest: '#0ea5e9', trail: '#7dd3fc', wingStyle: 'feathered', pattern: 'stripes', perk: 'Azure Gale Plumage' },
-    { id: 'crimson_phoenix', name: 'Phoenix', rarity: 'Rare', cost: 40, body: '#ef4444', belly: '#fed7aa', wing: '#b91c1c', beak: '#facc15', crest: '#f97316', trail: '#fb923c', wingStyle: 'flame', tailStyle: 'phoenix', aura: 'flame', perk: 'Eternal Flame Tail' },
+    { id: 'crimson_phoenix', name: 'Phoenix', rarity: 'Rare', cost: 40, body: '#ef4444', belly: '#fed7aa', wing: '#b91c1c', beak: '#facc15', crest: '#f97316', trail: '#fb923c', wingStyle: 'flame', tailStyle: 'phoenix', aura: 'flame', perk: 'Blazing Flame Tail' },
     { id: 'emerald_parrot', name: 'Emerald', rarity: 'Rare', cost: 75, body: '#10b981', belly: '#d1fae5', wing: '#047857', beak: '#fbbf24', crest: '#34d399', trail: '#6ee7b7', wingStyle: 'feathered', tailStyle: 'fan', perk: 'Tropical Canopy Crest' },
     { id: 'cyber_wing', name: 'Cyber Wing', rarity: 'Epic', cost: 120, body: '#1e293b', belly: '#334155', wing: '#06b6d4', beak: '#22d3ee', crest: '#a855f7', trail: '#22d3ee', visor: true, wingStyle: 'mecha', tailStyle: 'mecha', pattern: 'cyber', perk: 'Neon HUD Visor & Thruster' },
     { id: 'galaxy_owl', name: 'Galaxy Owl', rarity: 'Epic', cost: 160, body: '#6366f1', belly: '#e0e7ff', wing: '#4338ca', beak: '#f472b6', crest: '#a855f7', trail: '#c084fc', pattern: 'stars', aura: 'galaxy', eyeStyle: 'star', perk: 'Starlight Nebula Coat' },
     { id: 'dragon_wing', name: 'Dragon', rarity: 'Epic', cost: 185, body: '#059669', belly: '#fef08a', wing: '#dc2626', beak: '#f59e0b', crest: '#ef4444', trail: '#f97316', horns: true, wingStyle: 'demon', pattern: 'scales', eyeStyle: 'fire', perk: 'Elder Wyvern Scales' },
     { id: 'royal_muhib', name: 'Royal Crown', rarity: 'Legendary', cost: 220, body: '#f8fafc', belly: '#fef9c3', wing: '#fbbf24', beak: '#f59e0b', crest: '#fbbf24', trail: '#fef08a', crown: true, cape: '#dc2626', pattern: 'royal', wingStyle: 'angel', perk: 'Sovereign Crown & Cape' },
     { id: 'shadow_ninja', name: 'Shadow Ninja', rarity: 'Epic', cost: 250, body: '#0f172a', belly: '#334155', wing: '#1e293b', beak: '#ef4444', crest: '#dc2626', trail: '#dc2626', ninja: true, eyeStyle: 'laser', tailStyle: 'twin', perk: 'Shinobi Headband & Kunai' },
-    { id: 'archangel', name: 'Archangel', rarity: 'Legendary', cost: 285, body: '#f8fafc', belly: '#ffffff', wing: '#38bdf8', beak: '#facc15', crest: '#fef08a', trail: '#e0f2fe', halo: true, wingStyle: 'angel', tailStyle: 'fan', aura: 'divine', perk: 'Seraphim Halo & Wings' },
-    { id: 'magma_demon', name: 'Lava Demon', rarity: 'Epic', cost: 320, body: '#450a0a', belly: '#7f1d1d', wing: '#ea580c', beak: '#facc15', crest: '#f97316', trail: '#ef4444', horns: true, wingStyle: 'demon', aura: 'flame', eyeStyle: 'fire', perk: 'Molten Hellfire Core' },
+    { id: 'archangel', name: 'Sky Guardian', rarity: 'Legendary', cost: 285, body: '#f8fafc', belly: '#ffffff', wing: '#38bdf8', beak: '#facc15', crest: '#fef08a', trail: '#e0f2fe', halo: true, wingStyle: 'angel', tailStyle: 'fan', aura: 'divine', perk: 'Radiant Light & Wings' },
+    { id: 'magma_demon', name: 'Magma Titan', rarity: 'Epic', cost: 320, body: '#450a0a', belly: '#7f1d1d', wing: '#ea580c', beak: '#facc15', crest: '#f97316', trail: '#ef4444', horns: true, wingStyle: 'demon', aura: 'flame', eyeStyle: 'fire', perk: 'Molten Volcano Core' },
     { id: 'blizzard_frost', name: 'Ice Blizzard', rarity: 'Rare', cost: 350, body: '#0284c7', belly: '#e0f2fe', wing: '#38bdf8', beak: '#fde047', crest: '#7dd3fc', trail: '#bae6fd', wingStyle: 'crystal', aura: 'ice', pattern: 'crystal', perk: 'Cryo Crystal Feathers' },
     { id: 'steampunk', name: 'Steampunk', rarity: 'Epic', cost: 380, body: '#78350f', belly: '#d97706', wing: '#b45309', beak: '#fbbf24', crest: '#92400e', trail: '#fde68a', goggles: true, wingStyle: 'mecha', tailStyle: 'mecha', perk: 'Brass Aviator Goggles' },
     { id: 'toxic_hazard', name: 'Biohazard', rarity: 'Rare', cost: 410, body: '#14532d', belly: '#4ade80', wing: '#84cc16', beak: '#facc15', crest: '#a3e635', trail: '#bef264', visor: true, pattern: 'cyber', aura: 'emerald', perk: 'Radioactive Glow Plume' },
@@ -2097,8 +2122,8 @@
     { id: 'cosmic_void', name: 'Void Walker', rarity: 'Epic', cost: 480, body: '#1e1b4b', belly: '#312e81', wing: '#7c3aed', beak: '#c084fc', crest: '#a855f7', trail: '#c084fc', visor: true, aura: 'void', orbit: 'orbs', pattern: 'stars', perk: 'Abyssal Singularity Aura' },
     { id: 'thunder_bolt', name: 'Thunderbird', rarity: 'Rare', cost: 520, body: '#eab308', belly: '#fef08a', wing: '#0284c7', beak: '#ea580c', crest: '#38bdf8', trail: '#fde047', wingStyle: 'plasma', tailStyle: 'lightning', aura: 'lightning', perk: 'High-Voltage Storm Arc' },
     { id: 'golden_mecha', name: 'Mecha Titan', rarity: 'Legendary', cost: 560, body: '#ca8a04', belly: '#fde047', wing: '#71717a', beak: '#06b6d4', crest: '#0891b2', trail: '#22d3ee', crown: true, visor: true, wingStyle: 'mecha', tailStyle: 'mecha', pattern: 'cyber', perk: 'Cybernetic Gold Exo-Suit' },
-    { id: 'cotton_candy', name: 'Bubblegum', rarity: 'Rare', cost: 600, body: '#f472b6', belly: '#fbcfe8', wing: '#38bdf8', beak: '#facc15', crest: '#ec4899', trail: '#bae6fd', halo: true, wingStyle: 'angel', eyeStyle: 'star', perk: 'Sweet Pastel Halo' },
-    { id: 'vampire_bat', name: 'Vampire Bat', rarity: 'Epic', cost: 640, body: '#18181b', belly: '#3f3f46', wing: '#991b1b', beak: '#ef4444', crest: '#7f1d1d', trail: '#b91c1c', horns: true, wingStyle: 'demon', cape: '#7f1d1d', eyeStyle: 'laser', perk: 'Dracula Crimson Cloak' },
+    { id: 'cotton_candy', name: 'Bubblegum', rarity: 'Rare', cost: 600, body: '#f472b6', belly: '#fbcfe8', wing: '#38bdf8', beak: '#facc15', crest: '#ec4899', trail: '#bae6fd', halo: true, wingStyle: 'angel', eyeStyle: 'star', perk: 'Sweet Pastel Ring' },
+    { id: 'vampire_bat', name: 'Night Bat', rarity: 'Epic', cost: 640, body: '#18181b', belly: '#3f3f46', wing: '#991b1b', beak: '#ef4444', crest: '#7f1d1d', trail: '#b91c1c', horns: true, wingStyle: 'demon', cape: '#7f1d1d', eyeStyle: 'laser', perk: 'Midnight Crimson Cloak' },
     { id: 'samurai_ronin', name: 'Ronin Warrior', rarity: 'Epic', cost: 680, body: '#991b1b', belly: '#fef08a', wing: '#b45309', beak: '#f59e0b', crest: '#fbbf24', trail: '#ef4444', ninja: true, head: 'samurai', cape: '#1e293b', perk: 'Shogun Kabuto Crest' },
     { id: 'pixel_retro', name: '8-Bit Retro', rarity: 'Classic', cost: 720, body: '#16a34a', belly: '#bbf7d0', wing: '#15803d', beak: '#facc15', crest: '#22c55e', trail: '#86efac', pattern: 'cyber', perk: 'Classic Cartridge Sprite' },
     { id: 'solar_titan', name: 'Solar Flare', rarity: 'Legendary', cost: 760, body: '#ea580c', belly: '#fed7aa', wing: '#facc15', beak: '#dc2626', crest: '#f97316', trail: '#fbbf24', halo: true, wingStyle: 'flame', tailStyle: 'phoenix', aura: 'solar', orbit: 'flames', perk: 'Supernova Corona Rings' },
@@ -2106,65 +2131,65 @@
     { id: 'candy_cane', name: 'Peppermint King', rarity: 'Legendary', cost: 850, body: '#dc2626', belly: '#ffffff', wing: '#ef4444', beak: '#fbbf24', crest: '#f87171', trail: '#fecaca', crown: true, pattern: 'stripes', cape: '#ef4444', perk: 'Festive Royal Stripes' },
     { id: 'obsidian_knight', name: 'Dark Knight', rarity: 'Legendary', cost: 900, body: '#09090b', belly: '#27272a', wing: '#52525b', beak: '#e11d48', crest: '#be123c', trail: '#e11d48', horns: true, head: 'knight', cape: '#be123c', wingStyle: 'mecha', eyeStyle: 'laser', perk: 'Obsidian Plate & Visor' },
     { id: 'rainbow_prism', name: 'Prism Bird', rarity: 'Legendary', cost: 950, body: '#8b5cf6', belly: '#c4b5fd', wing: '#06b6d4', beak: '#facc15', crest: '#f43f5e', trail: '#f472b6', crown: true, halo: true, wingStyle: 'crystal', aura: 'prism', orbit: 'stars', perk: 'Chromatic Spectrum Aura' },
-    { id: 'god_muhib', name: 'God Muhib', rarity: 'Mythic', cost: 1000, body: '#fef08a', belly: '#ffffff', wing: '#fbbf24', beak: '#f59e0b', crest: '#ef4444', trail: '#fde68a', crown: true, halo: true, wingStyle: 'angel', tailStyle: 'phoenix', cape: '#fbbf24', aura: 'divine', orbit: 'stars', eyeStyle: 'star', perk: 'Supreme Ascended Avatar' },
+    { id: 'champion_muhib', name: 'Champion Muhib', rarity: 'Mythic', cost: 1000, body: '#fef08a', belly: '#ffffff', wing: '#fbbf24', beak: '#f59e0b', crest: '#ef4444', trail: '#fde68a', crown: true, halo: true, wingStyle: 'angel', tailStyle: 'phoenix', cape: '#fbbf24', aura: 'divine', orbit: 'stars', eyeStyle: 'star', perk: 'Supreme Grandmaster Aviator' },
 
-    // --- 56 Brand-New Intricate Skins (Total 84 Skins!) ---
-    { id: 'sakura_blossom', name: 'Sakura Spirit', rarity: 'Rare', cost: 90, body: '#f472b6', belly: '#fce7f3', wing: '#ec4899', beak: '#fbbf24', crest: '#f9a8d4', trail: '#fbcfe8', wingStyle: 'feathered', tailStyle: 'fan', aura: 'sakura', perk: 'Floating Cherry Petals' },
+    // --- 56 Additional Skins ---
+    { id: 'sakura_blossom', name: 'Sakura Breeze', rarity: 'Rare', cost: 90, body: '#f472b6', belly: '#fce7f3', wing: '#ec4899', beak: '#fbbf24', crest: '#f9a8d4', trail: '#fbcfe8', wingStyle: 'feathered', tailStyle: 'fan', aura: 'sakura', perk: 'Floating Cherry Petals' },
     { id: 'arctic_falcon', name: 'Arctic Falcon', rarity: 'Rare', cost: 110, body: '#e2e8f0', belly: '#ffffff', wing: '#64748b', beak: '#f59e0b', crest: '#94a3b8', trail: '#f1f5f9', wingStyle: 'feathered', pattern: 'stripes', perk: 'Tundra Apex Predator' },
-    { id: 'Bengal_tiger', name: 'Bengal Wing', rarity: 'Rare', cost: 135, body: '#f97316', belly: '#ffedd5', wing: '#ea580c', beak: '#fde047', crest: '#18181b', trail: '#fdba74', pattern: 'tiger', eyeStyle: 'fire', perk: 'Fierce Jungle Stripes' },
-    { id: ' pirate_captain', name: 'Corsair Captain', rarity: 'Epic', cost: 175, body: '#b91c1c', belly: '#fef08a', wing: '#1e293b', beak: '#f59e0b', crest: '#ef4444', trail: '#fde047', head: 'pirate', cape: '#1e293b', perk: 'Seven Seas Tricorn Hat' },
-    { id: 'arcane_wizard', name: 'Grand Arcanist', rarity: 'Epic', cost: 210, body: '#4f46e5', belly: '#c7d2fe', wing: '#312e81', beak: '#fbbf24', crest: '#818cf8', trail: '#a5b4fc', head: 'wizard', cape: '#4338ca', pattern: 'stars', orbit: 'runes', perk: 'Mystic Hat & Floating Runes' },
-    { id: 'viking_jarl', name: 'Valhalla Jarl', rarity: 'Epic', cost: 240, body: '#78350f', belly: '#fde68a', wing: '#92400e', beak: '#f59e0b', crest: '#d97706', trail: '#fef08a', head: 'viking', cape: '#991b1b', wingStyle: 'feathered', perk: 'Horned Norse Helmet' },
+    { id: 'bengal_tiger', name: 'Bengal Wing', rarity: 'Rare', cost: 135, body: '#f97316', belly: '#ffedd5', wing: '#ea580c', beak: '#fde047', crest: '#18181b', trail: '#fdba74', pattern: 'tiger', eyeStyle: 'fire', perk: 'Fierce Jungle Stripes' },
+    { id: 'pirate_captain', name: 'Corsair Captain', rarity: 'Epic', cost: 175, body: '#b91c1c', belly: '#fef08a', wing: '#1e293b', beak: '#f59e0b', crest: '#ef4444', trail: '#fde047', head: 'pirate', cape: '#1e293b', perk: 'Seven Seas Tricorn Hat' },
+    { id: 'arcane_wizard', name: 'Grand Scholar', rarity: 'Epic', cost: 210, body: '#4f46e5', belly: '#c7d2fe', wing: '#312e81', beak: '#fbbf24', crest: '#818cf8', trail: '#a5b4fc', head: 'wizard', cape: '#4338ca', pattern: 'stars', orbit: 'runes', perk: 'Starlight Hat & Floating Orbs' },
+    { id: 'viking_jarl', name: 'Northern Viking', rarity: 'Epic', cost: 240, body: '#78350f', belly: '#fde68a', wing: '#92400e', beak: '#f59e0b', crest: '#d97706', trail: '#fef08a', head: 'viking', cape: '#991b1b', wingStyle: 'feathered', perk: 'Horned Warrior Helmet' },
     { id: 'astro_voyager', name: 'Star Commander', rarity: 'Epic', cost: 270, body: '#f8fafc', belly: '#cbd5e1', wing: '#2563eb', beak: '#f97316', crest: '#38bdf8', trail: '#60a5fa', head: 'astro', visor: true, wingStyle: 'mecha', tailStyle: 'mecha', perk: 'Pressurized Space Dome' },
-    { id: 'sun_pharaoh', name: 'Golden Pharaoh', rarity: 'Legendary', cost: 310, body: '#eab308', belly: '#fef9c3', wing: '#1d4ed8', beak: '#f59e0b', crest: '#2563eb', trail: '#fde047', head: 'pharaoh', cape: '#1e40af', pattern: 'royal', aura: 'solar', perk: 'Dynasty Nemes Headdress' },
+    { id: 'sun_pharaoh', name: 'Desert Monarch', rarity: 'Legendary', cost: 310, body: '#eab308', belly: '#fef9c3', wing: '#1d4ed8', beak: '#f59e0b', crest: '#2563eb', trail: '#fde047', head: 'pharaoh', cape: '#1e40af', pattern: 'royal', aura: 'solar', perk: 'Ancient Golden Headdress' },
     { id: 'jade_emperor', name: 'Jade Emperor', rarity: 'Legendary', cost: 340, body: '#059669', belly: '#a7f3d0', wing: '#047857', beak: '#fbbf24', crest: '#fde047', trail: '#34d399', crown: true, cape: '#065f46', pattern: 'scales', orbit: 'orbs', tailStyle: 'phoenix', perk: 'Imperial Jade Dragon' },
     { id: 'neon_dj', name: 'Bass Drop DJ', rarity: 'Epic', cost: 370, body: '#7c3aed', belly: '#f472b6', wing: '#06b6d4', beak: '#fde047', crest: '#22d3ee', trail: '#e879f9', visor: true, goggles: true, pattern: 'cyber', aura: 'cyber', perk: 'Equalizer Pulse Visor' },
     { id: 'crystal_paladin', name: 'Crystal Paladin', rarity: 'Legendary', cost: 400, body: '#38bdf8', belly: '#f0f9ff', wing: '#bae6fd', beak: '#facc15', crest: '#7dd3fc', trail: '#e0f2fe', head: 'knight', cape: '#0284c7', wingStyle: 'crystal', aura: 'ice', orbit: 'shields', perk: 'Diamond Aegis Armor' },
-    { id: 'blood_moon_oni', name: 'Blood Moon Oni', rarity: 'Legendary', cost: 430, body: '#991b1b', belly: '#18181b', wing: '#dc2626', beak: '#fde047', crest: '#f87171', trail: '#ef4444', horns: true, ninja: true, wingStyle: 'demon', aura: 'flame', eyeStyle: 'laser', perk: 'Demonic Crimson Mask' },
-    { id: 'kitsune_nine', name: 'Nine-Tail Fox', rarity: 'Legendary', cost: 465, body: '#fffbeb', belly: '#fed7aa', wing: '#ea580c', beak: '#dc2626', crest: '#f97316', trail: '#fb923c', ears: true, tailStyle: 'fan', aura: 'flame', orbit: 'flames', perk: 'Spirit Fox Will-o-Wisps' },
-    { id: 'storm_valkyrie', name: 'Storm Valkyrie', rarity: 'Legendary', cost: 500, body: '#e2e8f0', belly: '#fef08a', wing: '#38bdf8', beak: '#fbbf24', crest: '#fde047', trail: '#7dd3fc', crown: true, wingStyle: 'angel', cape: '#0369a1', aura: 'lightning', tailStyle: 'lightning', perk: 'Asgardian Winged Tiara' },
+    { id: 'blood_moon_oni', name: 'Crimson Shinobi', rarity: 'Legendary', cost: 430, body: '#991b1b', belly: '#18181b', wing: '#dc2626', beak: '#fde047', crest: '#f87171', trail: '#ef4444', horns: true, ninja: true, wingStyle: 'demon', aura: 'flame', eyeStyle: 'laser', perk: 'Shadow Crimson Mask' },
+    { id: 'kitsune_nine', name: 'Nine-Tail Fox', rarity: 'Legendary', cost: 465, body: '#fffbeb', belly: '#fed7aa', wing: '#ea580c', beak: '#dc2626', crest: '#f97316', trail: '#fb923c', ears: true, tailStyle: 'fan', aura: 'flame', orbit: 'flames', perk: 'Blazing Fox Fire Orbs' },
+    { id: 'storm_valkyrie', name: 'Storm Vanguard', rarity: 'Legendary', cost: 500, body: '#e2e8f0', belly: '#fef08a', wing: '#38bdf8', beak: '#fbbf24', crest: '#fde047', trail: '#7dd3fc', crown: true, wingStyle: 'angel', cape: '#0369a1', aura: 'lightning', tailStyle: 'lightning', perk: 'Thunder Winged Tiara' },
     { id: 'emerald_viper', name: 'Venom Cobra', rarity: 'Epic', cost: 530, body: '#15803d', belly: '#bef264', wing: '#166534', beak: '#eab308', crest: '#4ade80', trail: '#84cc16', pattern: 'scales', eyeStyle: 'laser', tailStyle: 'twin', perk: 'Serpent Scale Markings' },
-    { id: 'royal_peacock', name: 'Maharaja Peacock', rarity: 'Legendary', cost: 575, body: '#0284c7', belly: '#2dd4bf', wing: '#0d9488', beak: '#fbbf24', crest: '#fde047', trail: '#5eead4', crown: true, tailStyle: 'fan', pattern: 'royal', aura: 'emerald', perk: 'Iridescent Plume Fan' },
+    { id: 'royal_peacock', name: 'Royal Peacock', rarity: 'Legendary', cost: 575, body: '#0284c7', belly: '#2dd4bf', wing: '#0d9488', beak: '#fbbf24', crest: '#fde047', trail: '#5eead4', crown: true, tailStyle: 'fan', pattern: 'royal', aura: 'emerald', perk: 'Iridescent Plume Fan' },
     { id: 'cyber_samurai', name: 'Cyber Shogun', rarity: 'Legendary', cost: 615, body: '#0f172a', belly: '#1e293b', wing: '#f43f5e', beak: '#22d3ee', crest: '#fb7185', trail: '#f43f5e', head: 'samurai', visor: true, wingStyle: 'mecha', pattern: 'cyber', aura: 'cyber', perk: 'Neo-Tokyo Plasma Blade' },
-    { id: 'nebula_phoenix', name: 'Nebula Rebirth', rarity: 'Mythic', cost: 660, body: '#9333ea', belly: '#f0abfc', wing: '#ec4899', beak: '#fde047', crest: '#38bdf8', trail: '#e879f9', halo: true, wingStyle: 'flame', tailStyle: 'phoenix', aura: 'galaxy', orbit: 'stars', perk: 'Starfire Cosmic Plume' },
-    { id: 'infernal_overlord', name: 'Hellfire Lord', rarity: 'Mythic', cost: 700, body: '#7f1d1d', belly: '#ea580c', wing: '#18181b', beak: '#fde047', crest: '#ef4444', trail: '#f97316', horns: true, crown: true, wingStyle: 'demon', cape: '#450a0a', aura: 'flame', orbit: 'flames', eyeStyle: 'fire', perk: 'Brimstone Crown & Mantles' },
+    { id: 'nebula_phoenix', name: 'Nebula Phoenix', rarity: 'Mythic', cost: 660, body: '#9333ea', belly: '#f0abfc', wing: '#ec4899', beak: '#fde047', crest: '#38bdf8', trail: '#e879f9', halo: true, wingStyle: 'flame', tailStyle: 'phoenix', aura: 'galaxy', orbit: 'stars', perk: 'Starfire Cosmic Plume' },
+    { id: 'infernal_overlord', name: 'Volcano Overlord', rarity: 'Mythic', cost: 700, body: '#7f1d1d', belly: '#ea580c', wing: '#18181b', beak: '#fde047', crest: '#ef4444', trail: '#f97316', horns: true, crown: true, wingStyle: 'demon', cape: '#450a0a', aura: 'flame', orbit: 'flames', eyeStyle: 'fire', perk: 'Obsidian Crown & Mantle' },
     { id: 'frost_empress', name: 'Glacier Empress', rarity: 'Legendary', cost: 740, body: '#bae6fd', belly: '#ffffff', wing: '#38bdf8', beak: '#f472b6', crest: '#e0f2fe', trail: '#7dd3fc', crown: true, wingStyle: 'crystal', tailStyle: 'fan', cape: '#0284c7', aura: 'ice', orbit: 'orbs', perk: 'Sub-Zero Diamond Tiara' },
     { id: 'quantum_glitch', name: 'Matrix Glitch', rarity: 'Mythic', cost: 780, body: '#052e16', belly: '#14532d', wing: '#22c55e', beak: '#4ade80', crest: '#86efac', trail: '#22c55e', visor: true, wingStyle: 'mecha', tailStyle: 'lightning', pattern: 'cyber', aura: 'emerald', orbit: 'runes', perk: 'Source Code Reality Bender' },
-    { id: 'celestial_seraph', name: 'Six-Wing Seraph', rarity: 'Celestial', cost: 820, body: '#ffffff', belly: '#fef9c3', wing: '#fde047', beak: '#f59e0b', crest: '#fef08a', trail: '#fef08a', halo: true, crown: true, wingStyle: 'angel', tailStyle: 'phoenix', aura: 'divine', orbit: 'stars', eyeStyle: 'star', perk: 'Sacred Sanctuary Radiance' },
-    { id: 'void_reaper', name: 'Phantom Reaper', rarity: 'Mythic', cost: 860, body: '#09090b', belly: '#3b0764', wing: '#581c87', beak: '#c084fc', crest: '#a855f7', trail: '#a855f7', horns: true, cape: '#1e1b4b', wingStyle: 'demon', aura: 'void', orbit: 'orbs', eyeStyle: 'laser', perk: 'Soul Harvester Cloak' },
-    { id: 'lightning_zeus', name: 'Olympus Thunder', rarity: 'Celestial', cost: 910, body: '#f8fafc', belly: '#bae6fd', wing: '#fbbf24', beak: '#f59e0b', crest: '#38bdf8', trail: '#fde047', crown: true, halo: true, wingStyle: 'plasma', tailStyle: 'lightning', cape: '#1d4ed8', aura: 'lightning', orbit: 'stars', perk: 'King of Olympus Bolt' },
-    { id: 'emerald_guardian', name: 'Gaia Guardian', rarity: 'Legendary', cost: 940, body: '#065f46', belly: '#6ee7b7', wing: '#10b981', beak: '#fde047', crest: '#34d399', trail: '#a7f3d0', horns: true, halo: true, wingStyle: 'feathered', tailStyle: 'fan', aura: 'emerald', orbit: 'orbs', perk: 'Ancient World-Tree Spirit' },
-    { id: 'ruby_automaton', name: 'Crimson Valkyr', rarity: 'Mythic', cost: 980, body: '#be123c', belly: '#fda4af', wing: '#f43f5e', beak: '#fde047', crest: '#fb7185', trail: '#f43f5e', visor: true, crown: true, wingStyle: 'mecha', tailStyle: 'mecha', cape: '#881337', aura: 'cyber', perk: 'Hyper-Alloy Combat Unit' },
+    { id: 'celestial_seraph', name: 'Starlight Sovereign', rarity: 'Celestial', cost: 820, body: '#ffffff', belly: '#fef9c3', wing: '#fde047', beak: '#f59e0b', crest: '#fef08a', trail: '#fef08a', halo: true, crown: true, wingStyle: 'angel', tailStyle: 'phoenix', aura: 'divine', orbit: 'stars', eyeStyle: 'star', perk: 'Radiant Starlight Wings' },
+    { id: 'void_reaper', name: 'Phantom Striker', rarity: 'Mythic', cost: 860, body: '#09090b', belly: '#3b0764', wing: '#581c87', beak: '#c084fc', crest: '#a855f7', trail: '#a855f7', horns: true, cape: '#1e1b4b', wingStyle: 'demon', aura: 'void', orbit: 'orbs', eyeStyle: 'laser', perk: 'Dark Nebula Cloak' },
+    { id: 'lightning_zeus', name: 'Apex Thunder', rarity: 'Celestial', cost: 910, body: '#f8fafc', belly: '#bae6fd', wing: '#fbbf24', beak: '#f59e0b', crest: '#38bdf8', trail: '#fde047', crown: true, halo: true, wingStyle: 'plasma', tailStyle: 'lightning', cape: '#1d4ed8', aura: 'lightning', orbit: 'stars', perk: 'Supersonic Storm Bolt' },
+    { id: 'emerald_guardian', name: 'Forest Guardian', rarity: 'Legendary', cost: 940, body: '#065f46', belly: '#6ee7b7', wing: '#10b981', beak: '#fde047', crest: '#34d399', trail: '#a7f3d0', horns: true, halo: true, wingStyle: 'feathered', tailStyle: 'fan', aura: 'emerald', orbit: 'orbs', perk: 'Ancient Emerald Canopy' },
+    { id: 'ruby_automaton', name: 'Crimson Mecha', rarity: 'Mythic', cost: 980, body: '#be123c', belly: '#fda4af', wing: '#f43f5e', beak: '#fde047', crest: '#fb7185', trail: '#f43f5e', visor: true, crown: true, wingStyle: 'mecha', tailStyle: 'mecha', cape: '#881337', aura: 'cyber', perk: 'Hyper-Alloy Combat Unit' },
     { id: 'astral_zodiac', name: 'Astral Constellation', rarity: 'Celestial', cost: 1050, body: '#1e1b4b', belly: '#312e81', wing: '#6366f1', beak: '#fde047', crest: '#818cf8', trail: '#c7d2fe', halo: true, wingStyle: 'angel', tailStyle: 'phoenix', pattern: 'stars', aura: 'galaxy', orbit: 'stars', eyeStyle: 'star', perk: 'Living Star Chart' },
-    { id: 'chrono_templar', name: 'Chrono Templar', rarity: 'Celestial', cost: 1100, body: '#d97706', belly: '#fef3c7', wing: '#38bdf8', beak: '#fbbf24', crest: '#7dd3fc', trail: '#fde68a', head: 'knight', halo: true, wingStyle: 'mecha', cape: '#1e3a8a', aura: 'divine', orbit: 'runes', perk: 'Timekeeper Gear Halo' },
+    { id: 'chrono_templar', name: 'Chrono Knight', rarity: 'Celestial', cost: 1100, body: '#d97706', belly: '#fef3c7', wing: '#38bdf8', beak: '#fbbf24', crest: '#7dd3fc', trail: '#fde68a', head: 'knight', halo: true, wingStyle: 'mecha', cape: '#1e3a8a', aura: 'divine', orbit: 'runes', perk: 'Timekeeper Gear Crest' },
     { id: 'supernova_king', name: 'Quasar Monarch', rarity: 'Celestial', cost: 1150, body: '#f97316', belly: '#fef08a', wing: '#ec4899', beak: '#ffffff', crest: '#fde047', trail: '#fb923c', crown: true, halo: true, wingStyle: 'flame', tailStyle: 'phoenix', cape: '#7c2d12', aura: 'solar', orbit: 'flames', perk: 'Collapsing Star Majesty' },
     { id: 'diamond_sovereign', name: 'Diamond Sovereign', rarity: 'Celestial', cost: 1200, body: '#e0f2fe', belly: '#ffffff', wing: '#7dd3fc', beak: '#38bdf8', crest: '#bae6fd', trail: '#ffffff', crown: true, halo: true, wingStyle: 'crystal', tailStyle: 'fan', pattern: 'crystal', aura: 'prism', orbit: 'shields', perk: 'Pure Flawless Carat' },
-    { id: 'chaos_leviathan', name: 'Abyssal Leviathan', rarity: 'Mythic', cost: 1250, body: '#042f2e', belly: '#134e4a', wing: '#14b8a6', beak: '#f43f5e', crest: '#2dd4bf', trail: '#5eead4', horns: true, visor: true, wingStyle: 'demon', tailStyle: 'dragon', pattern: 'scales', aura: 'emerald', perk: 'Tidal Maelstrom Lord' },
+    { id: 'chaos_leviathan', name: 'Abyssal Leviathan', rarity: 'Mythic', cost: 1250, body: '#042f2e', belly: '#134e4a', wing: '#14b8a6', beak: '#f43f5e', crest: '#2dd4bf', trail: '#5eead4', horns: true, visor: true, wingStyle: 'demon', tailStyle: 'dragon', pattern: 'scales', aura: 'emerald', perk: 'Tidal Maelstrom Leviathan' },
     { id: 'plasma_overdrive', name: 'Plasma Overdrive', rarity: 'Mythic', cost: 1300, body: '#3b0764', belly: '#d946ef', wing: '#22d3ee', beak: '#fde047', crest: '#f0abfc', trail: '#22d3ee', visor: true, goggles: true, wingStyle: 'plasma', tailStyle: 'lightning', pattern: 'cyber', aura: 'cyber', orbit: 'orbs', perk: 'Mach-10 Ion Afterburner' },
-    { id: 'sakura_empress', name: 'Empress Amaterasu', rarity: 'Celestial', cost: 1350, body: '#fff1f2', belly: '#ffe4e6', wing: '#fb7185', beak: '#fbbf24', crest: '#f43f5e', trail: '#fda4af', crown: true, halo: true, wingStyle: 'angel', tailStyle: 'fan', cape: '#be123c', aura: 'sakura', orbit: 'stars', perk: 'Sun Goddess Blossom' },
-    { id: 'shadow_monarch', name: 'Shadow Monarch', rarity: 'Celestial', cost: 1400, body: '#09090b', belly: '#1e1b4b', wing: '#6d28d9', beak: '#a855f7', crest: '#c084fc', trail: '#8b5cf6', crown: true, horns: true, wingStyle: 'demon', tailStyle: 'phoenix', cape: '#09090b', aura: 'void', orbit: 'flames', eyeStyle: 'laser', perk: 'Arise Sovereign of Shadows' },
-    { id: 'midas_immortal', name: '24K Immortal', rarity: 'Celestial', cost: 1450, body: '#fbbf24', belly: '#fef08a', wing: '#d97706', beak: '#ffffff', crest: '#f59e0b', trail: '#fde047', crown: true, halo: true, wingStyle: 'angel', tailStyle: 'phoenix', cape: '#b45309', pattern: 'royal', aura: 'divine', orbit: 'orbs', perk: 'Solid Gold Transcendence' },
-    { id: 'aurora_borealis', name: 'Polaris Spirit', rarity: 'Celestial', cost: 1500, body: '#065f46', belly: '#a7f3d0', wing: '#8b5cf6', beak: '#38bdf8', crest: '#34d399', trail: '#6ee7b7', halo: true, wingStyle: 'plasma', tailStyle: 'fan', pattern: 'stars', aura: 'prism', orbit: 'stars', perk: 'Northern Sky Curtain' },
-    { id: 'mecha_zero', name: 'Unit-00 Evangel', rarity: 'Celestial', cost: 1550, body: '#581c87', belly: '#84cc16', wing: '#7e22ce', beak: '#f97316', crest: '#a3e635', trail: '#a3e635', horns: true, visor: true, wingStyle: 'mecha', tailStyle: 'mecha', pattern: 'cyber', aura: 'cyber', orbit: 'shields', perk: 'Sync Rate 400% Mecha' },
-    { id: 'blood_valkyrie', name: 'Scarlet Valkyrie', rarity: 'Mythic', cost: 1600, body: '#fecdd3', belly: '#ffffff', wing: '#e11d48', beak: '#fbbf24', crest: '#be123c', trail: '#fb7185', crown: true, head: 'knight', wingStyle: 'angel', cape: '#9f1239', aura: 'flame', orbit: 'runes', perk: 'Crimson Battle Maiden' },
-    { id: 'cosmic_emperor', name: 'Galactic Emperor', rarity: 'Divine', cost: 1700, body: '#312e81', belly: '#e0e7ff', wing: '#f59e0b', beak: '#fde047', crest: '#c084fc', trail: '#fde047', crown: true, halo: true, wingStyle: 'angel', tailStyle: 'phoenix', cape: '#4c1d95', pattern: 'stars', aura: 'galaxy', orbit: 'stars', eyeStyle: 'star', perk: 'Ruler of Ten Thousand Stars' },
-    { id: 'omni_archon', name: 'Omni Archon', rarity: 'Divine', cost: 1800, body: '#f8fafc', belly: '#e0f2fe', wing: '#38bdf8', beak: '#fbbf24', crest: '#a855f7', trail: '#7dd3fc', crown: true, halo: true, wingStyle: 'crystal', tailStyle: 'phoenix', cape: '#1e40af', pattern: 'runes', aura: 'prism', orbit: 'runes', eyeStyle: 'star', perk: 'Celestial Lawkeeper' },
-    { id: 'dragon_god_ryu', name: 'Bahamut Prime', rarity: 'Divine', cost: 1900, body: '#18181b', belly: '#fde047', wing: '#dc2626', beak: '#f59e0b', crest: '#fbbf24', trail: '#ef4444', horns: true, crown: true, halo: true, wingStyle: 'demon', tailStyle: 'phoenix', pattern: 'scales', aura: 'flame', orbit: 'flames', eyeStyle: 'fire', perk: 'Primordial Dragon King' },
-    { id: 'hyperion_sun', name: 'Hyperion Helios', rarity: 'Divine', cost: 2000, body: '#fef08a', belly: '#ffffff', wing: '#f97316', beak: '#dc2626', crest: '#fbbf24', trail: '#fde047', crown: true, halo: true, wingStyle: 'flame', tailStyle: 'phoenix', cape: '#ea580c', pattern: 'royal', aura: 'solar', orbit: 'flames', eyeStyle: 'fire', perk: 'Chariot of the Immortal Sun' },
-    { id: 'eternal_singularity', name: 'Event Horizon', rarity: 'Divine', cost: 2100, body: '#020617', belly: '#1e1b4b', wing: '#7c3aed', beak: '#f43f5e', crest: '#ec4899', trail: '#c084fc', halo: true, horns: true, wingStyle: 'plasma', tailStyle: 'lightning', cape: '#0f172a', pattern: 'stars', aura: 'void', orbit: 'orbs', eyeStyle: 'laser', perk: 'Gravity Well Accretion Ring' },
-    { id: 'seraphim_prime', name: 'Metatron Prime', rarity: 'Divine', cost: 2200, body: '#ffffff', belly: '#f0f9ff', wing: '#fbbf24', beak: '#38bdf8', crest: '#fde047', trail: '#bae6fd', crown: true, halo: true, wingStyle: 'angel', tailStyle: 'phoenix', cape: '#f8fafc', pattern: 'runes', aura: 'divine', orbit: 'shields', eyeStyle: 'star', perk: 'Voice of the Firmament' },
-    { id: 'omega_cyber_god', name: 'Deus Ex Machina', rarity: 'Divine', cost: 2300, body: '#0f172a', belly: '#22d3ee', wing: '#eab308', beak: '#06b6d4', crest: '#fde047', trail: '#22d3ee', crown: true, halo: true, visor: true, wingStyle: 'mecha', tailStyle: 'mecha', cape: '#0891b2', pattern: 'cyber', aura: 'cyber', orbit: 'runes', perk: 'Singularity AI Core' },
-    { id: 'rainbow_seraph', name: 'Bifrost Guardian', rarity: 'Divine', cost: 2400, body: '#f8fafc', belly: '#fef9c3', wing: '#ec4899', beak: '#fbbf24', crest: '#38bdf8', trail: '#f472b6', crown: true, halo: true, wingStyle: 'crystal', tailStyle: 'fan', cape: '#7c3aed', pattern: 'royal', aura: 'prism', orbit: 'stars', eyeStyle: 'star', perk: 'Bridge of the Nine Realms' },
-    { id: 'emerald_deity', name: 'Quetzalcoatl', rarity: 'Divine', cost: 2500, body: '#10b981', belly: '#fef08a', wing: '#ef4444', beak: '#fbbf24', crest: '#38bdf8', trail: '#34d399', crown: true, halo: true, wingStyle: 'feathered', tailStyle: 'phoenix', cape: '#047857', pattern: 'scales', aura: 'emerald', orbit: 'orbs', perk: 'Feathered Serpent Deity' },
+    { id: 'sakura_empress', name: 'Sakura Empress', rarity: 'Celestial', cost: 1350, body: '#fff1f2', belly: '#ffe4e6', wing: '#fb7185', beak: '#fbbf24', crest: '#f43f5e', trail: '#fda4af', crown: true, halo: true, wingStyle: 'angel', tailStyle: 'fan', cape: '#be123c', aura: 'sakura', orbit: 'stars', perk: 'Royal Cherry Blossom' },
+    { id: 'shadow_monarch', name: 'Shadow Monarch', rarity: 'Celestial', cost: 1400, body: '#09090b', belly: '#1e1b4b', wing: '#6d28d9', beak: '#a855f7', crest: '#c084fc', trail: '#8b5cf6', crown: true, horns: true, wingStyle: 'demon', tailStyle: 'phoenix', cape: '#09090b', aura: 'void', orbit: 'flames', eyeStyle: 'laser', perk: 'Sovereign of Shadows' },
+    { id: 'midas_immortal', name: '24K Gold Legend', rarity: 'Celestial', cost: 1450, body: '#fbbf24', belly: '#fef08a', wing: '#d97706', beak: '#ffffff', crest: '#f59e0b', trail: '#fde047', crown: true, halo: true, wingStyle: 'angel', tailStyle: 'phoenix', cape: '#b45309', pattern: 'royal', aura: 'divine', orbit: 'orbs', perk: 'Solid Gold Masterpiece' },
+    { id: 'aurora_borealis', name: 'Polaris Aurora', rarity: 'Celestial', cost: 1500, body: '#065f46', belly: '#a7f3d0', wing: '#8b5cf6', beak: '#38bdf8', crest: '#34d399', trail: '#6ee7b7', halo: true, wingStyle: 'plasma', tailStyle: 'fan', pattern: 'stars', aura: 'prism', orbit: 'stars', perk: 'Northern Sky Curtain' },
+    { id: 'mecha_zero', name: 'Unit-00 Mecha', rarity: 'Celestial', cost: 1550, body: '#581c87', belly: '#84cc16', wing: '#7e22ce', beak: '#f97316', crest: '#a3e635', trail: '#a3e635', horns: true, visor: true, wingStyle: 'mecha', tailStyle: 'mecha', pattern: 'cyber', aura: 'cyber', orbit: 'shields', perk: 'Sync Rate 400% Mecha' },
+    { id: 'blood_valkyrie', name: 'Scarlet Vanguard', rarity: 'Mythic', cost: 1600, body: '#fecdd3', belly: '#ffffff', wing: '#e11d48', beak: '#fbbf24', crest: '#be123c', trail: '#fb7185', crown: true, head: 'knight', wingStyle: 'angel', cape: '#9f1239', aura: 'flame', orbit: 'runes', perk: 'Crimson Battle Armor' },
+    { id: 'cosmic_emperor', name: 'Galactic Emperor', rarity: 'Supreme', cost: 1700, body: '#312e81', belly: '#e0e7ff', wing: '#f59e0b', beak: '#fde047', crest: '#c084fc', trail: '#fde047', crown: true, halo: true, wingStyle: 'angel', tailStyle: 'phoenix', cape: '#4c1d95', pattern: 'stars', aura: 'galaxy', orbit: 'stars', eyeStyle: 'star', perk: 'Ruler of Ten Thousand Stars' },
+    { id: 'omni_archon', name: 'Cosmic Commander', rarity: 'Supreme', cost: 1800, body: '#f8fafc', belly: '#e0f2fe', wing: '#38bdf8', beak: '#fbbf24', crest: '#a855f7', trail: '#7dd3fc', crown: true, halo: true, wingStyle: 'crystal', tailStyle: 'phoenix', cape: '#1e40af', pattern: 'runes', aura: 'prism', orbit: 'runes', eyeStyle: 'star', perk: 'Galactic Star Commander' },
+    { id: 'dragon_king_ryu', name: 'Dragon Prime', rarity: 'Supreme', cost: 1900, body: '#18181b', belly: '#fde047', wing: '#dc2626', beak: '#f59e0b', crest: '#fbbf24', trail: '#ef4444', horns: true, crown: true, halo: true, wingStyle: 'demon', tailStyle: 'phoenix', pattern: 'scales', aura: 'flame', orbit: 'flames', eyeStyle: 'fire', perk: 'Apex Dragon Champion' },
+    { id: 'hyperion_sun', name: 'Solar Hyperion', rarity: 'Supreme', cost: 2000, body: '#fef08a', belly: '#ffffff', wing: '#f97316', beak: '#dc2626', crest: '#fbbf24', trail: '#fde047', crown: true, halo: true, wingStyle: 'flame', tailStyle: 'phoenix', cape: '#ea580c', pattern: 'royal', aura: 'solar', orbit: 'flames', eyeStyle: 'fire', perk: 'Blazing Solar Supernova' },
+    { id: 'eternal_singularity', name: 'Event Horizon', rarity: 'Supreme', cost: 2100, body: '#020617', belly: '#1e1b4b', wing: '#7c3aed', beak: '#f43f5e', crest: '#ec4899', trail: '#c084fc', halo: true, horns: true, wingStyle: 'plasma', tailStyle: 'lightning', cape: '#0f172a', pattern: 'stars', aura: 'void', orbit: 'orbs', eyeStyle: 'laser', perk: 'Gravity Well Accretion Ring' },
+    { id: 'seraphim_prime', name: 'Aegis Prime', rarity: 'Supreme', cost: 2200, body: '#ffffff', belly: '#f0f9ff', wing: '#fbbf24', beak: '#38bdf8', crest: '#fde047', trail: '#bae6fd', crown: true, halo: true, wingStyle: 'angel', tailStyle: 'phoenix', cape: '#f8fafc', pattern: 'runes', aura: 'divine', orbit: 'shields', eyeStyle: 'star', perk: 'Supreme Diamond Aegis' },
+    { id: 'omega_cyber_prime', name: 'Omega Cyber Prime', rarity: 'Supreme', cost: 2300, body: '#0f172a', belly: '#22d3ee', wing: '#eab308', beak: '#06b6d4', crest: '#fde047', trail: '#22d3ee', crown: true, halo: true, visor: true, wingStyle: 'mecha', tailStyle: 'mecha', cape: '#0891b2', pattern: 'cyber', aura: 'cyber', orbit: 'runes', perk: 'Quantum AI Overdrive Core' },
+    { id: 'rainbow_seraph', name: 'Spectrum Guardian', rarity: 'Supreme', cost: 2400, body: '#f8fafc', belly: '#fef9c3', wing: '#ec4899', beak: '#fbbf24', crest: '#38bdf8', trail: '#f472b6', crown: true, halo: true, wingStyle: 'crystal', tailStyle: 'fan', cape: '#7c3aed', pattern: 'royal', aura: 'prism', orbit: 'stars', eyeStyle: 'star', perk: 'Prismatic Rainbow Horizon' },
+    { id: 'emerald_sovereign', name: 'Emerald Drake', rarity: 'Supreme', cost: 2500, body: '#10b981', belly: '#fef08a', wing: '#ef4444', beak: '#fbbf24', crest: '#38bdf8', trail: '#34d399', crown: true, halo: true, wingStyle: 'feathered', tailStyle: 'phoenix', cape: '#047857', pattern: 'scales', aura: 'emerald', orbit: 'orbs', perk: 'Ancient Emerald Wyvern' },
     { id: 'dessert_sultan', name: 'Mirage Sultan', rarity: 'Legendary', cost: 490, body: '#d97706', belly: '#fef3c7', wing: '#7c2d12', beak: '#fbbf24', crest: '#f59e0b', trail: '#fde68a', crown: true, cape: '#991b1b', pattern: 'royal', perk: 'Golden Dunes Sovereign' },
     { id: 'deep_sea_angler', name: 'Biolumeko', rarity: 'Rare', cost: 145, body: '#0f172a', belly: '#1e293b', wing: '#0284c7', beak: '#22d3ee', crest: '#38bdf8', trail: '#67e8f9', halo: true, eyeStyle: 'star', perk: 'Abyssal Lantern Lure' },
     { id: 'honey_bee', name: 'Royal Bumble', rarity: 'Classic', cost: 55, body: '#facc15', belly: '#18181b', wing: '#e0f2fe', beak: '#f59e0b', crest: '#18181b', trail: '#fef08a', crown: true, pattern: 'tiger', perk: 'Hive Queen Stripes' },
     { id: 'lava_golem', name: 'Obsidian Core', rarity: 'Epic', cost: 295, body: '#27272a', belly: '#ea580c', wing: '#dc2626', beak: '#facc15', crest: '#f97316', trail: '#fb923c', horns: true, pattern: 'crystal', aura: 'flame', perk: 'Tectonic Magma Armor' },
-    { id: 'ghost_specter', name: 'Phantom Wisp', rarity: 'Epic', cost: 335, body: '#ccfbf1', belly: '#ffffff', wing: '#5eead4', beak: '#2dd4bf', crest: '#99f6e4', trail: '#5eead4', halo: true, aura: 'ice', eyeStyle: 'laser', perk: 'Ethereal Ectoplasm' },
+    { id: 'ghost_specter', name: 'Phantom Wisp', rarity: 'Epic', cost: 335, body: '#ccfbf1', belly: '#ffffff', wing: '#5eead4', beak: '#2dd4bf', crest: '#99f6e4', trail: '#5eead4', halo: true, aura: 'ice', eyeStyle: 'laser', perk: 'Glowing Frost Mist' },
     { id: 'chef_bird', name: 'Master Chef', rarity: 'Rare', cost: 195, body: '#f8fafc', belly: '#e2e8f0', wing: '#ef4444', beak: '#f59e0b', crest: '#ffffff', trail: '#fef08a', head: 'wizard', cape: '#ef4444', perk: 'Five-Star Culinary Aviator' },
-    { id: 'spartan_ares', name: 'Spartan Ares', rarity: 'Legendary', cost: 630, body: '#991b1b', belly: '#dca54c', wing: '#b45309', beak: '#fbbf24', crest: '#ef4444', trail: '#f87171', head: 'samurai', cape: '#7f1d1d', wingStyle: 'feathered', perk: 'Molon Labe War Crest' },
+    { id: 'spartan_ares', name: 'Spartan Commander', rarity: 'Legendary', cost: 630, body: '#991b1b', belly: '#dca54c', wing: '#b45309', beak: '#fbbf24', crest: '#ef4444', trail: '#f87171', head: 'samurai', cape: '#7f1d1d', wingStyle: 'feathered', perk: 'Ancient Bronze War Crest' },
     { id: 'amethyst_geode', name: 'Amethyst Drake', rarity: 'Epic', cost: 455, body: '#7e22ce', belly: '#f3e8ff', wing: '#a855f7', beak: '#fde047', crest: '#d8b4fe', trail: '#c084fc', horns: true, wingStyle: 'crystal', pattern: 'crystal', perk: 'Crystalline Cave Wyrm' },
-    { id: 'transcendent_muhib', name: 'Transcendent Muhib', rarity: 'Divine', cost: 3000, body: '#ffffff', belly: '#fef08a', wing: '#38bdf8', beak: '#f43f5e', crest: '#fbbf24', trail: '#fde047', crown: true, halo: true, wingStyle: 'angel', tailStyle: 'phoenix', cape: '#7c3aed', pattern: 'stars', aura: 'prism', orbit: 'stars', eyeStyle: 'star', perk: 'The Ultimate Legend of Muhib!' }
+    { id: 'transcendent_muhib', name: 'Ultimate Muhib', rarity: 'Supreme', cost: 3000, body: '#ffffff', belly: '#fef08a', wing: '#38bdf8', beak: '#f43f5e', crest: '#fbbf24', trail: '#fde047', crown: true, halo: true, wingStyle: 'angel', tailStyle: 'phoenix', cape: '#7c3aed', pattern: 'stars', aura: 'prism', orbit: 'stars', eyeStyle: 'star', perk: 'The Ultimate Legend of Muhib!' }
   ];
 
   const TRAILS = [
@@ -2190,8 +2215,8 @@
     { id: 'blood_crimson', name: 'Crimson Mist', cost: 550, shape: 'circle', color: '#e11d48' },
     { id: 'diamond_prism', name: 'Prism Shards', cost: 600, shape: 'diamond', color: '#e0f2fe' },
     { id: 'solar_flares', name: 'Sun Flares', cost: 660, shape: 'star', color: '#fb923c' },
-    { id: 'celestial_halos', name: 'Halo Rings', cost: 720, shape: 'ring', color: '#fef08a' },
-    { id: 'omega_bifrost', name: 'Bifrost Wave', cost: 800, shape: 'star', color: '#38bdf8' }
+    { id: 'celestial_halos', name: 'Golden Rings', cost: 720, shape: 'ring', color: '#fef08a' },
+    { id: 'omega_bifrost', name: 'Spectrum Wave', cost: 800, shape: 'star', color: '#38bdf8' }
   ];
 
   const UPGRADES = [
@@ -2283,7 +2308,7 @@
       groundTop: '#8b5cf6', groundDirt: '#1e1042', groundStripe: '#6d28d9'
     },
     desert: {
-      name: 'Pharaoh Oasis', prop: 'pyramids',
+      name: 'Golden Oasis', prop: 'pyramids',
       skyTop: '#0369a1', skyMid: '#38bdf8', skyBot: '#fed7aa',
       sunColor: '#fbbf24', hillFar: '#ea580c', hillNear: '#c2410c',
       city: '#7c2d12', cityWin: 'rgba(254, 215, 170, 0.65)',
@@ -2346,7 +2371,7 @@
       groundTop: '#be123c', groundDirt: '#1f0308', groundStripe: '#9f1239'
     },
     olympus_gold: {
-      name: 'Mount Olympus', prop: 'floating_islands',
+      name: 'Golden Summit', prop: 'floating_islands',
       skyTop: '#1e3a8a', skyMid: '#60a5fa', skyBot: '#fef08a',
       sunColor: '#fde047', hillFar: '#93c5fd', hillNear: '#3b82f6',
       city: '#1e40af', cityWin: 'rgba(254, 240, 138, 0.9)',
@@ -2391,7 +2416,7 @@
       groundTop: '#d946ef', groundDirt: '#3b0764', groundStripe: '#a21caf'
     },
     valhalla_dawn: {
-      name: 'Bifrost Realm', prop: 'aurora_ribbon',
+      name: 'Rainbow Horizon', prop: 'aurora_ribbon',
       skyTop: '#311042', skyMid: '#0284c7', skyBot: '#fde047',
       sunColor: '#ffffff', hillFar: '#6366f1', hillNear: '#3b82f6',
       city: '#1e1b4b', cityWin: 'rgba(253, 224, 71, 0.9)',
@@ -2648,6 +2673,7 @@
   let runDistancePx = 0;
   let runRevived = false;
   let runFeverTriggered = false;
+  let runBanked = { coins: 0, score: 0, distM: 0, closeCalls: 0, powerups: 0, flightCounted: false };
   let blitzTimeLeft = 45.0;
 
   let comboCount = 0;
@@ -2782,7 +2808,7 @@
     return skin.trail;
   }
 
-  function spawnParticles(x, y, color, count, speed = 130, size = 4) {
+  function spawnParticles(x, y, color, count, speed = 130, size = 4, shape = 'circle') {
     for (let i = 0; i < count; i++) {
       const a = Math.random() * Math.PI * 2;
       const sp = (0.35 + Math.random() * 0.85) * speed;
@@ -2792,9 +2818,49 @@
         vy: Math.sin(a) * sp - 25,
         r: size * (0.6 + Math.random() * 0.7),
         color,
+        shape,
         life: 0.45 + Math.random() * 0.35,
         maxLife: 0.8
       });
+    }
+  }
+
+  function drawParticleShape(c, shape, x, y, r) {
+    if (shape === 'ring') {
+      c.lineWidth = 1.5;
+      c.beginPath(); c.arc(x, y, r, 0, Math.PI * 2); c.stroke();
+    } else if (shape === 'diamond') {
+      c.beginPath();
+      c.moveTo(x, y - r * 1.35); c.lineTo(x + r * 1.35, y);
+      c.lineTo(x, y + r * 1.35); c.lineTo(x - r * 1.35, y);
+      c.closePath(); c.fill();
+    } else if (shape === 'star') {
+      c.beginPath();
+      for (let i = 0; i < 5; i++) {
+        const a1 = (i * 2 * Math.PI) / 5 - Math.PI / 2;
+        const a2 = a1 + Math.PI / 5;
+        c.lineTo(x + Math.cos(a1) * r * 1.45, y + Math.sin(a1) * r * 1.45);
+        c.lineTo(x + Math.cos(a2) * r * 0.65, y + Math.sin(a2) * r * 0.65);
+      }
+      c.closePath(); c.fill();
+    } else if (shape === 'square') {
+      c.fillRect(x - r, y - r, r * 2, r * 2);
+    } else if (shape === 'petal') {
+      c.beginPath(); c.ellipse(x, y, r * 1.35, r * 0.7, 0.45, 0, Math.PI * 2); c.fill();
+    } else if (shape === 'bolt') {
+      c.beginPath();
+      c.moveTo(x + r * 0.5, y - r * 1.4); c.lineTo(x - r * 0.9, y + r * 0.1);
+      c.lineTo(x + r * 0.1, y + r * 0.1); c.lineTo(x - r * 0.5, y + r * 1.4);
+      c.lineTo(x + r * 0.9, y - r * 0.1); c.lineTo(x - r * 0.1, y - r * 0.1);
+      c.closePath(); c.fill();
+    } else if (shape === 'heart') {
+      c.beginPath();
+      c.arc(x - r * 0.45, y - r * 0.25, r * 0.6, 0, Math.PI * 2);
+      c.arc(x + r * 0.45, y - r * 0.25, r * 0.6, 0, Math.PI * 2);
+      c.moveTo(x - r * 1.0, y); c.lineTo(x, y + r * 1.25); c.lineTo(x + r * 1.0, y);
+      c.fill();
+    } else {
+      c.beginPath(); c.arc(x, y, r, 0, Math.PI * 2); c.fill();
     }
   }
 
@@ -2862,6 +2928,7 @@
     runDistancePx = 0;
     runRevived = false;
     runFeverTriggered = false;
+    runBanked = { coins: 0, score: 0, distM: 0, closeCalls: 0, powerups: 0, flightCounted: false };
     blitzTimeLeft = 45.0;
     comboCount = 0;
     feverTimer = 0;
@@ -2934,7 +3001,8 @@
     triggerHaptic(10);
     if (profile.settings.trails) {
       const skin = getActiveSkin();
-      spawnParticles(bird.x - 14, bird.y + 4, getTrailColor(skin), 5, 65, 3.2);
+      const trObj = TRAILS.find(t => t.id === profile.selectedTrail) || TRAILS[0];
+      spawnParticles(bird.x - 14, bird.y + 4, getTrailColor(skin), 5, 65, 3.2, trObj.shape);
     }
   }
 
@@ -3022,6 +3090,7 @@
       bird.invuln = 0.35;
       const smashCoins = 2 * (profile.upgrades.pipe_smasher || 1);
       runCoins += smashCoins;
+      coinCountEl.textContent = String(profile.coins + (runCoins - runBanked.coins));
       AudioEngine.sfx.shieldBreak();
       triggerShake(5, 0.15);
       spawnParticles(bird.x + 15, bird.y, '#fde047', 18, 190, 4.5);
@@ -3087,24 +3156,43 @@
     if (isNewBest) profile.bestScores[currentMode][currentDiff] = score;
 
     const distMeters = Math.round(runDistancePx / 28);
-    profile.totalFlights += 1;
-    profile.totalScore += score;
-    profile.totalDistanceM += distMeters;
-    profile.totalCloseCalls += runCloseCalls;
-    profile.totalPowerups += runPowerups;
-    profile.coins += runCoins;
-    profile.totalCoinsEarned += runCoins;
+    const dCoins = Math.max(0, runCoins - runBanked.coins);
+    const dScore = Math.max(0, score - runBanked.score);
+    const dDistM = Math.max(0, distMeters - runBanked.distM);
+    const dClose = Math.max(0, runCloseCalls - runBanked.closeCalls);
+    const dPu = Math.max(0, runPowerups - runBanked.powerups);
+
+    if (!runBanked.flightCounted) {
+      profile.totalFlights += 1;
+      incrementMissionProgress('flights', 1);
+      runBanked.flightCounted = true;
+    }
+    profile.totalScore += dScore;
+    profile.totalDistanceM += dDistM;
+    profile.totalCloseCalls += dClose;
+    profile.totalPowerups += dPu;
+    profile.coins += dCoins;
+    profile.totalCoinsEarned += dCoins;
+
+    runBanked.coins = runCoins;
+    runBanked.score = score;
+    runBanked.distM = distMeters;
+    runBanked.closeCalls = runCloseCalls;
+    runBanked.powerups = runPowerups;
 
     // Daily mission progress
-    incrementMissionProgress('flights', 1);
     incrementMissionProgress('runScore', score, true);
-    incrementMissionProgress('coins', runCoins);
-    incrementMissionProgress('closeCalls', runCloseCalls);
-    incrementMissionProgress('powerups', runPowerups);
+    incrementMissionProgress('coins', dCoins);
+    incrementMissionProgress('closeCalls', dClose);
+    incrementMissionProgress('powerups', dPu);
 
     const medal = getMedal(score);
     const shortDate = new Date().toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
-    profile.history.push({ date: shortDate, mode: currentMode, diff: currentDiff, score, icon: medal.icon });
+    if (runRevived && profile.history.length > 0) {
+      profile.history[0] = { date: shortDate, mode: currentMode, diff: currentDiff, score, icon: medal.icon };
+    } else {
+      profile.history.unshift({ date: shortDate, mode: currentMode, diff: currentDiff, score, icon: medal.icon });
+    }
     profile.history.sort((a, b) => b.score - a.score);
     profile.history = profile.history.slice(0, 20);
 
@@ -3400,6 +3488,22 @@
     const targetRot = bird.vy < 140 ? -0.44 : Math.min(Math.PI * 0.46, ((bird.vy - 140) / 420) * (Math.PI * 0.46));
     bird.rot += (targetRot - bird.rot) * Math.min(1, dt * 12);
 
+    if (profile.settings.trails && Math.random() < 0.45) {
+      const skin = getActiveSkin();
+      const trObj = TRAILS.find(t => t.id === profile.selectedTrail) || TRAILS[0];
+      particles.push({
+        x: bird.x - 15,
+        y: bird.y + (Math.random() - 0.5) * 8,
+        vx: -speed * 0.55 - Math.random() * 25,
+        vy: (Math.random() - 0.5) * 25 - 15,
+        r: 2.3 + Math.random() * 1.8,
+        color: getTrailColor(skin),
+        shape: trObj.shape,
+        life: 0.36,
+        maxLife: 0.45
+      });
+    }
+
     if (bird.y - bird.r < 0) { bird.y = bird.r; if (bird.vy < 0) bird.vy = 0; }
 
     if (bird.y + bird.r >= PLAY_H) {
@@ -3464,6 +3568,7 @@
           if (currentMode === 'arcade' || currentMode === 'blitz') {
             const bonus = diff.coinMult + (profile.upgrades.close_call_master || 0);
             runCoins += bonus;
+            coinCountEl.textContent = String(profile.coins + (runCoins - runBanked.coins));
             spawnPopup(bird.x, bird.y - 30, `CLOSE CALL! +${bonus}`, '#38bdf8', 14);
           } else {
             spawnPopup(bird.x, bird.y - 30, 'CLOSE CALL!', '#38bdf8', 14);
@@ -3480,6 +3585,7 @@
           if (bountyLvl > 0) {
             const chestCoins = bountyLvl * 3;
             runCoins += chestCoins;
+            coinCountEl.textContent = String(profile.coins + (runCoins - runBanked.coins));
             spawnPopup(WORLD_W / 2, 130, `MILESTONE ${score}! +${chestCoins} BOUNTY`, '#fde68a', 17);
           } else {
             spawnPopup(WORLD_W / 2, 130, `MILESTONE ${score}!`, '#fde68a', 18);
@@ -3528,7 +3634,7 @@
           AudioEngine.sfx.coin();
           spawnParticles(it.x, it.y, '#fbbf24', 10, 120, 3.2);
           spawnPopup(it.x, it.y - 12, isMidas ? `MIDAS 3×! +${val}` : `+${val} COIN`, '#fde68a', 14);
-          coinCountEl.textContent = String(profile.coins + runCoins);
+          coinCountEl.textContent = String(profile.coins + (runCoins - runBanked.coins));
         } else if (it.type === 'gem') {
           const rushBonus = Math.floor(5 * diff.coinMult * ((profile.upgrades.gold_rush || 0) * 0.25));
           const val = 5 * diff.coinMult + rushBonus;
@@ -3543,7 +3649,7 @@
             spawnPopup(it.x, it.y - 28, '+1 REVIVE HEART!', '#fda4af', 15);
           }
           spawnPopup(it.x, it.y - 14, `GEM +${val}`, '#fda4af', 15);
-          coinCountEl.textContent = String(profile.coins + runCoins);
+          coinCountEl.textContent = String(profile.coins + (runCoins - runBanked.coins));
         } else if (it.type === 'clock') {
           const addT = 3.5 + (profile.upgrades.blitz_chrono || 0) * 1.0;
           blitzTimeLeft = Math.min(60, blitzTimeLeft + addT);
@@ -3727,9 +3833,8 @@
     for (const p of particles) {
       ctx.globalAlpha = Math.max(0, p.life / p.maxLife);
       ctx.fillStyle = p.color;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fill();
+      ctx.strokeStyle = p.color;
+      drawParticleShape(ctx, p.shape || 'circle', p.x, p.y, p.r);
     }
     ctx.globalAlpha = 1;
 
@@ -4218,12 +4323,20 @@
       c.beginPath();
       c.moveTo(-12, 0); c.lineTo(2, 0); c.lineTo(5, -4);
       c.stroke();
-    } else if (skin.pattern === 'royal' || skin.pattern === 'runes') {
+    } else if (skin.pattern === 'royal' || skin.pattern === 'runes' || skin.pattern === 'crystal') {
       c.fillStyle = skin.trail || '#fde047';
       c.beginPath();
       c.moveTo(0, -10); c.lineTo(3, -6); c.lineTo(0, -2); c.lineTo(-3, -6);
       c.closePath();
       c.fill();
+    } else if (skin.pattern === 'scales') {
+      c.strokeStyle = skin.crest || '#0f172a';
+      c.lineWidth = 1.3;
+      c.beginPath();
+      c.arc(-5, -3, 3.5, 0, Math.PI);
+      c.arc(1, -3, 3.5, 0, Math.PI);
+      c.arc(-2, 1, 3.5, 0, Math.PI);
+      c.stroke();
     }
 
     // Wing
@@ -4246,6 +4359,24 @@
       c.lineTo(2, 9 + wingY * 0.5);
       c.lineTo(-4, 5 + wingY * 0.5);
       c.lineTo(-9, 9 + wingY * 0.5);
+      c.closePath();
+      c.fill();
+      c.stroke();
+    } else if (skin.wingStyle === 'mecha') {
+      c.beginPath();
+      c.moveTo(-12, -1 + wingY * 0.45);
+      c.lineTo(5, -2 + wingY * 0.45);
+      c.lineTo(7, 5 + wingY * 0.45);
+      c.lineTo(-10, 7 + wingY * 0.45);
+      c.closePath();
+      c.fill();
+      c.stroke();
+    } else if (skin.wingStyle === 'crystal') {
+      c.beginPath();
+      c.moveTo(-12, 2 + wingY * 0.5);
+      c.lineTo(-3, -5 + wingY * 0.5);
+      c.lineTo(7, 1 + wingY * 0.5);
+      c.lineTo(1, 8 + wingY * 0.5);
       c.closePath();
       c.fill();
       c.stroke();
@@ -4391,6 +4522,16 @@
       c.fill(); c.stroke();
     }
 
+    if (skin.ears) {
+      c.fillStyle = skin.wing;
+      c.strokeStyle = '#0f172a';
+      c.lineWidth = 1.4;
+      c.beginPath();
+      c.moveTo(-8, -11); c.lineTo(-11, -22); c.lineTo(-2, -13);
+      c.moveTo(2, -13); c.lineTo(7, -22); c.lineTo(8, -11);
+      c.closePath();
+      c.fill(); c.stroke();
+    }
     if (skin.halo) {
       c.strokeStyle = '#fde047';
       c.lineWidth = 2.4;
@@ -4516,10 +4657,12 @@
       html.push(`<div class="pu-bar">${UI_ICONS.magnet}<div class="pu-track"><div class="pu-fill" style="width:${Math.min(100, (powerups.magnet / maxD) * 100)}%;background:#fb7185;"></div></div></div>`);
     }
     if (powerups.doubleScore > 0) {
-      html.push(`<div class="pu-bar">${UI_ICONS.sparkle}<span>2×</span><div class="pu-track"><div class="pu-fill" style="width:${Math.min(100, (powerups.doubleScore / 8.0) * 100)}%;background:#fde047;"></div></div></div>`);
+      const maxD = 8.0 + (profile.upgrades.double_mastery || 0) * 1.5;
+      html.push(`<div class="pu-bar">${UI_ICONS.sparkle}<span>2×</span><div class="pu-track"><div class="pu-fill" style="width:${Math.min(100, (powerups.doubleScore / maxD) * 100)}%;background:#fde047;"></div></div></div>`);
     }
     if (powerups.tiny > 0) {
-      html.push(`<div class="pu-bar">${UI_ICONS.tiny}<div class="pu-track"><div class="pu-fill" style="width:${Math.min(100, (powerups.tiny / 7.5) * 100)}%;background:#34d399;"></div></div></div>`);
+      const maxD = 7.5 + (profile.upgrades.tiny_mastery || 0) * 1.5;
+      html.push(`<div class="pu-bar">${UI_ICONS.tiny}<div class="pu-track"><div class="pu-fill" style="width:${Math.min(100, (powerups.tiny / maxD) * 100)}%;background:#34d399;"></div></div></div>`);
     }
     powerupHud.innerHTML = html.join('');
   }
@@ -4748,6 +4891,7 @@
       previewState.birdY += (targetY - previewState.birdY) * Math.min(1, dt * 8);
       previewState.birdVy = 0;
     }
+    previewState.birdY = Math.max(22, Math.min(playH - 18, previewState.birdY));
     previewState.wingPhase += dt * 14;
 
     // Continuous Wing Trail Emitter
@@ -4774,22 +4918,7 @@
       c.globalAlpha = Math.max(0, pt.life / 0.55);
       c.fillStyle = pt.color;
       c.strokeStyle = pt.color;
-      if (trObj.shape === 'ring') {
-        c.lineWidth = 1.5;
-        c.beginPath(); c.arc(pt.x, pt.y, pt.r, 0, Math.PI * 2); c.stroke();
-      } else if (trObj.shape === 'diamond' || trObj.shape === 'star') {
-        c.beginPath();
-        c.moveTo(pt.x, pt.y - pt.r * 1.3);
-        c.lineTo(pt.x + pt.r * 1.3, pt.y);
-        c.lineTo(pt.x, pt.y + pt.r * 1.3);
-        c.lineTo(pt.x - pt.r * 1.3, pt.y);
-        c.closePath();
-        c.fill();
-      } else if (trObj.shape === 'square') {
-        c.fillRect(pt.x - pt.r, pt.y - pt.r, pt.r * 2, pt.r * 2);
-      } else {
-        c.beginPath(); c.arc(pt.x, pt.y, pt.r, 0, Math.PI * 2); c.fill();
-      }
+      drawParticleShape(c, trObj.shape || 'circle', pt.x, pt.y, pt.r);
       c.restore();
     }
 
@@ -4905,7 +5034,7 @@
     if (activeWeatherLabelEl) activeWeatherLabelEl.textContent = WEATHERS[profile.selectedWeather] || 'Auto';
 
     // Rarity Filter Bar
-    const rarities = ['ALL', 'OWNED', 'Classic', 'Rare', 'Epic', 'Legendary', 'Mythic', 'Celestial', 'Divine'];
+    const rarities = ['ALL', 'OWNED', 'Classic', 'Rare', 'Epic', 'Legendary', 'Mythic', 'Celestial', 'Supreme'];
     if (skinRarityFilters) {
       skinRarityFilters.innerHTML = '';
       rarities.forEach(r => {
@@ -5121,7 +5250,7 @@
     streakDaysEl.textContent = String(profile.daily.streak);
     if (profile.daily.giftClaimed) {
       streakSubEl.textContent = 'Daily bonus claimed — come back tomorrow!';
-      claimDailyGiftBtn.textContent = '✓ Claimed';
+      claimDailyGiftBtn.innerHTML = `${UI_ICONS.check} Claimed`;
       claimDailyGiftBtn.classList.add('maxed');
     } else {
       streakSubEl.textContent = 'Tap to claim your daily login gift!';
@@ -5142,7 +5271,7 @@
             <div style="font-size:0.7rem;color:var(--text-muted);margin-top:2px;">Progress: ${m.progress} / ${m.target}</div>
           </div>
           <button type="button" class="upg-buy-btn${m.claimed ? ' maxed' : ''}" ${(!done || m.claimed) ? 'disabled style="opacity:0.6;cursor:default;"' : ''}>
-            ${m.claimed ? '✓ Claimed' : done ? `Claim +${m.reward}` : `+${m.reward} Coins`}
+            ${m.claimed ? `${UI_ICONS.check} Claimed` : done ? `Claim +${m.reward}` : `+${m.reward} Coins`}
           </button>
         </div>
         <div class="m-bar"><div class="m-bar-fill" style="width:${pct}%;"></div></div>
@@ -5184,14 +5313,17 @@
     if (rows.length === 0) {
       statsTableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--text-muted);padding:16px;">No flights recorded yet!</td></tr>';
     } else {
-      statsTableBody.innerHTML = rows.map(r => `
+      statsTableBody.innerHTML = rows.map(r => {
+        const m = getMedal(r.score);
+        return `
         <tr>
           <td>${r.date}</td>
           <td>${r.mode.toUpperCase()} • ${r.diff.slice(0, 3).toUpperCase()}</td>
           <td style="font-weight:900;color:#fff;">${r.score}</td>
-          <td style="font-size:1.05rem;">${r.icon}</td>
+          <td><span style="display:inline-flex;align-items:center;gap:4px;color:${m.color};font-weight:800;font-size:0.74rem;">${renderMedalSvg(m)} ${m.name}</span></td>
         </tr>
-      `).join('');
+      `;
+      }).join('');
     }
   }
 
@@ -5206,7 +5338,7 @@
             <div class="ach-title">${a.title}</div>
             <div class="ach-desc">${a.desc}</div>
           </div>
-          <div class="ach-reward">${done ? '✓ Done' : `+${a.reward}`}</div>
+          <div class="ach-reward">${done ? `${UI_ICONS.check} Done` : `+${a.reward}`}</div>
         </div>
       `;
     }).join('');
@@ -5386,7 +5518,14 @@
   function closeSubModal() {
     AudioEngine.sfx.click();
     hideAllModals();
-    if (returnScreen) returnScreen.classList.remove('hidden');
+    if (returnScreen) {
+      if (returnScreen === gameOverScreen) {
+        const canRevive = !runRevived && profile.reviveHearts > 0 && (currentMode === 'arcade' || (currentMode === 'blitz' && blitzTimeLeft > 0));
+        reviveBtn.classList.toggle('hidden', !canRevive);
+        reviveLeftEl.textContent = String(profile.reviveHearts);
+      }
+      returnScreen.classList.remove('hidden');
+    }
   }
 
   document.getElementById('openHangarBtn').addEventListener('click', () => { renderHangar(); openSubModal(hangarScreen, startScreen); });
@@ -5450,9 +5589,9 @@
         5.5
       );
     }
-    spawnPopup((WORLD_W || 420) / 2, (PLAY_H || 536) * 0.38, '⚡ GOD MODE ACTIVATED! ⚡', '#fbbf24', 24);
+    spawnPopup((WORLD_W || 420) / 2, (PLAY_H || 536) * 0.38, 'ULTRA MODE ACTIVATED!', '#fbbf24', 24);
     spawnPopup((WORLD_W || 420) / 2, (PLAY_H || 536) * 0.46, '999,999,999 COINS & EVERYTHING UNLOCKED', '#38bdf8', 16);
-    showToast(UI_ICONS.crown, '⚡ SECRET CHEAT ACTIVATED! ⚡', 'Unlimited Coins + All Skins, Trails & Upgrades Unlocked!');
+    showToast(UI_ICONS.crown, 'SECRET CHEAT ACTIVATED!', 'Unlimited Coins + All Skins, Trails & Upgrades Unlocked!');
   }
 
   const openSettingsBtn = document.getElementById('openSettingsBtn');

@@ -66,7 +66,7 @@ if (workbox) {
     },
     {
         "url": "index.html",
-        "revision": "cf40661b238164b4a5f4b26fcd88f4d7"
+        "revision": "2535239c239d9578374294e2839f6d0b"
     },
     {
         "url": "LICENSE.md",
@@ -98,11 +98,11 @@ if (workbox) {
     },
     {
         "url": "README.md",
-        "revision": "7a4471fc74ea23588cc9d932e8376209"
+        "revision": "a0d4f6f1e546f9e5e69116118e59b0a2"
     },
     {
         "url": "sw.js",
-        "revision": "cc40cbcc046df990f528deef871b054c"
+        "revision": "93cb3ab22012eacdbacba41d06464d4e"
     },
     {
         "url": "audio/sfx_die.wav",
