@@ -203,7 +203,7 @@
   .pu-fill {
     height: 100%;
     border-radius: 999px;
-    transition: width 0.08s linear;
+    will-change: width;
   }
 
   #blitzHud {
@@ -1341,6 +1341,23 @@
     .dock-grid { gap: 6px; }
     .card { padding: 14px; }
     .game-title { font-size: 1.9rem; }
+  }
+
+  @media (max-width: 820px), (hover: none) and (pointer: coarse) {
+    .pill, .icon-btn, .pu-bar, .tap-badge, .preview-badge, .preview-meta {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      background: rgba(15, 23, 42, 0.92);
+    }
+    .overlay, .overlay.start-overlay {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+    .card {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      background: rgba(15, 23, 42, 0.96);
+    }
   }
 </style>
 <link href="manifest.json" rel="manifest"/><link href="favicon.ico" rel="icon" type="image/x-icon"/></head>
@@ -2544,7 +2561,8 @@
   // 4. DOM REFERENCES
   // =========================================================
   const canvas = document.getElementById('game');
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext('2d', { alpha: false });
+  let isMobilePerf = false;
 
   const coinCountEl = document.getElementById('coinCountEl');
   const hudBestEl = document.getElementById('hudBestEl');
@@ -2641,7 +2659,8 @@
     const rect = wrap.getBoundingClientRect();
     const cw = Math.max(280, rect.width);
     const ch = Math.max(360, rect.height);
-    DPR = Math.min(window.devicePixelRatio || 1, 2.5);
+    isMobilePerf = cw <= 820 || (window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+    DPR = Math.min(window.devicePixelRatio || 1, isMobilePerf ? 1.5 : 2.0);
 
     const aspect = cw / ch;
     WORLD_W = Math.max(360, Math.min(860, Math.round(WORLD_H * aspect)));
@@ -2730,11 +2749,12 @@
 
   function initScenery() {
     stars = [];
-    for (let i = 0; i < 44; i++) {
-      stars.push({ x: Math.random() * WORLD_W, y: Math.random() * (PLAY_H * 0.65), r: 0.9 + Math.random() * 1.5, phase: Math.random() * 6.28 });
+    const starCount = isMobilePerf ? 24 : 40;
+    for (let i = 0; i < starCount; i++) {
+      stars.push({ x: Math.random() * WORLD_W, y: Math.random() * (PLAY_H * 0.65), r: 1.1 + Math.random() * 1.4, phase: Math.random() * 6.28 });
     }
     clouds = [];
-    const cloudCount = Math.max(4, Math.ceil(WORLD_W / 140));
+    const cloudCount = Math.max(3, Math.ceil(WORLD_W / (isMobilePerf ? 170 : 140)));
     for (let i = 0; i < cloudCount; i++) {
       clouds.push({ x: (i / cloudCount) * (WORLD_W + 120), y: 50 + Math.random() * 170, scale: 0.7 + Math.random() * 0.65, speed: 10 + Math.random() * 14 });
     }
@@ -2743,11 +2763,19 @@
     while (bx < WORLD_W + 260) {
       const bw = 28 + Math.floor(Math.random() * 34);
       const bh = 45 + Math.floor(Math.random() * 88);
-      buildings.push({ x: bx, w: bw, h: bh });
+      const by = PLAY_H - bh;
+      const wins = [];
+      for (let wy = by + 8; wy < PLAY_H - 12; wy += 14) {
+        for (let wx = 5; wx < bw - 7; wx += 10) {
+          if ((((bx + wx) * 7 + wy * 13) % 5) !== 0) wins.push({ dx: wx, y: wy });
+        }
+      }
+      buildings.push({ x: bx, w: bw, h: bh, wins });
       bx += bw + 4;
     }
     weatherDrops = [];
-    for (let i = 0; i < 36; i++) {
+    const dropCount = isMobilePerf ? 20 : 34;
+    for (let i = 0; i < dropCount; i++) {
       weatherDrops.push({
         x: Math.random() * WORLD_W,
         y: Math.random() * PLAY_H,
@@ -2809,7 +2837,12 @@
   }
 
   function spawnParticles(x, y, color, count, speed = 130, size = 4, shape = 'circle') {
-    for (let i = 0; i < count; i++) {
+    const effCount = isMobilePerf ? Math.max(2, Math.ceil(count * 0.65)) : count;
+    const maxCap = isMobilePerf ? 55 : 110;
+    if (particles.length + effCount > maxCap) {
+      particles.splice(0, (particles.length + effCount) - maxCap);
+    }
+    for (let i = 0; i < effCount; i++) {
       const a = Math.random() * Math.PI * 2;
       const sp = (0.35 + Math.random() * 0.85) * speed;
       particles.push({
@@ -3443,7 +3476,8 @@
     // Blitz countdown
     if (currentMode === 'blitz') {
       blitzTimeLeft = Math.max(0, blitzTimeLeft - dt);
-      blitzTimeEl.textContent = blitzTimeLeft.toFixed(1);
+      const bStr = blitzTimeLeft.toFixed(1);
+      if (blitzTimeEl.textContent !== bStr) blitzTimeEl.textContent = bStr;
       blitzHud.classList.toggle('urgent', blitzTimeLeft <= 8);
       if (blitzTimeLeft <= 0) {
         triggerGameOver('Time Up!');
@@ -3488,7 +3522,7 @@
     const targetRot = bird.vy < 140 ? -0.44 : Math.min(Math.PI * 0.46, ((bird.vy - 140) / 420) * (Math.PI * 0.46));
     bird.rot += (targetRot - bird.rot) * Math.min(1, dt * 12);
 
-    if (profile.settings.trails && Math.random() < 0.45) {
+    if (profile.settings.trails && Math.random() < (isMobilePerf ? 0.25 : 0.45)) {
       const skin = getActiveSkin();
       const trObj = TRAILS.find(t => t.id === profile.selectedTrail) || TRAILS[0];
       particles.push({
@@ -3727,15 +3761,17 @@
     ctx.fillStyle = skyGrad;
     ctx.fillRect(-20, -20, WORLD_W + 40, PLAY_H + 40);
 
-    // 2. Stars
+    // 2. Stars (Batched)
     if (theme.stars > 0) {
-      for (const s of stars) {
-        const tw = 0.45 + 0.55 * Math.sin(elapsed * 2.5 + s.phase);
-        ctx.fillStyle = `rgba(255,255,255,${(theme.stars * tw).toFixed(2)})`;
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-        ctx.fill();
+      ctx.fillStyle = '#ffffff';
+      ctx.globalAlpha = theme.stars * (0.65 + 0.25 * Math.sin(elapsed * 2.2));
+      ctx.beginPath();
+      for (let i = 0; i < stars.length; i++) {
+        const s = stars[i];
+        ctx.rect(s.x, s.y, s.r * 1.4, s.r * 1.4);
       }
+      ctx.fill();
+      ctx.globalAlpha = 1;
     }
 
     // 3. Celestial Body & World Signature Props
@@ -3767,22 +3803,31 @@
     ctx.closePath();
     ctx.fill();
 
-    // 6. City Skyline
+    // 6. City Skyline (Batched into 2 draw calls)
     const span = WORLD_W + 260;
-    for (const b of buildings) {
+    ctx.fillStyle = theme.city;
+    ctx.beginPath();
+    for (let i = 0; i < buildings.length; i++) {
+      const b = buildings[i];
       let x = b.x - cityOffset;
       if (x + b.w < -20) x += span;
       if (x > WORLD_W + 20) continue;
-      const by = PLAY_H - b.h;
-      ctx.fillStyle = theme.city;
-      ctx.fillRect(x, by, b.w, b.h);
-      ctx.fillStyle = theme.cityWin;
-      for (let wy = by + 8; wy < PLAY_H - 12; wy += 12) {
-        for (let wx = x + 5; wx < x + b.w - 7; wx += 9) {
-          if (((wx * 7 + wy * 13) % 5) !== 0) ctx.fillRect(wx, wy, 4, 6);
-        }
+      ctx.rect(x, PLAY_H - b.h, b.w, b.h);
+    }
+    ctx.fill();
+    ctx.fillStyle = theme.cityWin;
+    ctx.beginPath();
+    for (let i = 0; i < buildings.length; i++) {
+      const b = buildings[i];
+      let x = b.x - cityOffset;
+      if (x + b.w < -20) x += span;
+      if (x > WORLD_W + 20) continue;
+      const wins = b.wins;
+      for (let j = 0; j < wins.length; j++) {
+        ctx.rect(x + wins[j].dx, wins[j].y, 4, 6);
       }
     }
+    ctx.fill();
 
     // 7. Weather Layer
     const weather = getActiveWeather();
@@ -3812,16 +3857,16 @@
     ctx.fillStyle = theme.groundTop;
     ctx.fillRect(0, PLAY_H, WORLD_W, 20);
     ctx.fillStyle = theme.groundStripe;
+    ctx.beginPath();
+    const gMod = groundOffset % 24;
     for (let gx = -48; gx < WORLD_W + 48; gx += 24) {
-      const sx = gx - (groundOffset % 24);
-      ctx.beginPath();
+      const sx = gx - gMod;
       ctx.moveTo(sx, PLAY_H);
       ctx.lineTo(sx + 12, PLAY_H);
       ctx.lineTo(sx + 4, PLAY_H + 20);
       ctx.lineTo(sx - 8, PLAY_H + 20);
-      ctx.closePath();
-      ctx.fill();
     }
+    ctx.fill();
     ctx.fillStyle = 'rgba(0,0,0,0.32)';
     ctx.fillRect(0, PLAY_H, WORLD_W, 3);
     ctx.fillRect(0, PLAY_H + 20, WORLD_W, 2);
@@ -4635,36 +4680,59 @@
     hudFps.classList.toggle('hidden', !profile.settings.proHud);
   }
 
+  let lastPuSignature = '';
   function updatePowerupHud() {
-    const html = [];
-    if (feverTimer > 0) {
-      const maxFever = 7.0 + (profile.upgrades.fever_boost || 0) * 1.5;
-      const pct = Math.min(100, (feverTimer / maxFever) * 100);
-      html.push(`<div class="pu-bar" style="border-color:#fde047;">${UI_ICONS.flame}<span>2×</span><div class="pu-track"><div class="pu-fill" style="width:${pct}%;background:#fde047;"></div></div></div>`);
-    } else if (comboCount > 0 && (currentMode === 'arcade' || currentMode === 'blitz')) {
-      const pct = (comboCount / 5) * 100;
-      html.push(`<div class="pu-bar">${UI_ICONS.bolt}<span>${comboCount}/5</span><div class="pu-track"><div class="pu-fill" style="width:${pct}%;background:#fbbf24;"></div></div></div>`);
+    const hasFever = feverTimer > 0;
+    const showCombo = !hasFever && comboCount > 0 && (currentMode === 'arcade' || currentMode === 'blitz');
+    const sig = `${hasFever ? 1 : 0}|${showCombo ? comboCount : 0}|${powerups.shield ? 1 : 0}|${powerups.slowmo > 0 ? 1 : 0}|${powerups.magnet > 0 ? 1 : 0}|${powerups.doubleScore > 0 ? 1 : 0}|${powerups.tiny > 0 ? 1 : 0}`;
+
+    if (sig !== lastPuSignature) {
+      lastPuSignature = sig;
+      const html = [];
+      if (hasFever) {
+        html.push(`<div class="pu-bar" style="border-color:#fde047;">${UI_ICONS.flame}<span>2×</span><div class="pu-track"><div class="pu-fill" id="puFillFever" style="width:100%;background:#fde047;"></div></div></div>`);
+      } else if (showCombo) {
+        const pct = (comboCount / 5) * 100;
+        html.push(`<div class="pu-bar">${UI_ICONS.bolt}<span>${comboCount}/5</span><div class="pu-track"><div class="pu-fill" style="width:${pct}%;background:#fbbf24;"></div></div></div>`);
+      }
+      if (powerups.shield) {
+        html.push(`<div class="pu-bar">${UI_ICONS.shield}<span style="color:#7dd3fc;">Shield Active</span></div>`);
+      }
+      if (powerups.slowmo > 0) {
+        html.push(`<div class="pu-bar">${UI_ICONS.slowmo}<div class="pu-track"><div class="pu-fill" id="puFillSlowmo" style="width:100%;background:#c084fc;"></div></div></div>`);
+      }
+      if (powerups.magnet > 0) {
+        html.push(`<div class="pu-bar">${UI_ICONS.magnet}<div class="pu-track"><div class="pu-fill" id="puFillMagnet" style="width:100%;background:#fb7185;"></div></div></div>`);
+      }
+      if (powerups.doubleScore > 0) {
+        html.push(`<div class="pu-bar">${UI_ICONS.sparkle}<span>2×</span><div class="pu-track"><div class="pu-fill" id="puFillDouble" style="width:100%;background:#fde047;"></div></div></div>`);
+      }
+      if (powerups.tiny > 0) {
+        html.push(`<div class="pu-bar">${UI_ICONS.tiny}<div class="pu-track"><div class="pu-fill" id="puFillTiny" style="width:100%;background:#34d399;"></div></div></div>`);
+      }
+      powerupHud.innerHTML = html.join('');
     }
-    if (powerups.shield) {
-      html.push(`<div class="pu-bar">${UI_ICONS.shield}<span style="color:#7dd3fc;">Shield Active</span></div>`);
+
+    if (hasFever) {
+      const el = document.getElementById('puFillFever');
+      if (el) el.style.width = `${Math.min(100, (feverTimer / (7.0 + (profile.upgrades.fever_boost || 0) * 1.5)) * 100).toFixed(1)}%`;
     }
     if (powerups.slowmo > 0) {
-      const maxD = 6.0 + profile.upgrades.slowmo * 1.2;
-      html.push(`<div class="pu-bar">${UI_ICONS.slowmo}<div class="pu-track"><div class="pu-fill" style="width:${Math.min(100, (powerups.slowmo / maxD) * 100)}%;background:#c084fc;"></div></div></div>`);
+      const el = document.getElementById('puFillSlowmo');
+      if (el) el.style.width = `${Math.min(100, (powerups.slowmo / (6.0 + profile.upgrades.slowmo * 1.2)) * 100).toFixed(1)}%`;
     }
     if (powerups.magnet > 0) {
-      const maxD = 8.0 + profile.upgrades.magnet * 1.5;
-      html.push(`<div class="pu-bar">${UI_ICONS.magnet}<div class="pu-track"><div class="pu-fill" style="width:${Math.min(100, (powerups.magnet / maxD) * 100)}%;background:#fb7185;"></div></div></div>`);
+      const el = document.getElementById('puFillMagnet');
+      if (el) el.style.width = `${Math.min(100, (powerups.magnet / (8.0 + profile.upgrades.magnet * 1.5)) * 100).toFixed(1)}%`;
     }
     if (powerups.doubleScore > 0) {
-      const maxD = 8.0 + (profile.upgrades.double_mastery || 0) * 1.5;
-      html.push(`<div class="pu-bar">${UI_ICONS.sparkle}<span>2×</span><div class="pu-track"><div class="pu-fill" style="width:${Math.min(100, (powerups.doubleScore / maxD) * 100)}%;background:#fde047;"></div></div></div>`);
+      const el = document.getElementById('puFillDouble');
+      if (el) el.style.width = `${Math.min(100, (powerups.doubleScore / (8.0 + (profile.upgrades.double_mastery || 0) * 1.5)) * 100).toFixed(1)}%`;
     }
     if (powerups.tiny > 0) {
-      const maxD = 7.5 + (profile.upgrades.tiny_mastery || 0) * 1.5;
-      html.push(`<div class="pu-bar">${UI_ICONS.tiny}<div class="pu-track"><div class="pu-fill" style="width:${Math.min(100, (powerups.tiny / maxD) * 100)}%;background:#34d399;"></div></div></div>`);
+      const el = document.getElementById('puFillTiny');
+      if (el) el.style.width = `${Math.min(100, (powerups.tiny / (7.5 + (profile.upgrades.tiny_mastery || 0) * 1.5)) * 100).toFixed(1)}%`;
     }
-    powerupHud.innerHTML = html.join('');
   }
 
   // =========================================================
@@ -5774,9 +5842,14 @@
     if (!lastTime) lastTime = now;
     const dt = Math.min((now - lastTime) / 1000, 0.05);
     lastTime = now;
-    update(dt);
-    render();
-    updateAndRenderHangarPreview(dt);
+    const hangarOpen = !hangarScreen.classList.contains('hidden');
+    if (hangarOpen) {
+      elapsed += dt;
+      updateAndRenderHangarPreview(dt);
+    } else {
+      update(dt);
+      render();
+    }
     rafId = requestAnimationFrame(loop);
   }
 
