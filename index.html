@@ -2190,10 +2190,27 @@
   };
 
   const DIFFICULTIES = {
-    easy: { label: 'Easy', desc: 'Relaxed & Forgiving', gap: 162, speed: 148, gravity: 960, jump: 345, pipeSpacing: 245, coinMult: 1 },
-    medium: { label: 'Medium', desc: 'Balanced Arcade Pacing', gap: 136, speed: 185, gravity: 1180, jump: 385, pipeSpacing: 220, coinMult: 1 },
-    hard: { label: 'Hard', desc: 'Fast, Tight & 2× Coins', gap: 112, speed: 228, gravity: 1420, jump: 425, pipeSpacing: 205, coinMult: 2 }
+    easy: { label: 'Easy', desc: 'Relaxed & Forgiving', gap: 178, speed: 138, gravity: 930, jump: 350, pipeSpacing: 252, maxGapShift: 118, coinMult: 1 },
+    medium: { label: 'Medium', desc: 'Balanced Arcade Pacing', gap: 138, speed: 180, gravity: 1160, jump: 385, pipeSpacing: 222, maxGapShift: 148, coinMult: 1 },
+    hard: { label: 'Hard', desc: 'Fast, Tight & 2× Coins', gap: 114, speed: 224, gravity: 1400, jump: 425, pipeSpacing: 206, maxGapShift: 178, coinMult: 2 }
   };
+
+  // A portrait screen shows far less of the course ahead than a landscape
+  // one, so ease the course to the visible width instead of punishing the
+  // player for holding the phone upright.
+  function getActiveDifficulty() {
+    const base = DIFFICULTIES[currentDiff];
+    const portrait = Math.min(1, Math.max(0, (0.9 - VIEW_ASPECT) / 0.45));
+    if (portrait <= 0) return base;
+    return {
+      ...base,
+      gap: base.gap + 20 * portrait,
+      speed: base.speed * (1 - 0.16 * portrait),
+      gravity: base.gravity * (1 - 0.05 * portrait),
+      pipeSpacing: base.pipeSpacing * (1 + 0.18 * portrait),
+      maxGapShift: base.maxGapShift * (1 - 0.12 * portrait)
+    };
+  }
 
   const MEDALS = [
     { score: 150, name: 'Legend', icon: 'LGD', color: '#f472b6' },
@@ -2751,6 +2768,7 @@
   const PLAY_H = WORLD_H - GROUND_H;
   let WORLD_W = 420;
   let DPR = 1;
+  let VIEW_ASPECT = 1;
 
   function resizeCanvas() {
     const wrap = document.getElementById('gameWrap');
@@ -2758,6 +2776,7 @@
     // fallback (landscape view on a portrait screen) still gets correct size.
     const cw = Math.max(280, wrap.clientWidth || window.innerWidth);
     const ch = Math.max(360, wrap.clientHeight || window.innerHeight);
+    VIEW_ASPECT = cw / ch;
     isMobilePerf = cw <= 820 || (window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
     DPR = Math.min(window.devicePixelRatio || 1, isMobilePerf ? 1.5 : 2.0);
 
@@ -2799,6 +2818,7 @@
 
   let elapsed = 0;
   let distSincePipe = 0;
+  let lastGapCenter = null;
   let shakeTime = 0;
   let shakeMag = 0;
   let flashAlpha = 0;
@@ -3065,6 +3085,7 @@
     comboCount = 0;
     feverTimer = 0;
     distSincePipe = 0;
+    lastGapCenter = null;
     shakeTime = 0;
     flashAlpha = 0;
 
@@ -3126,7 +3147,7 @@
   }
 
   function flapBird() {
-    const diff = DIFFICULTIES[currentDiff];
+    const diff = getActiveDifficulty();
     bird.vy = -diff.jump;
     bird.wingPhase = 0;
     AudioEngine.sfx.flap();
@@ -3156,14 +3177,29 @@
   }
 
   function spawnPipePair() {
-    const diff = DIFFICULTIES[currentDiff];
+    const diff = getActiveDifficulty();
     const pipeW = 58;
     const minTop = 58;
     const effGap = diff.gap + (profile.upgrades.wide_gap || 0) * 5;
-    const maxTop = PLAY_H - effGap - 64;
-    const gapTop = minTop + Math.random() * Math.max(20, maxTop - minTop);
+    const minCenter = minTop + effGap / 2;
+    const maxCenter = PLAY_H - 64 - effGap / 2;
+    let center;
+    if (lastGapCenter === null) {
+      // First pipe: start near the middle instead of a random extreme.
+      const mid = PLAY_H * 0.5;
+      const lo = Math.max(minCenter, mid - diff.maxGapShift);
+      const hi = Math.min(maxCenter, mid + diff.maxGapShift);
+      center = lo + Math.random() * Math.max(0, hi - lo);
+    } else {
+      // Limit how far the gap can jump between consecutive pipes.
+      const lo = Math.max(minCenter, lastGapCenter - diff.maxGapShift);
+      const hi = Math.min(maxCenter, lastGapCenter + diff.maxGapShift);
+      center = lo + Math.random() * Math.max(0, hi - lo);
+    }
+    lastGapCenter = center;
+    const gapTop = center - effGap / 2;
 
-    const canMove = (currentMode === 'arcade' || currentMode === 'blitz') && score >= 12 && Math.random() < Math.min(0.45, 0.15 + (score - 12) * 0.012);
+    const canMove = currentDiff !== 'easy' && (currentMode === 'arcade' || currentMode === 'blitz') && score >= 12 && Math.random() < Math.min(0.45, 0.15 + (score - 12) * 0.012);
     const pipe = {
       x: WORLD_W + 24,
       w: pipeW,
@@ -3535,7 +3571,7 @@
 
     if (state === STATE.PAUSED || state === STATE.COUNTDOWN) return;
 
-    const diff = DIFFICULTIES[currentDiff];
+    const diff = getActiveDifficulty();
     const slowFactor = powerups.slowmo > 0 ? 0.62 : 1;
     const speed = diff.speed * slowFactor;
 
@@ -3652,7 +3688,7 @@
 
     // Distance-based pipe spawning
     distSincePipe += speed * dt;
-    if ((pipes.length === 0 && distSincePipe >= 110) || distSincePipe >= diff.pipeSpacing) {
+    if ((pipes.length === 0 && distSincePipe >= Math.max(110, diff.pipeSpacing * 0.55)) || distSincePipe >= diff.pipeSpacing) {
       spawnPipePair();
       distSincePipe = 0;
     }
